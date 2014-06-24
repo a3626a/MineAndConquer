@@ -1,0 +1,4 @@
+tile.rottenrich:testBlock.name=Test Block
+tile.rottenrich:wallMaker.name=Wall Maker
+tile.rottenrich:nexus.name=Nexus
+item.rottenrich:wallBuilder.name=Wall Builder    
