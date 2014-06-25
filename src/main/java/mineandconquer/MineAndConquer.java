@@ -5,13 +5,17 @@ import java.util.HashMap;
 import mineandconquer.blocks.ModBlocks;
 import mineandconquer.core.handler.ForgeEventHandler;
 import mineandconquer.core.handler.GUIHandler;
+import mineandconquer.core.proxy.ClientProxy;
 import mineandconquer.core.proxy.CommonProxy;
+import mineandconquer.entities.EntityNexusGuardian;
 import mineandconquer.items.ModItems;
 import mineandconquer.lib.References;
 import mineandconquer.network.SimpleNetHandlerClient;
 import mineandconquer.network.SimpleNetHandlerServer;
 import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.network.SimpleNetMessageServer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityList;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -43,6 +47,10 @@ public class MineAndConquer {
 		ModBlocks.init();
 		ModItems.init();
 		proxy.registerTileEntities();
+		proxy.registerEntities();
+		if (proxy instanceof ClientProxy) {
+			((ClientProxy)proxy).registerEntityRendering();
+		}
 	}
 	@Mod.EventHandler
 	public static void Init(FMLInitializationEvent event) {
@@ -54,6 +62,8 @@ public class MineAndConquer {
 	@Mod.EventHandler
 	public static void postInit(FMLPostInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
+		
+		System.out.println("MARK: " +EntityList.getEntityString(new EntityNexusGuardian(Minecraft.getMinecraft().theWorld)));
 	}	
 	
 }

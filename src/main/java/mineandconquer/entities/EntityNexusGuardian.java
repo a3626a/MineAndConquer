@@ -30,6 +30,8 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	
 	/**
 	 * Attack the specified entity using a ranged attack.
 	 */
@@ -93,5 +95,12 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 	public void knockBack(Entity par1Entity, float par2, double par3,
 			double par5) {
 		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public void onUpdate() {
+		// TODO Auto-generated method stub
+		super.onUpdate();
+		System.out.println("I'm Alive!" + this.experienceValue);
 	}
 }
