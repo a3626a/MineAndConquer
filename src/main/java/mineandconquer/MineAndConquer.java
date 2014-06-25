@@ -12,7 +12,6 @@ import mineandconquer.network.SimpleNetHandlerClient;
 import mineandconquer.network.SimpleNetHandlerServer;
 import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.network.SimpleNetMessageServer;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
