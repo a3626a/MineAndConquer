@@ -46,7 +46,6 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 		this.tasks.addTask(6, new EntityAIWatchClosest(this,
 				EntityPlayer.class, 8.0F));
 		this.tasks.addTask(6, new EntityAILookIdle(this));
-		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this,
 				EntityPlayer.class, 0, true));
 		this.tasks.addTask(4,
@@ -54,6 +53,14 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	protected void applyEntityAttributes() {
+		// TODO Auto-generated method stub
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(200);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0D);
+	}
+	
 	@Override
 	public void attackEntityWithRangedAttack(
 			EntityLivingBase par1EntityLivingBase, float par2) {

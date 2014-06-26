@@ -2,6 +2,7 @@ package mineandconquer.blocks;
 
 import mineandconquer.MineAndConquer;
 import mineandconquer.core.handler.ModEventHandler;
+import mineandconquer.entities.EntityNexusGuardian;
 import mineandconquer.lib.References;
 import mineandconquer.lib.Strings;
 import mineandconquer.network.SimpleNetMessageClient;
@@ -47,6 +48,13 @@ public class BlockNexus extends BlockContainer {
 
 		((TENexus) world.getTileEntity(x, y, z)).members
 				.add(((EntityPlayer) player).getCommandSenderName());
+		
+		if (!world.isRemote) {
+			EntityNexusGuardian entity = new EntityNexusGuardian(world);
+			entity.setLocationAndAngles(x+0.5, y, z+0.5, 0.0F, 0.0F);
+			world.spawnEntityInWorld(entity);
+
+		}
 	}
 
 	@Override
