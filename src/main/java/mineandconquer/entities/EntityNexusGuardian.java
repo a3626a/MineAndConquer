@@ -54,6 +54,8 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	
 	@Override
 	public void attackEntityWithRangedAttack(
 			EntityLivingBase par1EntityLivingBase, float par2) {
@@ -110,11 +112,6 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 		return false;
 	}
 
-	@Override
-	protected void collideWithEntity(Entity par1Entity) {
-		// TODO Auto-generated method stub
-	}
-	
 	@Override
 	public void knockBack(Entity par1Entity, float par2, double par3,
 			double par5) {
