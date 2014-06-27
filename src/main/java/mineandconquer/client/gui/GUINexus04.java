@@ -6,6 +6,7 @@ import mineandconquer.lib.References;
 import mineandconquer.lib.Strings;
 import mineandconquer.network.SimpleNetMessageServer;
 import mineandconquer.tileentities.TENexus;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -18,6 +19,11 @@ public class GUINexus04 extends GuiContainer {
 					+ "textures/gui/guinexus_xp.png");
 	private InventoryPlayer player;
 
+	private GuiTextField xpToWithdrawInput;
+	// 출금할 경험치
+	private GuiTextField xpToDepositInput;
+	// 입금할 경험치 
+	
 	public GUINexus04(InventoryPlayer player, TENexus nexus) {
 		super(new ContainerNexus04(player, nexus));
 		xSize = 194;
