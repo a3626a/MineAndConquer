@@ -31,8 +31,8 @@ public class GUINexus01 extends GuiContainer {
 		ySize = 214;
 		this.teNexus = nexus;
 		this.player = player;
-		this.members = (ArrayList<String>) teNexus.members.clone();
-		this.team = teNexus.team;
+		this.members = (ArrayList<String>) teNexus.team_members.clone();
+		this.team = teNexus.team_name;
 	}
 
 	@Override
@@ -89,9 +89,9 @@ public class GUINexus01 extends GuiContainer {
 	public void updateScreen() {
 		// TODO Auto-generated method stub
 		super.updateScreen();
-		this.members = (ArrayList<String>) teNexus.members.clone();
-		if (!this.team.equals(teNexus.team)) {
-			this.team = teNexus.team;
+		this.members = (ArrayList<String>) teNexus.team_members.clone();
+		if (!this.team.equals(teNexus.team_name)) {
+			this.team = teNexus.team_name;
 		}
 	}
 

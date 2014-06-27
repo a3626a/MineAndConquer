@@ -46,7 +46,7 @@ public class BlockNexus extends BlockContainer {
 			EntityLivingBase player, ItemStack p_149689_6_) {
 		// TODO Auto-generated method stub
 
-		((TENexus) world.getTileEntity(x, y, z)).members
+		((TENexus) world.getTileEntity(x, y, z)).team_members
 				.add(((EntityPlayer) player).getCommandSenderName());
 		
 		if (!world.isRemote) {
@@ -63,7 +63,7 @@ public class BlockNexus extends BlockContainer {
 			float p_149727_8_, float p_149727_9_) {
 		// TODO Auto-generated method stub
 		TENexus tile  = (TENexus)world.getTileEntity(x, y, z);
-		if (tile.members != null && tile.members.contains(player.getCommandSenderName())) {
+		if (tile.team_members != null && tile.team_members.contains(player.getCommandSenderName())) {
 			player.openGui(MineAndConquer.instance, Strings.GuiNexusID01, world, x, y, z);
 		}
 		

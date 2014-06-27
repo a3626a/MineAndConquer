@@ -15,7 +15,7 @@ public class GUINexus04 extends GuiContainer {
 	TENexus teNexus;
 	ResourceLocation backgroundimage = new ResourceLocation(
 			References.MODID.toLowerCase() + ":"
-					+ "textures/gui/guinexus_exp.png");
+					+ "textures/gui/guinexus_xp.png");
 	private InventoryPlayer player;
 
 	public GUINexus04(InventoryPlayer player, TENexus nexus) {
@@ -95,6 +95,16 @@ public class GUINexus04 extends GuiContainer {
 		this.mc.getTextureManager().bindTexture(backgroundimage);
 		drawTexturedModalRect(zeroX, zeroY, 0, 0, xSize, ySize);
 
+		fontRendererObj.FONT_HEIGHT = 10;
+		fontRendererObj.drawString(Float.toString(this.player.player.experienceLevel), zeroX + 27, zeroY + 6, 0);
+		
+		fontRendererObj.FONT_HEIGHT = 10;
+		fontRendererObj.drawString(Float.toString(this.player.player.experience), zeroX + 27, zeroY + 16, 0);
+	
+		fontRendererObj.FONT_HEIGHT = 10;
+		fontRendererObj.drawString(Float.toString(this.player.player.experienceTotal), zeroX + 27, zeroY + 26, 0);
+		
+		
 	}
 
 }

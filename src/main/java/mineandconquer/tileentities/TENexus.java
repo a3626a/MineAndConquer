@@ -28,14 +28,17 @@ public class TENexus extends TileEntity implements IInventory,
 	private ItemStack[] inventory;
 	private int INVENTORY_SIZE = 9 ;
 	
-	public String team;
-	public ArrayList<String> members;
+	public String team_name;
+	public ArrayList<String> team_members;
+	
 	public int shop_diamondValue;
+	public int xp_level;
+	public int xp_point;
 	
 	public TENexus() {
 		inventory = new ItemStack[INVENTORY_SIZE];
-		members = new ArrayList();
-		team = "";
+		team_members = new ArrayList();
+		team_name = "";
 		shop_diamondValue = 0;
 	}
 
@@ -195,13 +198,13 @@ public class TENexus extends TileEntity implements IInventory,
 		// TODO Auto-generated method stub
 		switch (index) {
 		case 0:
-			this.team = data.getString();
+			this.team_name = data.getString();
 			SimpleNetMessageClient msg = new SimpleNetMessageClient(0,
 					this.xCoord, this.yCoord, this.zCoord);
-			msg.setString(team);
+			msg.setString(team_name);
 			MineAndConquer.simpleChannel.sendToAll(msg);
 			
-			ChatComponentText msg3 = new ChatComponentText("The team " + "\"" + team + "\"" + " has been established!");
+			ChatComponentText msg3 = new ChatComponentText("The team " + "\"" + team_name + "\"" + " has been established!");
 			for (WorldServer i : MinecraftServer.getServer().worldServers) {
 				for (Object j : i.playerEntities) {
 					if (j instanceof EntityPlayer) {
@@ -209,20 +212,20 @@ public class TENexus extends TileEntity implements IInventory,
 					}
 				}
 			}
-			ModEventHandler.onTeamMemberAdded(members.get(0), team);
+			ModEventHandler.onTeamMemberAdded(team_members.get(0), team_name);
 			break;
 		case 1:
 			String member = data.getString();
 			for (Object i : MinecraftServer.getServer().worldServers[0].playerEntities) {
 				if (i instanceof EntityPlayer) {
 					if (((EntityPlayer)i).getCommandSenderName().equals(member)) {
-						members.add(member);
+						team_members.add(member);
 						SimpleNetMessageClient msg2 = new SimpleNetMessageClient(1,
 								this.xCoord, this.yCoord, this.zCoord);
 						msg2.setString(member);
 						MineAndConquer.simpleChannel.sendToAll(msg2);
 						
-						ModEventHandler.onTeamMemberAdded(member, team);
+						ModEventHandler.onTeamMemberAdded(member, team_name);
 					}
 				}
 			}
@@ -271,11 +274,11 @@ public class TENexus extends TileEntity implements IInventory,
 		// TODO Auto-generated method stub
 		switch (index) {
 		case 0:
-			this.team = data.getString();
+			this.team_name = data.getString();
 			break;
 		case 1:
-			if (!this.members.contains(data.getString())) {
-				this.members.add(data.getString());
+			if (!this.team_members.contains(data.getString())) {
+				this.team_members.add(data.getString());
 			}
 			break;
 		case 2:
@@ -297,12 +300,12 @@ public class TENexus extends TileEntity implements IInventory,
 		 * ItemStack .loadItemStackFromNBT(nbttagcompound1); } }
 		 */
 
-		this.team = p_145839_1_.getString("team");
+		this.team_name = p_145839_1_.getString("team");
 		this.shop_diamondValue = p_145839_1_.getInteger("shop_diamondValue");
 		NBTTagList nbttaglist = p_145839_1_.getTagList("members", 10);
 		for (int i = 0; i < nbttaglist.tagCount(); i++) {
 			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-			members.add(nbttagcompound1.getString("member"));
+			team_members.add(nbttagcompound1.getString("member"));
 		}
 	}
 
@@ -318,12 +321,12 @@ public class TENexus extends TileEntity implements IInventory,
 		 * nbttaglist.appendTag(nbttagcompound1); } }
 		 * p_145841_1_.setTag("Items", nbttaglist);
 		 */
-		if (!team.equals("")) {
-			p_145841_1_.setString("team", team);
+		if (!team_name.equals("")) {
+			p_145841_1_.setString("team", team_name);
 		}
 		p_145841_1_.setInteger("shop_diamondValue", shop_diamondValue);
 		NBTTagList nbttaglist = new NBTTagList();
-		for (String i : members) {
+		for (String i : team_members) {
 			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 			nbttagcompound1.setString("member", i);
 			nbttaglist.appendTag(nbttagcompound1);
