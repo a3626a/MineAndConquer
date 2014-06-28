@@ -31,8 +31,4 @@ public class ModBlocks {
 		// TODO Auto-generated method stub
 		GameRegistry.registerBlock(block, getName(block.getUnlocalizedName()));
 	}
-	
-	public static void IconRegister() {
-		
-	}
 }

@@ -62,8 +62,6 @@ public class MineAndConquer {
 	@Mod.EventHandler
 	public static void postInit(FMLPostInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
-		
-		System.out.println("MARK: " +EntityList.getEntityString(new EntityNexusGuardian(Minecraft.getMinecraft().theWorld)));
 	}	
 	
 }
