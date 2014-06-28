@@ -2,17 +2,20 @@ package mineandconquer.items;
 
 import java.util.List;
 
-import org.apache.logging.log4j.core.appender.rolling.OnStartupTriggeringPolicy;
-
+import mineandconquer.lib.References;
 import mineandconquer.lib.Strings;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemWallBuilder extends ItemRottenRich {
+public class ItemWallBuilder extends Item {
 
 	/**
 	 * 이 아이템은 성벽을 빠르게 지을 수 있도록 도와준다
@@ -51,12 +54,18 @@ public class ItemWallBuilder extends ItemRottenRich {
 	 */
 	
 	public ItemWallBuilder() {
-		this.setUnlocalizedName(Strings.ItemWallBuilderName);
+		this.setUnlocalizedName(References.RESOURCESPREFIX+":"+Strings.ItemWallBuilderName);
 		//this.setCreativeTab(CreativeTabs.tabAllSearch);
 		this.setMaxStackSize(4);
 		ModItems.register(this);
 	}
 	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerIcons(IIconRegister iconRegister) {
+		// TODO Auto-generated method stub
+		this.itemIcon = iconRegister.registerIcon(ModItems.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));;
+	}
 
 	@Override
 	public void onCreated(ItemStack itemStack, World world,

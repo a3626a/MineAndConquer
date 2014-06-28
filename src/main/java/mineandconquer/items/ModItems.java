@@ -10,8 +10,19 @@ public class ModItems {
 		wallBuilder = new ItemWallBuilder();
 	}
 
+	public static String getUnwrappedUnlocalizedName(String unlocalizedName)
+	{
+		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
+		
+	}
+	public static String getName(String unlocalizedName)
+	{
+		return unlocalizedName.substring(unlocalizedName.indexOf(":") + 1);
+		
+	}
+	
 	public static void register(ItemWallBuilder item) {
 		// TODO Auto-generated method stub
-		GameRegistry.registerItem(item, item.getUnwrappedUnlocalizedName(item.getUnlocalizedName()));
+		GameRegistry.registerItem(item, getName(item.getUnlocalizedName()));
 	}
 }
