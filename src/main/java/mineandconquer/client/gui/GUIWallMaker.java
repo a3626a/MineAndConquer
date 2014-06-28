@@ -31,8 +31,7 @@ public class GUIWallMaker extends GuiContainer {
 		// TODO Auto-generated method stub
 		super.initGui();
 		int zeroX = (this.width-xSize)/2;
-		int zeroY = (this.height-ySize-30)/2;
-		
+		int zeroY = (this.height-ySize-30)/2;		
 		TextField_widthInput = new GuiTextField(fontRendererObj, zeroX + 130, zeroY + 20, 30, 10);
 		TextField_widthInput.setFocused(false);
 		TextField_widthInput.setMaxStringLength(20);
@@ -84,6 +83,7 @@ public class GUIWallMaker extends GuiContainer {
 		TextField_widthInput.mouseClicked(i, j, k);
 		TextField_heightInput.mouseClicked(i, j, k);
 	}
+	
 	public void updateScreen(){
 		if (!TextField_widthInput.isFocused()) 
 			TextField_widthInput.setText(Integer.toString(teWallMaker.wallWidth));

@@ -35,18 +35,27 @@ public class GUINexus04 extends GuiContainer {
 	public void initGui() {
 		// TODO Auto-generated method stub
 		int zeroX = (this.width - xSize) / 2;
-		int zeroY = (this.height - ySize - 30) / 2;
+		int zeroY = (this.height - ySize-30) / 2;
 		
 		super.initGui();
-		this.buttonList.add(new GuiButton(0, zeroX+30, zeroY+30, 40, 15, "Deposit"));
-		this.buttonList.add(new GuiButton(1, zeroX+30, zeroY+45, 40, 15, "Withdraw"));
+		this.buttonList.add(new GuiButton(0, zeroX+105, zeroY+10, 40, 20, "Deposit"));
+		this.buttonList.add(new GuiButton(1, zeroX+145, zeroY+10, 40, 20, "Withdraw"));
+	
+		TextField_xp = new GuiTextField(fontRendererObj, zeroX + 70, zeroY + 15, 30, 10);
+		TextField_xp.setFocused(false);
+		TextField_xp.setMaxStringLength(20);
 	}
 	
 	@Override
-	public void updateScreen() {
+	protected void keyTyped(char par1, int par2) {
 		// TODO Auto-generated method stub
+		super.keyTyped(par1, par2);
+		if (TextField_xp.isFocused()) {
+			TextField_xp.textboxKeyTyped(par1, par2);
+		}
 	}
-
+	
+	
 	/**
 	 * 
 	 */
@@ -92,9 +101,17 @@ public class GUINexus04 extends GuiContainer {
 			(this.player.player).openGui(MineAndConquer.instance,
 					Strings.GuiNexusID03, teNexus.getWorldObj(),
 					teNexus.xCoord, teNexus.yCoord, teNexus.zCoord);
-
 		}
+		
+		TextField_xp.mouseClicked(x, y, state);
 	}
+	
+	@Override
+	public void updateScreen() {
+		// TODO Auto-generated method stub
+	}
+
+
 
 	@Override
 	public boolean doesGuiPauseGame() {
@@ -107,19 +124,17 @@ public class GUINexus04 extends GuiContainer {
 			int var3) {
 		// TODO Auto-generated method stub
 		int zeroX = (this.width - xSize) / 2;
-		int zeroY = (this.height - ySize - 30) / 2;
+		int zeroY = (this.height - ySize-30) / 2;
 		this.mc.getTextureManager().bindTexture(backgroundimage);
 		drawTexturedModalRect(zeroX, zeroY, 0, 0, xSize, ySize);
 
 		fontRendererObj.FONT_HEIGHT = 10;
-		fontRendererObj.drawString(Float.toString(this.player.player.experienceLevel), zeroX + 27, zeroY + 6, 0);
+		fontRendererObj.drawString("Your XP", zeroX + 25, zeroY + 5, 0);
 		
 		fontRendererObj.FONT_HEIGHT = 10;
-		fontRendererObj.drawString(Float.toString(this.player.player.experience), zeroX + 27, zeroY + 16, 0);
-	
-		fontRendererObj.FONT_HEIGHT = 10;
-		fontRendererObj.drawString(Float.toString(this.player.player.experienceTotal), zeroX + 27, zeroY + 26, 0);
+		fontRendererObj.drawString(": " + Integer.toString((int)this.player.player.experienceTotal), zeroX + 25, zeroY + 15, 0);
 		
+		TextField_xp.drawTextBox();
 		
 	}
 
