@@ -6,6 +6,7 @@ import mineandconquer.lib.References;
 import mineandconquer.lib.Strings;
 import mineandconquer.network.SimpleNetMessageServer;
 import mineandconquer.tileentities.TENexus;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -19,10 +20,8 @@ public class GUINexus04 extends GuiContainer {
 					+ "textures/gui/guinexus_xp.png");
 	private InventoryPlayer player;
 
-	private GuiTextField xpToWithdrawInput;
-	// 출금할 경험치
-	private GuiTextField xpToDepositInput;
-	// 입금할 경험치 
+	private GuiTextField TextField_xp;
+	// 입출금할 경험치
 	
 	public GUINexus04(InventoryPlayer player, TENexus nexus) {
 		super(new ContainerNexus04(player, nexus));
@@ -32,6 +31,17 @@ public class GUINexus04 extends GuiContainer {
 		this.player = player;
 	}
 
+	@Override
+	public void initGui() {
+		// TODO Auto-generated method stub
+		int zeroX = (this.width - xSize) / 2;
+		int zeroY = (this.height - ySize - 30) / 2;
+		
+		super.initGui();
+		this.buttonList.add(new GuiButton(0, zeroX+30, zeroY+30, 40, 15, "Deposit"));
+		this.buttonList.add(new GuiButton(1, zeroX+30, zeroY+45, 40, 15, "Withdraw"));
+	}
+	
 	@Override
 	public void updateScreen() {
 		// TODO Auto-generated method stub

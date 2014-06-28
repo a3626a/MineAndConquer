@@ -1,20 +1,34 @@
 package mineandconquer.blocks;
 
 
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import mineandconquer.lib.References;
 import mineandconquer.lib.Strings;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class TestBlock extends BlockRottenRich{
+public class TestBlock extends Block{
 
 	public TestBlock()
 	{
-		this.setBlockName(Strings.TestBlockName);
+		super(Material.rock);
+		this.setBlockName(References.MODID + ":" + Strings.TestBlockName);
 		//unlocalizedName을 부여함
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		ModBlocks.register(this);
 	}	
+	
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister)
+	{
+		this.blockIcon = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+	}
 	
 	@Override
 	public void onBlockClicked(World p_149699_1_, int p_149699_2_,

@@ -30,7 +30,7 @@ public class BlockNexus extends BlockContainer {
 		// unlocalizedName을 부여함
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.setBlockUnbreakable();
-		GameRegistry.registerBlock(this, this.getUnlocalizedName());
+		ModBlocks.register(this);
 		// TODO Auto-generated constructor stub
 	}
 

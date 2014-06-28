@@ -15,8 +15,24 @@ public class ModBlocks {
 		blockNexus = new BlockNexus();
 	}
 
-	public static void register(BlockRottenRich block) {
+	public static String getName(String unlocalizedName)
+	{
+		return unlocalizedName.substring(unlocalizedName.indexOf(":") + 1);
+		
+	}
+	
+	public static String getUnwrappedUnlocalizedName(String unlocalizedName)
+	{
+		return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
+		
+	}
+	
+	public static void register(Block block) {
 		// TODO Auto-generated method stub
-		GameRegistry.registerBlock(block, block.getUnlocalizedName());
+		GameRegistry.registerBlock(block, getName(block.getUnlocalizedName()));
+	}
+	
+	public static void IconRegister() {
+		
 	}
 }

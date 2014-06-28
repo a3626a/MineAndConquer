@@ -15,8 +15,8 @@ public class GUIWallMaker extends GuiContainer {
 	
 	private static final ResourceLocation backgroundimage = new ResourceLocation(References.MODID.toLowerCase() +":" + "textures/gui/guiwallmaker.png");
 	private TEWallMaker teWallMaker;
-	private GuiTextField widthInput;
-	private GuiTextField heightInput;
+	private GuiTextField TextField_widthInput;
+	private GuiTextField TextField_heightInput;
 	
 	public GUIWallMaker(InventoryPlayer inventoryPlayer, TEWallMaker teWallMaker) {
 		super(new ContainerWallMaker(inventoryPlayer, teWallMaker));
@@ -33,12 +33,12 @@ public class GUIWallMaker extends GuiContainer {
 		int zeroX = (this.width-xSize)/2;
 		int zeroY = (this.height-ySize-30)/2;
 		
-		widthInput = new GuiTextField(fontRendererObj, zeroX + 130, zeroY + 20, 30, 10);
-		widthInput.setFocused(false);
-		widthInput.setMaxStringLength(20);
-		heightInput = new GuiTextField(fontRendererObj, zeroX + 130, zeroY + 34, 30, 10);
-		heightInput.setFocused(false);
-		heightInput.setMaxStringLength(20);
+		TextField_widthInput = new GuiTextField(fontRendererObj, zeroX + 130, zeroY + 20, 30, 10);
+		TextField_widthInput.setFocused(false);
+		TextField_widthInput.setMaxStringLength(20);
+		TextField_heightInput = new GuiTextField(fontRendererObj, zeroX + 130, zeroY + 34, 30, 10);
+		TextField_heightInput.setFocused(false);
+		TextField_heightInput.setMaxStringLength(20);
 	}
 	
 	
@@ -47,28 +47,28 @@ public class GUIWallMaker extends GuiContainer {
 	protected void keyTyped(char par1, int par2) {
 		// TODO Auto-generated method stub
 		super.keyTyped(par1, par2);
-		if (widthInput.isFocused()) {
-			widthInput.textboxKeyTyped(par1, par2);
+		if (TextField_widthInput.isFocused()) {
+			TextField_widthInput.textboxKeyTyped(par1, par2);
 			SimpleNetMessageServer msg = new SimpleNetMessageServer(0,teWallMaker.xCoord,teWallMaker.yCoord,teWallMaker.zCoord);
-			if (widthInput.getText() != null) {
+			if (TextField_widthInput.getText() != null) {
 				try { 
-				msg.setInt(Integer.parseInt(widthInput.getText()));
+				msg.setInt(Integer.parseInt(TextField_widthInput.getText()));
 				} catch(NumberFormatException e) {
-					widthInput.setText(widthInput.getText().substring(0,widthInput.getText().length()));
+					TextField_widthInput.setText(TextField_widthInput.getText().substring(0,TextField_widthInput.getText().length()));
 				}
 			} else {
 				msg.setInt(0);
 			}
 			MineAndConquer.simpleChannel.sendToServer(msg);
 		}
-		if (heightInput.isFocused()) {
-			heightInput.textboxKeyTyped(par1, par2);
+		if (TextField_heightInput.isFocused()) {
+			TextField_heightInput.textboxKeyTyped(par1, par2);
 			SimpleNetMessageServer msg = new SimpleNetMessageServer(1,teWallMaker.xCoord,teWallMaker.yCoord,teWallMaker.zCoord);
-			if (heightInput.getText() != null) {
+			if (TextField_heightInput.getText() != null) {
 				try { 
-				msg.setInt(Integer.parseInt(heightInput.getText()));
+				msg.setInt(Integer.parseInt(TextField_heightInput.getText()));
 				} catch(NumberFormatException e) {
-					heightInput.setText(heightInput.getText().substring(0,heightInput.getText().length()));
+					TextField_heightInput.setText(TextField_heightInput.getText().substring(0,TextField_heightInput.getText().length()));
 				}
 			} else {
 				msg.setInt(0);
@@ -81,14 +81,14 @@ public class GUIWallMaker extends GuiContainer {
 	
 	public void mouseClicked(int i, int j, int k){
 		super.mouseClicked(i, j, k);
-		widthInput.mouseClicked(i, j, k);
-		heightInput.mouseClicked(i, j, k);
+		TextField_widthInput.mouseClicked(i, j, k);
+		TextField_heightInput.mouseClicked(i, j, k);
 	}
 	public void updateScreen(){
-		if (!widthInput.isFocused()) 
-			widthInput.setText(Integer.toString(teWallMaker.wallWidth));
-		if (!heightInput.isFocused())
-			heightInput.setText(Integer.toString(teWallMaker.wallHeight));
+		if (!TextField_widthInput.isFocused()) 
+			TextField_widthInput.setText(Integer.toString(teWallMaker.wallWidth));
+		if (!TextField_heightInput.isFocused())
+			TextField_heightInput.setText(Integer.toString(teWallMaker.wallHeight));
 	}
 	
 	@Override
@@ -117,8 +117,8 @@ public class GUIWallMaker extends GuiContainer {
         int i1 = this.teWallMaker.getCookProgressScaled(24);
         this.drawTexturedModalRect(zeroX + 91, zeroY + 60, 176, 14, i1 + 1, 16);
         
-        widthInput.drawTextBox();
-		heightInput.drawTextBox();
+        TextField_widthInput.drawTextBox();
+		TextField_heightInput.drawTextBox();
 		fontRendererObj.drawString("Width", zeroX + 90, zeroY + 20, 10);
 		fontRendererObj.drawString("Height", zeroX + 90, zeroY + 34, 10);
 	}

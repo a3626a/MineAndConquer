@@ -34,11 +34,9 @@ public class BlockWallMaker extends BlockContainer {
 		// unlocalizedName을 부여함
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.setHardness(1.0F);
-		GameRegistry.registerBlock(this, this.getUnlocalizedName());
+		ModBlocks.register(this);
 	}
 	
-	
-
 	public void breakBlock(World p_149749_1_, int x, int y, int z, Block block,
 			int p_149749_6_) {
 		

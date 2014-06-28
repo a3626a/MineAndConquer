@@ -21,7 +21,7 @@ public class GUINexus01 extends GuiContainer {
 			References.MODID.toLowerCase() + ":"
 					+ "textures/gui/guinexus_teamConfiguration.png");
 	private InventoryPlayer player;
-	private GuiTextField input;
+	private GuiTextField TextField_input;
 	private String team;
 	private ArrayList<String> members;
 
@@ -41,8 +41,8 @@ public class GUINexus01 extends GuiContainer {
 		super.actionPerformed(p_146284_1_);
 		switch (p_146284_1_.id) {
 		case 0:
-			if (team.equals("") && input.getText() != "") {
-				team = input.getText();
+			if (team.equals("") && TextField_input.getText() != "") {
+				team = TextField_input.getText();
 				SimpleNetMessageServer msg = new SimpleNetMessageServer(0,
 						this.teNexus.xCoord, this.teNexus.yCoord,
 						this.teNexus.zCoord);
@@ -53,7 +53,7 @@ public class GUINexus01 extends GuiContainer {
 				buttonList.set(0, new GuiButton(0, zeroX + 131, zeroY + 17, 57, 20,
 					"add"));
 			} else {
-				String member = input.getText();
+				String member = TextField_input.getText();
 				SimpleNetMessageServer msg = new SimpleNetMessageServer(1,
 						this.teNexus.xCoord, this.teNexus.yCoord,
 						this.teNexus.zCoord);
@@ -79,10 +79,10 @@ public class GUINexus01 extends GuiContainer {
 					"add"));
 		}
 
-		input = new GuiTextField(fontRendererObj, zeroX + 26, zeroY + 116, 160,
+		TextField_input = new GuiTextField(fontRendererObj, zeroX + 26, zeroY + 116, 160,
 				10);
-		input.setFocused(false);
-		input.setMaxStringLength(20);
+		TextField_input.setFocused(false);
+		TextField_input.setMaxStringLength(20);
 	}
 
 	@Override
@@ -99,8 +99,8 @@ public class GUINexus01 extends GuiContainer {
 	protected void keyTyped(char par1, int par2) {
 		// TODO Auto-generated method stub
 		// super.keyTyped(par1, par2);
-		if (input.isFocused()) {
-			input.textboxKeyTyped(par1, par2);
+		if (TextField_input.isFocused()) {
+			TextField_input.textboxKeyTyped(par1, par2);
 		} else {
 			super.keyTyped(par1, par2);
 		}
@@ -154,7 +154,7 @@ public class GUINexus01 extends GuiContainer {
 					teNexus.xCoord, teNexus.yCoord, teNexus.zCoord);
 
 		}
-		input.mouseClicked(x, y, state);
+		TextField_input.mouseClicked(x, y, state);
 
 	}
 
@@ -173,7 +173,7 @@ public class GUINexus01 extends GuiContainer {
 		this.mc.getTextureManager().bindTexture(backgroundimage);
 		drawTexturedModalRect(zeroX, zeroY, 0, 0, xSize, ySize);
 
-		input.drawTextBox();
+		TextField_input.drawTextBox();
 		for (int i = 0; i < members.size(); i++) {
 			fontRendererObj.FONT_HEIGHT = 10;
 			fontRendererObj.drawString(members.get(i), zeroX + 27, zeroY + 16
