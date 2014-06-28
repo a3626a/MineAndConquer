@@ -10,7 +10,7 @@ public class ModBlocks {
 	
 	public static void init()
 	{
-		testBlock = new TestBlock();
+		testBlock = new BlockTestBlock();
 		blockWallMaker = new BlockWallMaker();
 		blockNexus = new BlockNexus();
 	}

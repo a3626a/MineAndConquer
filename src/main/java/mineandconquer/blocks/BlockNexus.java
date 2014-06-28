@@ -26,7 +26,7 @@ public class BlockNexus extends BlockContainer {
 
 	protected BlockNexus() {
 		super(Material.rock);
-		this.setBlockName(References.MODID + ":" + Strings.BlockNexusName);
+		this.setBlockName(References.RESOURCESPREFIX + Strings.BlockNexusName);
 		// unlocalizedName을 부여함
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.setBlockUnbreakable();

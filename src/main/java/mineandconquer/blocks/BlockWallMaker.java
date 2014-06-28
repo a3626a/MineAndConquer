@@ -30,7 +30,7 @@ public class BlockWallMaker extends BlockContainer {
 	
 	public BlockWallMaker() {
 		super(Material.rock);
-		this.setBlockName(References.MODID + ":" + Strings.BlockWallMakerName);
+		this.setBlockName(References.RESOURCESPREFIX + Strings.BlockWallMakerName);
 		// unlocalizedName을 부여함
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.setHardness(1.0F);

@@ -13,12 +13,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class TestBlock extends Block{
+public class BlockTestBlock extends Block{
 
-	public TestBlock()
+	public BlockTestBlock()
 	{
 		super(Material.rock);
-		this.setBlockName(References.MODID + ":" + Strings.TestBlockName);
+		this.setBlockName(References.RESOURCESPREFIX + Strings.TestBlockName);
 		//unlocalizedName을 부여함
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		ModBlocks.register(this);

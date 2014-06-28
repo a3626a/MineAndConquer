@@ -54,7 +54,7 @@ public class ItemWallBuilder extends Item {
 	 */
 	
 	public ItemWallBuilder() {
-		this.setUnlocalizedName(References.RESOURCESPREFIX+":"+Strings.ItemWallBuilderName);
+		this.setUnlocalizedName(References.RESOURCESPREFIX+Strings.ItemWallBuilderName);
 		//this.setCreativeTab(CreativeTabs.tabAllSearch);
 		this.setMaxStackSize(4);
 		ModItems.register(this);

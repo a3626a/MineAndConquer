@@ -21,8 +21,10 @@ public class ModItems {
 		
 	}
 	
-	public static void register(ItemWallBuilder item) {
+	public static void register(Item item) {
 		// TODO Auto-generated method stub
+		
 		GameRegistry.registerItem(item, getName(item.getUnlocalizedName()));
+		System.out.println(item.getUnlocalizedName());
 	}
 }
