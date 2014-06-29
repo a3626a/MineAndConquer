@@ -86,7 +86,7 @@ public class ContainerNexus02 extends Container {
 		super.addCraftingToCrafters(par1iCrafting);
 
 		if (tile != null) {
-			SimpleNetMessageClient msg = new SimpleNetMessageClient(2,
+			SimpleNetMessageClient msg = new SimpleNetMessageClient(TENexus.MSGTOCLIENT.SYNC_SHOP_DIAMOND.getValue(),
 					tile.xCoord, tile.yCoord, tile.zCoord);
 			msg.setInt(tile.getShop_diamondValue());
 			MineAndConquer.simpleChannel.sendToAll(msg);

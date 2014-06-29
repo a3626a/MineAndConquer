@@ -43,7 +43,7 @@ public class GUINexus01 extends GuiContainer {
 		case 0:
 			if (team.equals("") && TextField_input.getText() != "") {
 				team = TextField_input.getText();
-				SimpleNetMessageServer msg = new SimpleNetMessageServer(0,
+				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.SYNC_TEAM_NAME.getValue(),
 						this.teNexus.xCoord, this.teNexus.yCoord,
 						this.teNexus.zCoord);
 				msg.setString(team);
@@ -54,7 +54,7 @@ public class GUINexus01 extends GuiContainer {
 					"add"));
 			} else {
 				String member = TextField_input.getText();
-				SimpleNetMessageServer msg = new SimpleNetMessageServer(1,
+				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.SYNC_TEAM_MEMBERS.getValue(),
 						this.teNexus.xCoord, this.teNexus.yCoord,
 						this.teNexus.zCoord);
 				msg.setString(member);
@@ -119,7 +119,7 @@ public class GUINexus01 extends GuiContainer {
 		int zeroY = (this.height - ySize - 30) / 2;
 		if (x >= zeroX && x <= zeroX + 17 && y >= zeroY + 24 && y <= zeroY + 45) {
 
-			SimpleNetMessageServer msg = new SimpleNetMessageServer(3,
+			SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.OPENGUI_NEXUS02.getValue(),
 					this.teNexus.xCoord, this.teNexus.yCoord,
 					this.teNexus.zCoord);
 			msg.setString(this.player.player.getCommandSenderName());
@@ -132,7 +132,7 @@ public class GUINexus01 extends GuiContainer {
 		}
 		if (x >= zeroX && x <= zeroX + 17 && y >= zeroY + 48 && y <= zeroY + 69) {
 
-			SimpleNetMessageServer msg = new SimpleNetMessageServer(4,
+			SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.OPENGUI_NEXUS03.getValue(),
 					this.teNexus.xCoord, this.teNexus.yCoord,
 					this.teNexus.zCoord);
 			msg.setString(this.player.player.getCommandSenderName());
@@ -145,7 +145,7 @@ public class GUINexus01 extends GuiContainer {
 		}
 		if (x >= zeroX && x <= zeroX + 17 && y >= zeroY + 72 && y <= zeroY + 93) {
 
-			SimpleNetMessageServer msg = new SimpleNetMessageServer(5,
+			SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.OPENGUI_NEXUS04.getValue(),
 					this.teNexus.xCoord, this.teNexus.yCoord,
 					this.teNexus.zCoord);
 			msg.setString(this.player.player.getCommandSenderName());

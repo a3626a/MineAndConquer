@@ -32,14 +32,14 @@ public class ContainerNexus01 extends Container {
 
 		if (tile != null) {
 			if (tile.getTeam_name() != null) {
-				SimpleNetMessageClient msg = new SimpleNetMessageClient(0,
+				SimpleNetMessageClient msg = new SimpleNetMessageClient(TENexus.MSGTOCLIENT.SYNC_TEAM_NAME.getValue(),
 						tile.xCoord, tile.yCoord, tile.zCoord);
 				msg.setString(tile.getTeam_name());
 				MineAndConquer.simpleChannel.sendToAll(msg);
 			}
 			if (tile.getTeam_members() != null) {
 				for (String i : tile.getTeam_members()) {
-					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(1,
+					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
 							tile.xCoord, tile.yCoord, tile.zCoord);
 					msg2.setString(i);
 					MineAndConquer.simpleChannel.sendToAll(msg2);

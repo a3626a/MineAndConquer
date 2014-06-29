@@ -42,7 +42,7 @@ public class GUINexus03 extends GuiContainer {
 		int zeroY = (this.height - ySize - 30) / 2;
 		if (x >= zeroX && x <= zeroX + 17 && y >= zeroY && y <= zeroY + 21) {
 
-			SimpleNetMessageServer msg = new SimpleNetMessageServer(2,
+			SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.OPENGUI_NEXUS01.getValue(),
 					this.teNexus.xCoord, this.teNexus.yCoord,
 					this.teNexus.zCoord);
 			msg.setString(this.player.player.getCommandSenderName());
@@ -54,7 +54,7 @@ public class GUINexus03 extends GuiContainer {
 		}
 		if (x >= zeroX && x <= zeroX + 17 && y >= zeroY + 24 && y <= zeroY + 45) {
 
-			SimpleNetMessageServer msg = new SimpleNetMessageServer(3,
+			SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.OPENGUI_NEXUS02.getValue(),
 					this.teNexus.xCoord, this.teNexus.yCoord,
 					this.teNexus.zCoord);
 			msg.setString(this.player.player.getCommandSenderName());
@@ -67,7 +67,7 @@ public class GUINexus03 extends GuiContainer {
 		}
 		if (x >= zeroX && x <= zeroX + 17 && y >= zeroY + 72 && y <= zeroY + 93) {
 
-			SimpleNetMessageServer msg = new SimpleNetMessageServer(5,
+			SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.OPENGUI_NEXUS04.getValue(),
 					this.teNexus.xCoord, this.teNexus.yCoord,
 					this.teNexus.zCoord);
 			msg.setString(this.player.player.getCommandSenderName());

@@ -26,12 +26,12 @@ public class ContainerNexus04 extends Container {
 		// TODO Auto-generated method stub
 		super.addCraftingToCrafters(par1iCrafting);
 		if (tile != null) {
-			SimpleNetMessageClient msg = new SimpleNetMessageClient(3,
+			SimpleNetMessageClient msg = new SimpleNetMessageClient(TENexus.MSGTOCLIENT.SYNC_XP_LEVEL.getValue(),
 					tile.xCoord, tile.yCoord, tile.zCoord);
 			msg.setInt(tile.getXp_level());
 			MineAndConquer.simpleChannel.sendToAll(msg);
 			
-			SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
+			SimpleNetMessageClient msg2 = new SimpleNetMessageClient(TENexus.MSGTOCLIENT.SYNC_XP_POINT.getValue(),
 					tile.xCoord, tile.yCoord, tile.zCoord);
 			msg2.setInt(tile.getXp_point());
 			MineAndConquer.simpleChannel.sendToAll(msg2);
