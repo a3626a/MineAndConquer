@@ -29,12 +29,12 @@ public class TENexus extends TileEntity implements IInventory,
 	private ItemStack[] inventory;
 	private int INVENTORY_SIZE = 9 ;
 	
-	public String team_name;
-	public ArrayList<String> team_members;
+	private String team_name;
+	private ArrayList<String> team_members;
 	
-	public int shop_diamondValue;
-	public int xp_level;
-	public int xp_point;
+	private int shop_diamondValue;
+	private int xp_level;
+	private int xp_point;
 	
 	public TENexus() {
 		inventory = new ItemStack[INVENTORY_SIZE];
@@ -42,8 +42,9 @@ public class TENexus extends TileEntity implements IInventory,
 		team_name = "";
 		shop_diamondValue = 0;
 	}
-
-
+	
+	
+	
 	@Override
 	public int getSizeInventory() {
 		// TODO Auto-generated method stub
@@ -150,6 +151,19 @@ public class TENexus extends TileEntity implements IInventory,
 		return false;
 	}
 
+/**
+ * 
+ * @param var1 : 얼마를 더할 것인가 (음수인 경우 뺀다)
+ * @return : 경험치 보관의 최소/최대 제한을 고려하여 실질적으로 들어간(나간) 경험치 량.
+ */
+	public int addExperience(int var1) {
+		return 0;
+	}
+	
+	public int getExperienceCap() {
+		return this.xp_level*100;
+	}
+	
 	
 	@Override
 	public void updateEntity() {
@@ -446,6 +460,48 @@ public class TENexus extends TileEntity implements IInventory,
 			nbttaglist.appendTag(nbttagcompound1);
 		}
 		tag.setTag("members", nbttaglist);
+	}
+
+	
+	
+	public String getTeam_name() {
+		return team_name;
+	}
+
+	public void setTeam_name(String team_name) {
+		this.team_name = team_name;
+	}
+
+	public ArrayList<String> getTeam_members() {
+		return team_members;
+	}
+
+	public void setTeam_members(ArrayList<String> team_members) {
+		this.team_members = team_members;
+	}
+
+	public int getShop_diamondValue() {
+		return shop_diamondValue;
+	}
+
+	public void setShop_diamondValue(int shop_diamondValue) {
+		this.shop_diamondValue = shop_diamondValue;
+	}
+
+	public int getXp_level() {
+		return xp_level;
+	}
+
+	public void setXp_level(int xp_level) {
+		this.xp_level = xp_level;
+	}
+
+	public int getXp_point() {
+		return xp_point;
+	}
+
+	public void setXp_point(int xp_point) {
+		this.xp_point = xp_point;
 	}
 
 }

@@ -28,12 +28,12 @@ public class ContainerNexus04 extends Container {
 		if (tile != null) {
 			SimpleNetMessageClient msg = new SimpleNetMessageClient(3,
 					tile.xCoord, tile.yCoord, tile.zCoord);
-			msg.setInt(tile.xp_level);
+			msg.setInt(tile.getXp_level());
 			MineAndConquer.simpleChannel.sendToAll(msg);
 			
 			SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
 					tile.xCoord, tile.yCoord, tile.zCoord);
-			msg2.setInt(tile.xp_point);
+			msg2.setInt(tile.getXp_point());
 			MineAndConquer.simpleChannel.sendToAll(msg2);
 		}
 	}

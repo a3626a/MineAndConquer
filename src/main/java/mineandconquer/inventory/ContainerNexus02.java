@@ -19,7 +19,7 @@ public class ContainerNexus02 extends Container {
 	final int shop_pig_value = 2;
 	final int shop_chicken_value = 2;
 	final int shop_horse_value = 4;
-	
+
 	public ContainerNexus02(InventoryPlayer player, TENexus nexus) {
 		this.tile = nexus;
 		inventoryPlayer = player;
@@ -30,38 +30,48 @@ public class ContainerNexus02 extends Container {
 	public ItemStack slotClick(int slotIndex, int par2, int par3,
 			EntityPlayer par4EntityPlayer) {
 		// TODO Auto-generated method stub
-		switch(slotIndex) {
-		case 37 :
-			if (tile.shop_diamondValue >= shop_cow_value && super.slotClick(slotIndex, par2, par3, par4EntityPlayer) != null) {
-				tile.shop_diamondValue-=shop_cow_value;
+		switch (slotIndex) {
+		case 37:
+			if (tile.getShop_diamondValue() >= shop_cow_value
+					&& super.slotClick(slotIndex, par2, par3, par4EntityPlayer) != null) {
+				tile.setShop_diamondValue(tile.getShop_diamondValue()
+						- shop_cow_value);
 			} else {
 				return null;
 			}
 			break;
-		case 38 :
-			if (tile.shop_diamondValue >= shop_sheep_value && super.slotClick(slotIndex, par2, par3, par4EntityPlayer) != null) {
-				tile.shop_diamondValue-=shop_sheep_value;
+		case 38:
+			if (tile.getShop_diamondValue() >= shop_sheep_value
+					&& super.slotClick(slotIndex, par2, par3, par4EntityPlayer) != null) {
+				tile.setShop_diamondValue(tile.getShop_diamondValue()
+						- shop_sheep_value);
 			} else {
 				return null;
 			}
 			break;
-		case 39 :
-			if (tile.shop_diamondValue >= shop_pig_value&& super.slotClick(slotIndex, par2, par3, par4EntityPlayer) != null) {
-				tile.shop_diamondValue-=shop_pig_value;
+		case 39:
+			if (tile.getShop_diamondValue() >= shop_pig_value
+					&& super.slotClick(slotIndex, par2, par3, par4EntityPlayer) != null) {
+				tile.setShop_diamondValue(tile.getShop_diamondValue()
+						- shop_pig_value);
 			} else {
 				return null;
 			}
 			break;
-		case 40 :
-			if (tile.shop_diamondValue >= shop_chicken_value && super.slotClick(slotIndex, par2, par3, par4EntityPlayer) != null) {
-				tile.shop_diamondValue-=shop_chicken_value;
+		case 40:
+			if (tile.getShop_diamondValue() >= shop_chicken_value
+					&& super.slotClick(slotIndex, par2, par3, par4EntityPlayer) != null) {
+				tile.setShop_diamondValue(tile.getShop_diamondValue()
+						- shop_chicken_value);
 			} else {
 				return null;
 			}
 			break;
-		case 41 :
-			if (tile.shop_diamondValue >= shop_horse_value && super.slotClick(slotIndex, par2, par3, par4EntityPlayer) != null) {
-				tile.shop_diamondValue-=shop_horse_value;
+		case 41:
+			if (tile.getShop_diamondValue() >= shop_horse_value
+					&& super.slotClick(slotIndex, par2, par3, par4EntityPlayer) != null) {
+				tile.setShop_diamondValue(tile.getShop_diamondValue()
+						- shop_horse_value);
 			} else {
 				return null;
 			}
@@ -69,7 +79,7 @@ public class ContainerNexus02 extends Container {
 		}
 		return super.slotClick(slotIndex, par2, par3, par4EntityPlayer);
 	}
-	
+
 	@Override
 	public void addCraftingToCrafters(ICrafting par1iCrafting) {
 		// TODO Auto-generated method stub
@@ -78,7 +88,7 @@ public class ContainerNexus02 extends Container {
 		if (tile != null) {
 			SimpleNetMessageClient msg = new SimpleNetMessageClient(2,
 					tile.xCoord, tile.yCoord, tile.zCoord);
-			msg.setInt(tile.shop_diamondValue);
+			msg.setInt(tile.getShop_diamondValue());
 			MineAndConquer.simpleChannel.sendToAll(msg);
 		}
 
@@ -89,7 +99,7 @@ public class ContainerNexus02 extends Container {
 		// TODO Auto-generated method stub
 		super.detectAndSendChanges();
 	}
-	
+
 	public void bindPlayerInventory() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < 3; ++i) {

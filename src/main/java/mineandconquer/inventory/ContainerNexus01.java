@@ -31,14 +31,14 @@ public class ContainerNexus01 extends Container {
 		super.addCraftingToCrafters(par1iCrafting);
 
 		if (tile != null) {
-			if (tile.team_name != null) {
+			if (tile.getTeam_name() != null) {
 				SimpleNetMessageClient msg = new SimpleNetMessageClient(0,
 						tile.xCoord, tile.yCoord, tile.zCoord);
-				msg.setString(tile.team_name);
+				msg.setString(tile.getTeam_name());
 				MineAndConquer.simpleChannel.sendToAll(msg);
 			}
-			if (tile.team_members != null) {
-				for (String i : tile.team_members) {
+			if (tile.getTeam_members() != null) {
+				for (String i : tile.getTeam_members()) {
 					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(1,
 							tile.xCoord, tile.yCoord, tile.zCoord);
 					msg2.setString(i);
