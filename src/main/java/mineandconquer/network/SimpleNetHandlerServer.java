@@ -1,6 +1,5 @@
 package mineandconquer.network;
 
-import mineandconquer.tileentities.SimpleNetReceiver;
 import mineandconquer.tileentities.TEWallMaker;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;

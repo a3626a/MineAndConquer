@@ -7,6 +7,7 @@ import mineandconquer.core.handler.ModEventHandler;
 import mineandconquer.lib.Strings;
 import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.network.SimpleNetMessageServer;
+import mineandconquer.network.SimpleNetReceiver;
 import mineandconquer.tools.ToolXP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -25,6 +26,53 @@ public class TENexus extends TileEntity implements IInventory,
 		SimpleNetReceiver {
 
 	public enum INVENTORY {shop_diamond_input, shop_cow_output, shop_sheep_output, shop_pig_output,shop_chicken_output ,shop_horse_output}
+	public enum MSGTOSERVER {
+		SYNC_TEAM_NAME(0),
+		SYNC_TEAM_MEMBERS(1),
+		OPENGUI_NEXUS01(2),
+		OPENGUI_NEXUS02(3),
+		OPENGUI_NEXUS03(4),
+		OPENGUI_NEXUS04(5),
+		MOVEXP_TONEXUS5(6),
+		MOVEXP_TONEXUS50(7),
+		MOVEXP_TONEXUSMAX(8),
+		MOVEXP_TOPLAYER5(9),
+		MOVEXP_TOPLAYER50(10),
+		MOVEXP_TOPLAYERMAX(11)
+		;
+		private int value;
+		private MSGTOSERVER(int value) {
+			this.value = value;
+		}
+		public static MSGTOSERVER get(int value) {
+			for (MSGTOSERVER i : MSGTOSERVER.values()) {
+				if (i.value == value) {
+					return i;
+				}
+			}
+			return null;
+		}
+	};
+	public enum MSGTOCLIENT {
+		SYNC_TEAM_NAME(0),
+		SYNC_TEAM_MEMBERS(1),
+	    SYNC_SHOP_DIAMOND(2),
+		SYNC_XP_LEVEL(3),
+		SYNC_XP_POINT(4)
+		;
+		private int value;
+		private MSGTOCLIENT(int value) {
+			this.value = value;
+		}
+		public static MSGTOCLIENT get(int value) {
+			for (MSGTOCLIENT i : MSGTOCLIENT.values()) {
+				if (i.value == value) {
+					return i;
+				}
+			}
+			return null;
+		}
+	};
 	
 	private ItemStack[] inventory;
 	private int INVENTORY_SIZE = 9 ;
@@ -234,8 +282,9 @@ public class TENexus extends TileEntity implements IInventory,
 	@Override
 	public void onMessage(int index, SimpleNetMessageServer data) {
 		// TODO Auto-generated method stub
-		switch (index) {
-		case 0:
+		
+		switch (MSGTOSERVER.get(index)) {
+		case SYNC_TEAM_NAME:
 			this.team_name = data.getString();
 			SimpleNetMessageClient msg = new SimpleNetMessageClient(0,
 					this.xCoord, this.yCoord, this.zCoord);
@@ -252,7 +301,7 @@ public class TENexus extends TileEntity implements IInventory,
 			}
 			ModEventHandler.onTeamMemberAdded(team_members.get(0), team_name);
 			break;
-		case 1:
+		case SYNC_TEAM_MEMBERS:
 			String member = data.getString();
 			for (Object i : MinecraftServer.getServer().worldServers[0].playerEntities) {
 				if (i instanceof EntityPlayer) {
@@ -269,7 +318,7 @@ public class TENexus extends TileEntity implements IInventory,
 				}
 			}
 			break;
-		case 2:
+		case OPENGUI_NEXUS01:
 			String pname1 = data.getString();
 			
 			for (Object i : this.worldObj.playerEntities) {
@@ -279,7 +328,7 @@ public class TENexus extends TileEntity implements IInventory,
 				}
 			}
 			break;
-		case 3:
+		case OPENGUI_NEXUS02:
 			String pname2 = data.getString();
 			
 			for (Object i : this.worldObj.playerEntities) {
@@ -289,7 +338,7 @@ public class TENexus extends TileEntity implements IInventory,
 				}
 			}
 			break;
-		case 4:
+		case OPENGUI_NEXUS03:
 			String pname3 = data.getString();
 			
 			for (Object i : this.worldObj.playerEntities) {
@@ -299,7 +348,7 @@ public class TENexus extends TileEntity implements IInventory,
 				}
 			}
 			break;
-		case 5:
+		case OPENGUI_NEXUS04:
 			String pname4 = data.getString();
 			
 			for (Object i : this.worldObj.playerEntities) {
@@ -309,7 +358,7 @@ public class TENexus extends TileEntity implements IInventory,
 				}
 			}
 			break;
-		case 6:
+		case MOVEXP_TONEXUS5:
 			String pname5 = data.getString();
 
 			for (Object i : this.worldObj.playerEntities) {
@@ -326,7 +375,7 @@ public class TENexus extends TileEntity implements IInventory,
 				}
 			}
 			break;
-		case 7:
+		case MOVEXP_TONEXUS50:
 			String pname6 = data.getString();
 
 			for (Object i : this.worldObj.playerEntities) {
@@ -342,7 +391,7 @@ public class TENexus extends TileEntity implements IInventory,
 				}
 			}
 			break;
-		case 8:
+		case MOVEXP_TONEXUSMAX:
 			String pname7 = data.getString();
 
 			for (Object i : this.worldObj.playerEntities) {
@@ -358,7 +407,7 @@ public class TENexus extends TileEntity implements IInventory,
 				}
 			}
 			break;
-		case 9:
+		case MOVEXP_TOPLAYER5:
 			String pname8 = data.getString();
 
 			for (Object i : this.worldObj.playerEntities) {
@@ -373,7 +422,7 @@ public class TENexus extends TileEntity implements IInventory,
 				}
 			}
 			break;
-		case 10:
+		case MOVEXP_TOPLAYER50:
 			String pname9 = data.getString();
 
 			for (Object i : this.worldObj.playerEntities) {
@@ -388,7 +437,7 @@ public class TENexus extends TileEntity implements IInventory,
 				}
 			}
 			break;
-		case 11:
+		case MOVEXP_TOPLAYERMAX:
 			String pname10 = data.getString();
 
 			for (Object i : this.worldObj.playerEntities) {
@@ -410,27 +459,30 @@ public class TENexus extends TileEntity implements IInventory,
 	@Override
 	public void onMessage(int index, SimpleNetMessageClient data) {
 		// TODO Auto-generated method stub
-		switch (index) {
-		case 0:
+		switch (MSGTOCLIENT.get(index)) {
+		case SYNC_TEAM_NAME:
 			this.team_name = data.getString();
 			break;
-		case 1:
+		case SYNC_TEAM_MEMBERS:
 			if (!this.team_members.contains(data.getString())) {
 				this.team_members.add(data.getString());
 			}
 			break;
-		case 2:
+		case SYNC_SHOP_DIAMOND:
 			this.shop_diamondValue = data.getInt();
 			break;
-		case 3:
+		case SYNC_XP_LEVEL:
 			this.xp_level = data.getInt();
 			break;
-		case 4:
+		case SYNC_XP_POINT:
 			this.xp_point = data.getInt();
 			break;
 		}
 	}
 
+	
+	
+	
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
 		/*

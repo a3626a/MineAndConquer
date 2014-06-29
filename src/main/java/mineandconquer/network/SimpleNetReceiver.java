@@ -1,7 +1,5 @@
-package mineandconquer.tileentities;
+package mineandconquer.network;
 
-import mineandconquer.network.SimpleNetMessageClient;
-import mineandconquer.network.SimpleNetMessageServer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

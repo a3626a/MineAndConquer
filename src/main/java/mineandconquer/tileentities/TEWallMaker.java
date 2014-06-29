@@ -3,6 +3,7 @@ package mineandconquer.tileentities;
 import mineandconquer.items.ModItems;
 import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.network.SimpleNetMessageServer;
+import mineandconquer.network.SimpleNetReceiver;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
