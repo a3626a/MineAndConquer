@@ -153,13 +153,34 @@ public class TENexus extends TileEntity implements IInventory,
 
 /**
  * 
- * @param var1 : 얼마를 더할 것인가 (음수인 경우 뺀다)
+ * @param var1 : 얼마를 더할 것인가
  * @return : 경험치 보관의 최소/최대 제한을 고려하여 실질적으로 들어간(나간) 경험치 량.
  */
 	public int addExperience(int var1) {
-		return 0;
+		if (this.getExperienceCap() - this.xp_point < var1) {
+			var1 = this.getExperienceCap() - this.xp_point;
+		}
+		this.xp_point+=var1;
+		return var1;
 	}
 	
+	/***
+	 * 
+	 * @param var1 : 얼마를 뺄 것인가
+	 * @return : 최종적으로 뺀 경험치 량.
+	 */
+	public int extractExperience(int var1) {
+		if (var1 > this.xp_point) {
+			var1 = this.xp_point;
+		}
+		this.xp_point-=var1;
+		return var1;
+	}
+	
+	/***
+	 * 
+	 * @return : 현재 경험치 용량
+	 */
 	public int getExperienceCap() {
 		return this.xp_level*100;
 	}
@@ -291,9 +312,10 @@ public class TENexus extends TileEntity implements IInventory,
 
 			for (Object i : this.worldObj.playerEntities) {
 				if (((EntityPlayer)i).getCommandSenderName().equals(pname5)) {
-					int xpTotal = ((EntityPlayer)i).experienceTotal;
-					ToolXP.extractXP((EntityPlayer)i,5);
-					this.xp_point+=Math.min(5,xpTotal);
+					int xpTotal = ((EntityPlayer)i).experienceTotal;	
+					int xpAdded = this.addExperience(Math.min(5, xpTotal));
+					ToolXP.extractXP((EntityPlayer)i,xpAdded);
+					
 					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
 							this.xCoord, this.yCoord, this.zCoord);
 					msg2.setInt(this.xp_point);
@@ -307,9 +329,9 @@ public class TENexus extends TileEntity implements IInventory,
 
 			for (Object i : this.worldObj.playerEntities) {
 				if (((EntityPlayer)i).getCommandSenderName().equals(pname6)) {
-					int xpTotal = ((EntityPlayer)i).experienceTotal;
-					ToolXP.extractXP((EntityPlayer)i,50);
-					this.xp_point+=Math.min(50,xpTotal);
+					int xpTotal = ((EntityPlayer)i).experienceTotal;	
+					int xpAdded = this.addExperience(Math.min(50, xpTotal));
+					ToolXP.extractXP((EntityPlayer)i,xpAdded);
 					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
 							this.xCoord, this.yCoord, this.zCoord);
 					msg2.setInt(this.xp_point);
@@ -323,9 +345,9 @@ public class TENexus extends TileEntity implements IInventory,
 
 			for (Object i : this.worldObj.playerEntities) {
 				if (((EntityPlayer)i).getCommandSenderName().equals(pname7)) {
-					int xpTotal = ((EntityPlayer)i).experienceTotal;
-					ToolXP.extractXP((EntityPlayer)i,xpTotal);
-					this.xp_point+=xpTotal;
+					int xpTotal = ((EntityPlayer)i).experienceTotal;	
+					int xpAdded = this.addExperience(xpTotal);
+					ToolXP.extractXP((EntityPlayer)i,xpAdded);
 					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
 							this.xCoord, this.yCoord, this.zCoord);
 					msg2.setInt(this.xp_point);
@@ -339,9 +361,8 @@ public class TENexus extends TileEntity implements IInventory,
 
 			for (Object i : this.worldObj.playerEntities) {
 				if (((EntityPlayer)i).getCommandSenderName().equals(pname8)) {
-					int xpTotal = this.xp_point;
-					this.xp_point-=Math.min(5, xpTotal);
-					((EntityPlayer)i).addExperience(Math.min(5, xpTotal));
+					int xpextracted = this.extractExperience(5);
+					((EntityPlayer)i).addExperience(xpextracted);
 					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
 							this.xCoord, this.yCoord, this.zCoord);
 					msg2.setInt(this.xp_point);
@@ -355,9 +376,8 @@ public class TENexus extends TileEntity implements IInventory,
 
 			for (Object i : this.worldObj.playerEntities) {
 				if (((EntityPlayer)i).getCommandSenderName().equals(pname9)) {
-					int xpTotal = this.xp_point;
-					this.xp_point-=Math.min(50, xpTotal);
-					((EntityPlayer)i).addExperience(Math.min(50, xpTotal));
+					int xpextracted = this.extractExperience(50);
+					((EntityPlayer)i).addExperience(xpextracted);
 					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
 							this.xCoord, this.yCoord, this.zCoord);
 					msg2.setInt(this.xp_point);
@@ -372,8 +392,8 @@ public class TENexus extends TileEntity implements IInventory,
 			for (Object i : this.worldObj.playerEntities) {
 				if (((EntityPlayer)i).getCommandSenderName().equals(pname10)) {
 					int xpTotal = this.xp_point;
-					this.xp_point=0;
-					((EntityPlayer)i).addExperience(xpTotal);
+					int xpextracted = this.extractExperience(xpTotal);
+					((EntityPlayer)i).addExperience(xpextracted);
 					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
 							this.xCoord, this.yCoord, this.zCoord);
 					msg2.setInt(this.xp_point);
@@ -480,6 +500,10 @@ public class TENexus extends TileEntity implements IInventory,
 		this.team_members = team_members;
 	}
 
+	public void addTeam_members(String member) {
+		this.team_members.add(member);
+	}
+	
 	public int getShop_diamondValue() {
 		return shop_diamondValue;
 	}

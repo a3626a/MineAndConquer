@@ -27,15 +27,15 @@ public class GUINexus02 extends GuiContainer {
 		ySize = 214;
 		this.teNexus = nexus;
 		this.player = player;
-		this.shop_diamondValue = nexus.shop_diamondValue;
+		this.shop_diamondValue = nexus.getShop_diamondValue();
 	}
 
 	@Override
 	public void updateScreen() {
 		// TODO Auto-generated method stub
 		super.updateScreen();
-		if (this.shop_diamondValue != teNexus.shop_diamondValue) {
-			this.shop_diamondValue = teNexus.shop_diamondValue;
+		if (this.shop_diamondValue != teNexus.getShop_diamondValue()) {
+			this.shop_diamondValue = teNexus.getShop_diamondValue();
 		}
 	}
 
@@ -103,7 +103,7 @@ public class GUINexus02 extends GuiContainer {
 		this.mc.getTextureManager().bindTexture(backgroundimage);
 		drawTexturedModalRect(zeroX, zeroY, 0, 0, xSize, ySize);
 
-		for (int i = teNexus.shop_diamondValue - 1; i >= 0; i--) {
+		for (int i = teNexus.getShop_diamondValue() - 1; i >= 0; i--) {
 			drawTexturedModalRect(zeroX + 173 - 6 * i, zeroY + 110, xSize, 0,
 					12, 13);
 		}

@@ -170,7 +170,7 @@ public class GUINexus04 extends GuiContainer {
 		fontRendererObj.drawString(": " + Integer.toString((int)this.player.player.experienceTotal), zeroX + 25, zeroY + 15, 0);
 		
 		fontRendererObj.FONT_HEIGHT = 10;
-		fontRendererObj.drawString("Xp in Nexus: " + Integer.toString((int)this.teNexus.xp_point), zeroX + 50, zeroY +120, 0);
+		fontRendererObj.drawString("Xp in Nexus: " + Integer.toString((int)this.teNexus.getXp_point()), zeroX + 50, zeroY +120, 0);
 	}
 
 	@Override
