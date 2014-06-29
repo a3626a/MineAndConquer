@@ -162,15 +162,18 @@ public class GUINexus04 extends GuiContainer {
 		int zeroY = (this.height - ySize-30) / 2;
 		this.mc.getTextureManager().bindTexture(backgroundimage);
 		drawTexturedModalRect(zeroX, zeroY, 0, 0, xSize, ySize);
-
-		fontRendererObj.FONT_HEIGHT = 10;
-		fontRendererObj.drawString("Your XP", zeroX + 25, zeroY + 5, 0);
+		drawTexturedModalRect(zeroX+25, zeroY+117, 0, this.ySize, (int)(161.0*(float)teNexus.getXp_point()/(float)teNexus.getExperienceCap()), 9);
+		drawTexturedModalRect(zeroX+25, zeroY+66, 0, this.ySize, (int)(161.0*this.player.player.experience), 9);
 		
 		fontRendererObj.FONT_HEIGHT = 10;
-		fontRendererObj.drawString(": " + Integer.toString((int)this.player.player.experienceTotal), zeroX + 25, zeroY + 15, 0);
+		fontRendererObj.drawString("LV. " + this.teNexus.getXp_level(), zeroX + 25, zeroY + 5, 0);
 		
 		fontRendererObj.FONT_HEIGHT = 10;
-		fontRendererObj.drawString("Xp in Nexus: " + Integer.toString((int)this.teNexus.getXp_point()), zeroX + 50, zeroY +120, 0);
+		fontRendererObj.drawString(this.teNexus.getXp_point() + "/" + this.teNexus.getExperienceCap() , zeroX + 30, zeroY +119, 0);
+		
+		fontRendererObj.FONT_HEIGHT = 12;
+		fontRendererObj.drawString(Integer.toString(this.player.player.experienceLevel) , zeroX + 100, zeroY + 63, 0);
+		
 	}
 
 	@Override

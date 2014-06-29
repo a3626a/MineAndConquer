@@ -41,6 +41,8 @@ public class TENexus extends TileEntity implements IInventory,
 		team_members = new ArrayList();
 		team_name = "";
 		shop_diamondValue = 0;
+		xp_level = 1;
+		xp_point = 0;
 	}
 	
 	
