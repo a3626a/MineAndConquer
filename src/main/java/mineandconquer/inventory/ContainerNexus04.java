@@ -25,6 +25,17 @@ public class ContainerNexus04 extends Container {
 	public void addCraftingToCrafters(ICrafting par1iCrafting) {
 		// TODO Auto-generated method stub
 		super.addCraftingToCrafters(par1iCrafting);
+		if (tile != null) {
+			SimpleNetMessageClient msg = new SimpleNetMessageClient(3,
+					tile.xCoord, tile.yCoord, tile.zCoord);
+			msg.setInt(tile.xp_level);
+			MineAndConquer.simpleChannel.sendToAll(msg);
+			
+			SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
+					tile.xCoord, tile.yCoord, tile.zCoord);
+			msg2.setInt(tile.xp_point);
+			MineAndConquer.simpleChannel.sendToAll(msg2);
+		}
 	}
 
 	@Override

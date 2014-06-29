@@ -20,9 +20,6 @@ public class GUINexus04 extends GuiContainer {
 					+ "textures/gui/guinexus_xp.png");
 	private InventoryPlayer player;
 
-	private GuiTextField TextField_xp;
-	// 입출금할 경험치
-	
 	public GUINexus04(InventoryPlayer player, TENexus nexus) {
 		super(new ContainerNexus04(player, nexus));
 		xSize = 194;
@@ -38,27 +35,74 @@ public class GUINexus04 extends GuiContainer {
 		int zeroY = (this.height - ySize-30) / 2;
 		
 		super.initGui();
-		this.buttonList.add(new GuiButton(0, zeroX+105, zeroY+10, 40, 20, "Deposit"));
-		this.buttonList.add(new GuiButton(1, zeroX+145, zeroY+10, 40, 20, "Withdraw"));
+		this.buttonList.add(new GuiButton(0, zeroX+47, zeroY+77, 40, 20, "↓5"));
+		this.buttonList.add(new GuiButton(1, zeroX+87, zeroY+77, 40, 20, "↓50"));
+		this.buttonList.add(new GuiButton(2, zeroX+127, zeroY+77, 40, 20, "↓MAX"));
+		//Deposit
+		this.buttonList.add(new GuiButton(3, zeroX+47, zeroY+96, 40, 20, "↑5"));
+		this.buttonList.add(new GuiButton(4, zeroX+87, zeroY+96, 40, 20, "↑50"));
+		this.buttonList.add(new GuiButton(5, zeroX+127, zeroY+96, 40, 20, "↑MAX"));
+		//Withdraw
+		
+	}
 	
-		TextField_xp = new GuiTextField(fontRendererObj, zeroX + 70, zeroY + 15, 30, 10);
-		TextField_xp.setFocused(false);
-		TextField_xp.setMaxStringLength(20);
+	@Override
+	protected void actionPerformed(GuiButton button) {
+		// TODO Auto-generated method stub
+		super.actionPerformed(button);
+		SimpleNetMessageServer msg;
+		switch(button.id) {
+		case 0 :
+			msg = new SimpleNetMessageServer(6,
+					this.teNexus.xCoord, this.teNexus.yCoord,
+					this.teNexus.zCoord);
+			msg.setString(player.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendToServer(msg);
+			break;
+		case 1:
+			msg = new SimpleNetMessageServer(7,
+					this.teNexus.xCoord, this.teNexus.yCoord,
+					this.teNexus.zCoord);
+			msg.setString(player.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendToServer(msg);
+			break;
+		case 2:
+			msg = new SimpleNetMessageServer(8,
+					this.teNexus.xCoord, this.teNexus.yCoord,
+					this.teNexus.zCoord);
+			msg.setString(player.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendToServer(msg);
+			break;
+		case 3:
+			msg = new SimpleNetMessageServer(9,
+					this.teNexus.xCoord, this.teNexus.yCoord,
+					this.teNexus.zCoord);
+			msg.setString(player.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendToServer(msg);
+			break;
+		case 4:
+			msg = new SimpleNetMessageServer(10,
+					this.teNexus.xCoord, this.teNexus.yCoord,
+					this.teNexus.zCoord);
+			msg.setString(player.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendToServer(msg);
+			break;
+		case 5:
+			msg = new SimpleNetMessageServer(11,
+					this.teNexus.xCoord, this.teNexus.yCoord,
+					this.teNexus.zCoord);
+			msg.setString(player.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendToServer(msg);
+			break;
+		}
 	}
 	
 	@Override
 	protected void keyTyped(char par1, int par2) {
 		// TODO Auto-generated method stub
 		super.keyTyped(par1, par2);
-		if (TextField_xp.isFocused()) {
-			TextField_xp.textboxKeyTyped(par1, par2);
-		}
 	}
 	
-	
-	/**
-	 * 
-	 */
 	@Override
 	protected void mouseClicked(int x, int y, int state) {
 		// TODO Auto-generated method stub
@@ -103,20 +147,11 @@ public class GUINexus04 extends GuiContainer {
 					teNexus.xCoord, teNexus.yCoord, teNexus.zCoord);
 		}
 		
-		TextField_xp.mouseClicked(x, y, state);
 	}
 	
 	@Override
 	public void updateScreen() {
 		// TODO Auto-generated method stub
-	}
-
-
-
-	@Override
-	public boolean doesGuiPauseGame() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -134,8 +169,13 @@ public class GUINexus04 extends GuiContainer {
 		fontRendererObj.FONT_HEIGHT = 10;
 		fontRendererObj.drawString(": " + Integer.toString((int)this.player.player.experienceTotal), zeroX + 25, zeroY + 15, 0);
 		
-		TextField_xp.drawTextBox();
-		
+		fontRendererObj.FONT_HEIGHT = 10;
+		fontRendererObj.drawString("Xp in Nexus: " + Integer.toString((int)this.teNexus.xp_point), zeroX + 50, zeroY +120, 0);
 	}
 
+	@Override
+	public boolean doesGuiPauseGame() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

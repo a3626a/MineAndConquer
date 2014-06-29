@@ -7,6 +7,7 @@ import mineandconquer.core.handler.ModEventHandler;
 import mineandconquer.lib.Strings;
 import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.network.SimpleNetMessageServer;
+import mineandconquer.tools.ToolXP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -226,6 +227,7 @@ public class TENexus extends TileEntity implements IInventory,
 						MineAndConquer.simpleChannel.sendToAll(msg2);
 						
 						ModEventHandler.onTeamMemberAdded(member, team_name);
+						break;
 					}
 				}
 			}
@@ -236,6 +238,7 @@ public class TENexus extends TileEntity implements IInventory,
 			for (Object i : this.worldObj.playerEntities) {
 				if (((EntityPlayer)i).getCommandSenderName().equals(pname1)) {
 					((EntityPlayer)i).openGui(MineAndConquer.instance, Strings.GuiNexusID01, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+					break;
 				}
 			}
 			break;
@@ -245,6 +248,7 @@ public class TENexus extends TileEntity implements IInventory,
 			for (Object i : this.worldObj.playerEntities) {
 				if (((EntityPlayer)i).getCommandSenderName().equals(pname2)) {
 					((EntityPlayer)i).openGui(MineAndConquer.instance, Strings.GuiNexusID02, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+					break;
 				}
 			}
 			break;
@@ -254,6 +258,7 @@ public class TENexus extends TileEntity implements IInventory,
 			for (Object i : this.worldObj.playerEntities) {
 				if (((EntityPlayer)i).getCommandSenderName().equals(pname3)) {
 					((EntityPlayer)i).openGui(MineAndConquer.instance, Strings.GuiNexusID03, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+					break;
 				}
 			}
 			break;
@@ -263,6 +268,103 @@ public class TENexus extends TileEntity implements IInventory,
 			for (Object i : this.worldObj.playerEntities) {
 				if (((EntityPlayer)i).getCommandSenderName().equals(pname4)) {
 					((EntityPlayer)i).openGui(MineAndConquer.instance, Strings.GuiNexusID04, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+					break;
+				}
+			}
+			break;
+		case 6:
+			String pname5 = data.getString();
+
+			for (Object i : this.worldObj.playerEntities) {
+				if (((EntityPlayer)i).getCommandSenderName().equals(pname5)) {
+					int xpTotal = ((EntityPlayer)i).experienceTotal;
+					ToolXP.extractXP((EntityPlayer)i,5);
+					this.xp_point+=Math.min(5,xpTotal);
+					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
+							this.xCoord, this.yCoord, this.zCoord);
+					msg2.setInt(this.xp_point);
+					MineAndConquer.simpleChannel.sendToAll(msg2);
+					break;
+				}
+			}
+			break;
+		case 7:
+			String pname6 = data.getString();
+
+			for (Object i : this.worldObj.playerEntities) {
+				if (((EntityPlayer)i).getCommandSenderName().equals(pname6)) {
+					int xpTotal = ((EntityPlayer)i).experienceTotal;
+					ToolXP.extractXP((EntityPlayer)i,50);
+					this.xp_point+=Math.min(50,xpTotal);
+					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
+							this.xCoord, this.yCoord, this.zCoord);
+					msg2.setInt(this.xp_point);
+					MineAndConquer.simpleChannel.sendToAll(msg2);
+					break;
+				}
+			}
+			break;
+		case 8:
+			String pname7 = data.getString();
+
+			for (Object i : this.worldObj.playerEntities) {
+				if (((EntityPlayer)i).getCommandSenderName().equals(pname7)) {
+					int xpTotal = ((EntityPlayer)i).experienceTotal;
+					ToolXP.extractXP((EntityPlayer)i,xpTotal);
+					this.xp_point+=xpTotal;
+					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
+							this.xCoord, this.yCoord, this.zCoord);
+					msg2.setInt(this.xp_point);
+					MineAndConquer.simpleChannel.sendToAll(msg2);
+					break;
+				}
+			}
+			break;
+		case 9:
+			String pname8 = data.getString();
+
+			for (Object i : this.worldObj.playerEntities) {
+				if (((EntityPlayer)i).getCommandSenderName().equals(pname8)) {
+					int xpTotal = this.xp_point;
+					this.xp_point-=Math.min(5, xpTotal);
+					((EntityPlayer)i).addExperience(Math.min(5, xpTotal));
+					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
+							this.xCoord, this.yCoord, this.zCoord);
+					msg2.setInt(this.xp_point);
+					MineAndConquer.simpleChannel.sendToAll(msg2);
+					break;
+				}
+			}
+			break;
+		case 10:
+			String pname9 = data.getString();
+
+			for (Object i : this.worldObj.playerEntities) {
+				if (((EntityPlayer)i).getCommandSenderName().equals(pname9)) {
+					int xpTotal = this.xp_point;
+					this.xp_point-=Math.min(50, xpTotal);
+					((EntityPlayer)i).addExperience(Math.min(50, xpTotal));
+					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
+							this.xCoord, this.yCoord, this.zCoord);
+					msg2.setInt(this.xp_point);
+					MineAndConquer.simpleChannel.sendToAll(msg2);
+					break;
+				}
+			}
+			break;
+		case 11:
+			String pname10 = data.getString();
+
+			for (Object i : this.worldObj.playerEntities) {
+				if (((EntityPlayer)i).getCommandSenderName().equals(pname10)) {
+					int xpTotal = this.xp_point;
+					this.xp_point=0;
+					((EntityPlayer)i).addExperience(xpTotal);
+					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
+							this.xCoord, this.yCoord, this.zCoord);
+					msg2.setInt(this.xp_point);
+					MineAndConquer.simpleChannel.sendToAll(msg2);
+					break;
 				}
 			}
 			break;
@@ -283,11 +385,18 @@ public class TENexus extends TileEntity implements IInventory,
 			break;
 		case 2:
 			this.shop_diamondValue = data.getInt();
+			break;
+		case 3:
+			this.xp_level = data.getInt();
+			break;
+		case 4:
+			this.xp_point = data.getInt();
+			break;
 		}
 	}
 
-	public void readFromNBT(NBTTagCompound p_145839_1_) {
-		super.readFromNBT(p_145839_1_);
+	public void readFromNBT(NBTTagCompound tag) {
+		super.readFromNBT(tag);
 		/*
 		 * NBTTagList nbttaglist = p_145839_1_.getTagList("Items", 10);
 		 * this.inventory = new ItemStack[this.getSizeInventory()];
@@ -299,18 +408,20 @@ public class TENexus extends TileEntity implements IInventory,
 		 * if (b0 >= 0 && b0 < this.inventory.length) { this.inventory[b0] =
 		 * ItemStack .loadItemStackFromNBT(nbttagcompound1); } }
 		 */
-
-		this.team_name = p_145839_1_.getString("team");
-		this.shop_diamondValue = p_145839_1_.getInteger("shop_diamondValue");
-		NBTTagList nbttaglist = p_145839_1_.getTagList("members", 10);
+		this.team_name = tag.getString("team");
+		this.shop_diamondValue = tag.getInteger("shop_diamondValue");
+		this.xp_level = tag.getInteger("xp_level");
+		this.xp_point = tag.getInteger("xp_point");
+		
+		NBTTagList nbttaglist = tag.getTagList("members", 10);
 		for (int i = 0; i < nbttaglist.tagCount(); i++) {
 			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			team_members.add(nbttagcompound1.getString("member"));
 		}
 	}
 
-	public void writeToNBT(NBTTagCompound p_145841_1_) {
-		super.writeToNBT(p_145841_1_);
+	public void writeToNBT(NBTTagCompound tag) {
+		super.writeToNBT(tag);
 		/*
 		 * NBTTagList nbttaglist = new NBTTagList();
 		 * 
@@ -322,16 +433,19 @@ public class TENexus extends TileEntity implements IInventory,
 		 * p_145841_1_.setTag("Items", nbttaglist);
 		 */
 		if (!team_name.equals("")) {
-			p_145841_1_.setString("team", team_name);
+			tag.setString("team", team_name);
 		}
-		p_145841_1_.setInteger("shop_diamondValue", shop_diamondValue);
+		tag.setInteger("shop_diamondValue", shop_diamondValue);
+		tag.setInteger("xp_level", xp_level);
+		tag.setInteger("xp_point", xp_point);
+		
 		NBTTagList nbttaglist = new NBTTagList();
 		for (String i : team_members) {
 			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 			nbttagcompound1.setString("member", i);
 			nbttaglist.appendTag(nbttagcompound1);
 		}
-		p_145841_1_.setTag("members", nbttaglist);
+		tag.setTag("members", nbttaglist);
 	}
 
 }
