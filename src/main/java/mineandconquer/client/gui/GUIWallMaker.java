@@ -5,7 +5,6 @@ import mineandconquer.inventory.ContainerWallMaker;
 import mineandconquer.lib.References;
 import mineandconquer.network.SimpleNetMessageServer;
 import mineandconquer.tileentities.TEWallMaker;
-import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -48,7 +47,7 @@ public class GUIWallMaker extends GuiContainer {
 		super.keyTyped(par1, par2);
 		if (TextField_widthInput.isFocused()) {
 			TextField_widthInput.textboxKeyTyped(par1, par2);
-			SimpleNetMessageServer msg = new SimpleNetMessageServer(0,teWallMaker.xCoord,teWallMaker.yCoord,teWallMaker.zCoord);
+			SimpleNetMessageServer msg = new SimpleNetMessageServer(TEWallMaker.MSGTOSERVER.SYNC_WALL_WIDTH.getValue(),teWallMaker.xCoord,teWallMaker.yCoord,teWallMaker.zCoord);
 			if (TextField_widthInput.getText() != null) {
 				try { 
 				msg.setInt(Integer.parseInt(TextField_widthInput.getText()));
@@ -62,7 +61,7 @@ public class GUIWallMaker extends GuiContainer {
 		}
 		if (TextField_heightInput.isFocused()) {
 			TextField_heightInput.textboxKeyTyped(par1, par2);
-			SimpleNetMessageServer msg = new SimpleNetMessageServer(1,teWallMaker.xCoord,teWallMaker.yCoord,teWallMaker.zCoord);
+			SimpleNetMessageServer msg = new SimpleNetMessageServer(TEWallMaker.MSGTOSERVER.SYNC_WALL_HEIGHT.getValue(),teWallMaker.xCoord,teWallMaker.yCoord,teWallMaker.zCoord);
 			if (TextField_heightInput.getText() != null) {
 				try { 
 				msg.setInt(Integer.parseInt(TextField_heightInput.getText()));

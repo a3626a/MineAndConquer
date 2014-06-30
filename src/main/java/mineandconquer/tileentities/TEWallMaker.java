@@ -4,6 +4,8 @@ import mineandconquer.items.ModItems;
 import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.network.SimpleNetMessageServer;
 import mineandconquer.network.SimpleNetReceiver;
+import mineandconquer.tileentities.TENexus.MSGTOCLIENT;
+import mineandconquer.tileentities.TENexus.MSGTOSERVER;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,9 +30,54 @@ public class TEWallMaker extends TileEntity implements IInventory,
 
 	private ItemStack[] inventory;
 	private int INVENTORY_SIZE = 14;
+
 	// 0~11 : input
 	// 12 : fuel
 	// 13 : output
+
+	public enum MSGTOSERVER {
+		SYNC_WALL_HEIGHT(0), SYNC_WALL_WIDTH(1);
+		private int value;
+
+		private MSGTOSERVER(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return this.value;
+		}
+
+		public static MSGTOSERVER get(int value) {
+			for (MSGTOSERVER i : MSGTOSERVER.values()) {
+				if (i.value == value) {
+					return i;
+				}
+			}
+			return null;
+		}
+	};
+
+	public enum MSGTOCLIENT {
+		SYNC_WALL_HEIGHT(0), SYNC_WALL_WIDTH(1);
+		private int value;
+
+		private MSGTOCLIENT(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return this.value;
+		}
+
+		public static MSGTOCLIENT get(int value) {
+			for (MSGTOCLIENT i : MSGTOCLIENT.values()) {
+				if (i.value == value) {
+					return i;
+				}
+			}
+			return null;
+		}
+	};
 
 	public int wallWidth;
 	public int wallHeight;
@@ -279,9 +326,6 @@ public class TEWallMaker extends TileEntity implements IInventory,
 
 	public void updateEntity() {
 
-		boolean flag = this.furnaceBurnTime > 0;
-		boolean flag1 = false;
-
 		if (this.furnaceBurnTime > 0) {
 			--this.furnaceBurnTime;
 		}
@@ -292,7 +336,6 @@ public class TEWallMaker extends TileEntity implements IInventory,
 				this.currentItemBurnTime = this.furnaceBurnTime = getItemBurnTime(this.inventory[12]);
 
 				if (this.furnaceBurnTime > 0) {
-					flag1 = true;
 
 					if (this.inventory[12] != null) {
 						--this.inventory[12].stackSize;
@@ -333,7 +376,6 @@ public class TEWallMaker extends TileEntity implements IInventory,
 						}
 					}
 					this.smeltItem();
-					flag1 = true;
 				}
 			} else {
 				this.furnaceCookTime = 0;
@@ -488,11 +530,12 @@ public class TEWallMaker extends TileEntity implements IInventory,
 	@Override
 	public void onMessage(int index, SimpleNetMessageServer data) {
 		// TODO Auto-generated method stub
-		switch (index) {
-		case 0:
+		MSGTOSERVER i = MSGTOSERVER.get(data.getIndex());
+		switch (i) {
+		case SYNC_WALL_WIDTH:
 			this.wallWidth = data.getInt();
 			break;
-		case 1:
+		case SYNC_WALL_HEIGHT:
 			this.wallHeight = data.getInt();
 			break;
 		}
