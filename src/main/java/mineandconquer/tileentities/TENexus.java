@@ -38,7 +38,8 @@ public class TENexus extends TileEntity implements IInventory,
 		MOVEXP_TONEXUSMAX(8),
 		MOVEXP_TOPLAYER5(9),
 		MOVEXP_TOPLAYER50(10),
-		MOVEXP_TOPLAYERMAX(11)
+		MOVEXP_TOPLAYERMAX(11),
+		LEVELUP(12)
 		;
 		private int value;
 		private MSGTOSERVER(int value) {
@@ -451,12 +452,28 @@ public class TENexus extends TileEntity implements IInventory,
 					int xpTotal = this.xp_point;
 					int xpextracted = this.extractExperience(xpTotal);
 					((EntityPlayer)i).addExperience(xpextracted);
-					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(4,
+					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(MSGTOCLIENT.SYNC_XP_POINT.getValue(),
 							this.xCoord, this.yCoord, this.zCoord);
 					msg2.setInt(this.xp_point);
 					MineAndConquer.simpleChannel.sendToAll(msg2);
 					break;
 				}
+			}
+			break;
+		case LEVELUP:
+			if (this.xp_point == getExperienceCap()) {
+				this.xp_level+=1;
+				this.xp_point=0;
+				
+				SimpleNetMessageClient msg2 = new SimpleNetMessageClient(MSGTOCLIENT.SYNC_XP_POINT.getValue(),
+						this.xCoord, this.yCoord, this.zCoord);
+				msg2.setInt(this.xp_point);
+				MineAndConquer.simpleChannel.sendToAll(msg2);
+				
+				SimpleNetMessageClient msg4 = new SimpleNetMessageClient(MSGTOCLIENT.SYNC_XP_LEVEL.getValue(),
+						this.xCoord, this.yCoord, this.zCoord);
+				msg4.setInt(this.xp_level);
+				MineAndConquer.simpleChannel.sendToAll(msg4);
 			}
 			break;
 		}
