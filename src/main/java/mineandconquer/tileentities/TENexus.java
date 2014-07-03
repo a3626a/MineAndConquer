@@ -269,6 +269,7 @@ public class TENexus extends TileEntity implements IInventory,
 			MineAndConquer.simpleChannel.sendToAll(msg);
 		}
 		
+		//기능 2 : 아이템을 리필한다.
 		if (this.inventory[INVENTORY.shop_cow_output.ordinal()] == null) {
 			this.inventory[INVENTORY.shop_cow_output.ordinal()] = new ItemStack((Item)Item.itemRegistry.getObject("spawn_egg"), 1,92);
 		}
