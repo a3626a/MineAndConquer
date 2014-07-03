@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import mineandconquer.MineAndConquer;
 import mineandconquer.core.handler.ModEventHandler;
+import mineandconquer.entities.EntityNexusGuardian;
 import mineandconquer.lib.Strings;
 import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.network.SimpleNetMessageServer;
@@ -19,8 +20,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TENexus extends TileEntity implements IInventory,
 		SimpleNetReceiver {
@@ -84,9 +83,12 @@ public class TENexus extends TileEntity implements IInventory,
 	private ItemStack[] inventory;
 	private int INVENTORY_SIZE = 9 ;
 	
+	
+	private EntityNexusGuardian guardian_entity;
+
+
 	private String team_name;
 	private ArrayList<String> team_members;
-	
 	private int shop_diamondValue;
 	private int xp_level;
 	private int xp_point;
@@ -298,6 +300,8 @@ public class TENexus extends TileEntity implements IInventory,
 					this.xCoord, this.yCoord, this.zCoord);
 			msg.setString(team_name);
 			MineAndConquer.simpleChannel.sendToAll(msg);
+			
+			guardian_entity.setTeam_name(this.team_name);
 			
 			ChatComponentText msg3 = new ChatComponentText("The team " + "\"" + team_name + "\"" + " has been established!");
 			for (WorldServer i : MinecraftServer.getServer().worldServers) {
@@ -605,5 +609,13 @@ public class TENexus extends TileEntity implements IInventory,
 	public void setXp_point(int xp_point) {
 		this.xp_point = xp_point;
 	}
+	
+	public EntityNexusGuardian getGuardian_entity() {
+		return guardian_entity;
+	}
 
+	public void setGuardian_entity(EntityNexusGuardian guardian_entity) {
+		this.guardian_entity = guardian_entity;
+	}
+	
 }

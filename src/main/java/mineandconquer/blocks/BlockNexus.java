@@ -48,13 +48,13 @@ public class BlockNexus extends BlockContainer {
 			EntityLivingBase player, ItemStack p_149689_6_) {
 		// TODO Auto-generated method stub
 
-		((TENexus) world.getTileEntity(x, y, z)).addTeam_members(((EntityPlayer) player).getCommandSenderName());
-		
 		if (!world.isRemote) {
 			EntityNexusGuardian entity = new EntityNexusGuardian(world);
 			entity.setLocationAndAngles(x+0.5, y, z+0.5, 0.0F, 0.0F);
 			world.spawnEntityInWorld(entity);
-
+			
+			((TENexus) world.getTileEntity(x, y, z)).setGuardian_entity(entity);
+			((TENexus) world.getTileEntity(x, y, z)).addTeam_members(((EntityPlayer) player).getCommandSenderName());
 		}
 	}
 
