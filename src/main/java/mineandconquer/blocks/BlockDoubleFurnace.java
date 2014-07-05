@@ -3,9 +3,9 @@ package mineandconquer.blocks;
 import java.util.Random;
 
 import mineandconquer.MineAndConquer;
-import mineandconquer.creativetab.MaCTab;
 import mineandconquer.lib.References;
 import mineandconquer.lib.Strings;
+import mineandconquer.tileentities.TEDoubleFurnace;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

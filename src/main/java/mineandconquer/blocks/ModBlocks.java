@@ -1,6 +1,5 @@
 package mineandconquer.blocks;
 
-import modtut.blocks.BlockDoubleFurnace;
 import net.minecraft.block.Block;
 import cpw.mods.fml.common.registry.GameRegistry;
 
