@@ -96,7 +96,7 @@ public class BlockWallMaker extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		// TODO Auto-generated method stub
-		this.blockIcon = iconRegister.registerIcon(this.getUnlocalizedName());
+		this.blockIcon = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
 	}
 
 	@Override

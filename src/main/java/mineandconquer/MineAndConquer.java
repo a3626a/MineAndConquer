@@ -14,6 +14,7 @@ import mineandconquer.network.SimpleNetHandlerClient;
 import mineandconquer.network.SimpleNetHandlerServer;
 import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.network.SimpleNetMessageServer;
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
@@ -66,5 +67,7 @@ public class MineAndConquer {
 	@Mod.EventHandler
 	public static void postInit(FMLPostInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
+		
+		System.out.println("FOR TEST: " + Block.blockRegistry.getKeys());
 	}	
 }

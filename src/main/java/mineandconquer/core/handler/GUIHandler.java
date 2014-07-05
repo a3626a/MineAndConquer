@@ -50,7 +50,7 @@ public class GUIHandler implements IGuiHandler {
 			TENexus teNexus = (TENexus)world.getTileEntity(x, y, z);
 			return new ContainerNexus04(player.inventory, teNexus);
 		}
-		if(ID == Strings.DoubleFurnaceID) {
+		if(ID == Strings.GuiDoubleFurnaceID) {
 			TEDoubleFurnace gc = (TEDoubleFurnace) world.getTileEntity(x, y, z);
             return new ContainerDoubleFurnace(player.inventory, gc);
 		}
@@ -83,7 +83,7 @@ public class GUIHandler implements IGuiHandler {
 			TENexus teNexus = (TENexus)world.getTileEntity(x, y, z);
 			return new GUINexus04(player.inventory, teNexus);
 		}
-		if(ID == Strings.DoubleFurnaceID) {
+		if(ID == Strings.GuiDoubleFurnaceID) {
 			TEDoubleFurnace gc = (TEDoubleFurnace) world.getTileEntity(x, y, z);
             return new GUIDoubleFurnace(player.inventory, gc);
 		}

@@ -44,14 +44,9 @@ public class BlockDoubleFurnace extends BlockContainer
     {
         super(Material.rock);
         this.setCreativeTab(MineAndConquer.getCreativeTabs());
-        this.setBlockName(References.RESOURCESPREFIX+Strings.BlockDoubleFurnaceName);
-        GameRegistry.registerBlock(this, this.getUnlocalizedName());
-    }
-    
-    public String getUnwrappedUnlocalizedName(String unlocalizedName) {
-		return unlocalizedName.substring(unlocalizedName.indexOf(".")+1);
-	}
-    
+        this.setBlockName(References.RESOURCESPREFIX +Strings.BlockDoubleFurnaceName);
+        ModBlocks.register(this);
+    }    
     /**
      * Gets the block's texture. Args: side, meta
      */
@@ -70,22 +65,18 @@ public class BlockDoubleFurnace extends BlockContainer
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister p_149651_1_)
     {
-        this.blockIcon = p_149651_1_.registerIcon(gg()+"_side");
-        this.furnaceOff = p_149651_1_.registerIcon(gg()+"_front_off");
-        this.furnaceOn = p_149651_1_.registerIcon(gg()+"_front_on");
-        this.field_149935_N = p_149651_1_.registerIcon(gg()+"_top");
+        this.blockIcon = p_149651_1_.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(this.getUnlocalizedName())+"_side");
+        this.furnaceOff = p_149651_1_.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(this.getUnlocalizedName())+"_front_off");
+        this.furnaceOn = p_149651_1_.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(this.getUnlocalizedName())+"_front_on");
+        this.field_149935_N = p_149651_1_.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(this.getUnlocalizedName())+"_top");
     }
     
-    public String gg(){
-    	return getUnwrappedUnlocalizedName(super.getUnlocalizedName());
-    }
-
     /**
      * Called upon block activation (right click on the block.)
      */
     public boolean onBlockActivated(World p_149727_1_, int x, int y, int z, EntityPlayer p_149727_5_, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
     {
-    	p_149727_5_.openGui(MineAndConquer.instance, 2, p_149727_1_,x,y,z);
+    	p_149727_5_.openGui(MineAndConquer.instance, Strings.GuiDoubleFurnaceID, p_149727_1_,x,y,z);
     	return true;
     	
     }

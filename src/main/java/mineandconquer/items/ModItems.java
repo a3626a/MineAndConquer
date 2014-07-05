@@ -25,6 +25,5 @@ public class ModItems {
 		// TODO Auto-generated method stub
 		
 		GameRegistry.registerItem(item, getName(item.getUnlocalizedName()));
-		System.out.println(item.getUnlocalizedName());
 	}
 }
