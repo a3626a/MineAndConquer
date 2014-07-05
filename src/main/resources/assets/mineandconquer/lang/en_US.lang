@@ -1,8 +1,7 @@
 tile.mineandconquer:testBlock.name=Test Block
 tile.mineandconquer:wallMaker.name=Wall Maker
 tile.mineandconquer:nexus.name=Nexus
-
-
 item.mineandconquer:wallBuilder.name=Wall Builder
-
 entity.nexusGuardian.name=Nexus Guardian
+tile.mineandconquer:DoubleFurnace.name=Double Furnace
+itemGroup.mineandconquer=MineAndConquer Items

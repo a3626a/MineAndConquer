@@ -7,15 +7,14 @@ import mineandconquer.core.handler.ForgeEventHandler;
 import mineandconquer.core.handler.GUIHandler;
 import mineandconquer.core.proxy.ClientProxy;
 import mineandconquer.core.proxy.CommonProxy;
-import mineandconquer.entities.EntityNexusGuardian;
+import mineandconquer.creativetab.MaCTab;
 import mineandconquer.items.ModItems;
 import mineandconquer.lib.References;
 import mineandconquer.network.SimpleNetHandlerClient;
 import mineandconquer.network.SimpleNetHandlerServer;
 import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.network.SimpleNetMessageServer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityList;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -28,7 +27,12 @@ import cpw.mods.fml.relauncher.Side;
 @Mod(modid = References.MODID, name = References.MODNAME, version = References.VERSION)
 
 public class MineAndConquer {
-
+	private static CreativeTabs MaCTab = new MaCTab(CreativeTabs.getNextID(), References.MODID);
+	
+	public static CreativeTabs getCreativeTabs()
+	{
+		return MaCTab;
+	}
 	public static SimpleNetworkWrapper simpleChannel;
 	
 	public static HashMap<String, String> teamOfPlayer;
@@ -63,5 +67,4 @@ public class MineAndConquer {
 	public static void postInit(FMLPostInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
 	}	
-	
 }
