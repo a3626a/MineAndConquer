@@ -1,6 +1,7 @@
 package mineandconquer.tileentities;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 import mineandconquer.MineAndConquer;
 import mineandconquer.core.handler.ModEventHandler;
@@ -92,6 +93,8 @@ public class TENexus extends TileEntity implements IInventory,
 	private int shop_diamondValue;
 	private int xp_level;
 	private int xp_point;
+	private int revival_numOfStone;
+	private PriorityQueue revival_bannedPlayers;
 	
 	public TENexus() {
 		inventory = new ItemStack[INVENTORY_SIZE];
@@ -100,6 +103,7 @@ public class TENexus extends TileEntity implements IInventory,
 		shop_diamondValue = 0;
 		xp_level = 1;
 		xp_point = 0;
+		revival_numOfStone = getRevivalStoneCap();
 	}
 	
 	
@@ -238,10 +242,18 @@ public class TENexus extends TileEntity implements IInventory,
 	
 	/***
 	 * 
-	 * @return : 현재 경험치 용량
+	 * @return : 최대 경험치 용량
 	 */
 	public int getExperienceCap() {
 		return this.xp_level*100;
+	}
+	
+	/***
+	 * 
+	 * @return : 부활석을 가지고 있을 수 있는 최대 개수
+	 */
+	public int getRevivalStoneCap() {
+		return 1+this.xp_level;
 	}
 	
 	
@@ -528,6 +540,7 @@ public class TENexus extends TileEntity implements IInventory,
 		this.shop_diamondValue = tag.getInteger("shop_diamondValue");
 		this.xp_level = tag.getInteger("xp_level");
 		this.xp_point = tag.getInteger("xp_point");
+		this.revival_numOfStone = tag.getInteger("revival_numOfStone");
 		
 		NBTTagList nbttaglist = tag.getTagList("members", 10);
 		for (int i = 0; i < nbttaglist.tagCount(); i++) {
@@ -554,6 +567,7 @@ public class TENexus extends TileEntity implements IInventory,
 		tag.setInteger("shop_diamondValue", shop_diamondValue);
 		tag.setInteger("xp_level", xp_level);
 		tag.setInteger("xp_point", xp_point);
+		tag.setInteger("revival_numOfStone", revival_numOfStone);
 		
 		NBTTagList nbttaglist = new NBTTagList();
 		for (String i : team_members) {
@@ -616,6 +630,14 @@ public class TENexus extends TileEntity implements IInventory,
 
 	public void setGuardian_entity(EntityNexusGuardian guardian_entity) {
 		this.guardian_entity = guardian_entity;
+	}
+	
+	public int getRevival_numOfStone() {
+		return revival_numOfStone;
+	}
+
+	public void setRevival_numOfStone(int revival_numOfStone) {
+		this.revival_numOfStone = revival_numOfStone;
 	}
 	
 }
