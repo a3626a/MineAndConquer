@@ -20,6 +20,8 @@ public class ContainerNexus02 extends Container {
 	final int shop_chicken_value = 2;
 	final int shop_horse_value = 4;
 
+	private int lastShop_diamondValue;
+	
 	public ContainerNexus02(InventoryPlayer player, TENexus nexus) {
 		this.tile = nexus;
 		inventoryPlayer = player;

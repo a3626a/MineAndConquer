@@ -25,7 +25,10 @@ public class ContainerNexus01 extends Container {
 
 	public ContainerNexus01(InventoryPlayer player, TENexus nexus) {
 		this.tile = nexus;
-		inventoryPlayer = player;
+		this.inventoryPlayer = player;
+		
+		this.lastTeam_Name = new String();
+		this.lastTeam_Members = new ArrayList<String>();
 		bindPlayerInventory();
 	}
 
@@ -47,7 +50,7 @@ public class ContainerNexus01 extends Container {
 			msg2.setString(i);
 			MineAndConquer.simpleChannel.sendToAll(msg2);
 		}
-
+		
 	}
 
 	@Override
