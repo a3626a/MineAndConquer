@@ -19,6 +19,10 @@ public class ContainerNexus01 extends Container {
 
 	TENexus tile;
 	InventoryPlayer inventoryPlayer;
+
+	private String lastTeam_Name;
+	private ArrayList<String> lastTeam_Members;
+
 	public ContainerNexus01(InventoryPlayer player, TENexus nexus) {
 		this.tile = nexus;
 		inventoryPlayer = player;
@@ -30,48 +34,65 @@ public class ContainerNexus01 extends Container {
 		// TODO Auto-generated method stub
 		super.addCraftingToCrafters(par1iCrafting);
 
-		if (tile != null) {
-			if (tile.getTeam_name() != null) {
-				SimpleNetMessageClient msg = new SimpleNetMessageClient(TENexus.MSGTOCLIENT.SYNC_TEAM_NAME.getValue(),
-						tile.xCoord, tile.yCoord, tile.zCoord);
-				msg.setString(tile.getTeam_name());
-				MineAndConquer.simpleChannel.sendToAll(msg);
-			}
-			if (tile.getTeam_members() != null) {
-				for (String i : tile.getTeam_members()) {
-					SimpleNetMessageClient msg2 = new SimpleNetMessageClient(TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
-							tile.xCoord, tile.yCoord, tile.zCoord);
-					msg2.setString(i);
-					MineAndConquer.simpleChannel.sendToAll(msg2);
-				}
-			}
+		SimpleNetMessageClient msg = new SimpleNetMessageClient(
+				TENexus.MSGTOCLIENT.SYNC_TEAM_NAME.getValue(), tile.xCoord,
+				tile.yCoord, tile.zCoord);
+		msg.setString(tile.getTeam_name());
+		MineAndConquer.simpleChannel.sendToAll(msg);
+		
+		for (String i : tile.getTeam_members()) {
+			SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
+					TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
+					tile.xCoord, tile.yCoord, tile.zCoord);
+			msg2.setString(i);
+			MineAndConquer.simpleChannel.sendToAll(msg2);
 		}
 
 	}
-	
+
 	@Override
 	public void detectAndSendChanges() {
 		// TODO Auto-generated method stub
 		super.detectAndSendChanges();
+		
+		if (!this.lastTeam_Members.equals(this.tile.getTeam_members())) {
+			for (String i : tile.getTeam_members()) {
+				SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
+						TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
+						tile.xCoord, tile.yCoord, tile.zCoord);
+				msg2.setString(i);
+				MineAndConquer.simpleChannel.sendToAll(msg2);
+			}
+		}
+		
+		if (!this.lastTeam_Name.equals(this.tile.getTeam_name())) {
+			SimpleNetMessageClient msg = new SimpleNetMessageClient(
+					TENexus.MSGTOCLIENT.SYNC_TEAM_NAME.getValue(), tile.xCoord,
+					tile.yCoord, tile.zCoord);
+			msg.setString(tile.getTeam_name());
+			MineAndConquer.simpleChannel.sendToAll(msg);
+		}
+		
+		this.lastTeam_Members = this.tile.getTeam_members();
+		this.lastTeam_Name = this.tile.getTeam_name();
 	}
 
 	public void bindPlayerInventory() {
 		// TODO Auto-generated method stub
 		int id = 0;
-		
-		for (int i = 0; i < 3; ++i)
-        {
-            for (int j = 0; j < 9; ++j)
-            {
-                this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 26 + j * 18, 117 + i * 18));
-            }
-        }
 
-        for (int i = 0; i < 9; ++i)
-        {
-            this.addSlotToContainer(new Slot(inventoryPlayer, i, 26 + i * 18, 175));
-        }
-		
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 9; ++j) {
+				this.addSlotToContainer(new Slot(inventoryPlayer,
+						j + i * 9 + 9, 26 + j * 18, 117 + i * 18));
+			}
+		}
+
+		for (int i = 0; i < 9; ++i) {
+			this.addSlotToContainer(new Slot(inventoryPlayer, i, 26 + i * 18,
+					175));
+		}
+
 	}
 
 	@Override

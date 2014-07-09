@@ -87,6 +87,8 @@ public class TENexus extends TileEntity implements IInventory,
 	
 	private EntityNexusGuardian guardian_entity;
 
+    private boolean isActive;
+
 
 	private String team_name;
 	private ArrayList<String> team_members;
@@ -98,6 +100,7 @@ public class TENexus extends TileEntity implements IInventory,
 	
 	public TENexus() {
 		inventory = new ItemStack[INVENTORY_SIZE];
+		isActive = false;
 		team_members = new ArrayList();
 		team_name = "";
 		shop_diamondValue = 0;
@@ -308,10 +311,6 @@ public class TENexus extends TileEntity implements IInventory,
 		switch (MSGTOSERVER.get(index)) {
 		case SYNC_TEAM_NAME:
 			this.team_name = data.getString();
-			SimpleNetMessageClient msg = new SimpleNetMessageClient(MSGTOCLIENT.SYNC_TEAM_NAME.getValue(),
-					this.xCoord, this.yCoord, this.zCoord);
-			msg.setString(team_name);
-			MineAndConquer.simpleChannel.sendToAll(msg);
 			
 			guardian_entity.setTeam_name(this.team_name);
 			
@@ -331,11 +330,6 @@ public class TENexus extends TileEntity implements IInventory,
 				if (i instanceof EntityPlayer) {
 					if (((EntityPlayer)i).getCommandSenderName().equals(member)) {
 						team_members.add(member);
-						SimpleNetMessageClient msg2 = new SimpleNetMessageClient(MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
-								this.xCoord, this.yCoord, this.zCoord);
-						msg2.setString(member);
-						MineAndConquer.simpleChannel.sendToAll(msg2);
-						
 						ModEventHandler.onTeamMemberAdded(member, team_name);
 						break;
 					}
@@ -536,6 +530,7 @@ public class TENexus extends TileEntity implements IInventory,
 		 * if (b0 >= 0 && b0 < this.inventory.length) { this.inventory[b0] =
 		 * ItemStack .loadItemStackFromNBT(nbttagcompound1); } }
 		 */
+		this.isActive = tag.getBoolean("isActive");
 		this.team_name = tag.getString("team");
 		this.shop_diamondValue = tag.getInteger("shop_diamondValue");
 		this.xp_level = tag.getInteger("xp_level");
@@ -561,6 +556,7 @@ public class TENexus extends TileEntity implements IInventory,
 		 * nbttaglist.appendTag(nbttagcompound1); } }
 		 * p_145841_1_.setTag("Items", nbttaglist);
 		 */
+		tag.setBoolean("isActive", this.isActive);
 		if (!team_name.equals("")) {
 			tag.setString("team", team_name);
 		}
@@ -638,6 +634,14 @@ public class TENexus extends TileEntity implements IInventory,
 
 	public void setRevival_numOfStone(int revival_numOfStone) {
 		this.revival_numOfStone = revival_numOfStone;
+	}
+	
+	public boolean isActive() {
+		return isActive;
+	}
+	
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 	
 }

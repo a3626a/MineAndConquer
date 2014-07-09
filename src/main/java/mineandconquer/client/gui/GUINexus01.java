@@ -22,8 +22,6 @@ public class GUINexus01 extends GuiContainer {
 					+ "textures/gui/guinexus_teamConfiguration.png");
 	private InventoryPlayer player;
 	private GuiTextField TextField_input;
-	private String team;
-	private ArrayList<String> members;
 
 	public GUINexus01(InventoryPlayer player, TENexus nexus) {
 		super(new ContainerNexus01(player, nexus));
@@ -31,8 +29,6 @@ public class GUINexus01 extends GuiContainer {
 		ySize = 214;
 		this.teNexus = nexus;
 		this.player = player;
-		this.members = (ArrayList<String>) teNexus.getTeam_members().clone();
-		this.team = teNexus.getTeam_name();
 	}
 
 	@Override
@@ -41,7 +37,8 @@ public class GUINexus01 extends GuiContainer {
 		super.actionPerformed(p_146284_1_);
 		switch (p_146284_1_.id) {
 		case 0:
-			if (team.equals("") && TextField_input.getText() != "") {
+			if (!this.teNexus.isActive() && TextField_input.getText() != "") {
+				String team;
 				team = TextField_input.getText();
 				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.SYNC_TEAM_NAME.getValue(),
 						this.teNexus.xCoord, this.teNexus.yCoord,
@@ -71,30 +68,20 @@ public class GUINexus01 extends GuiContainer {
 		super.initGui();
 		int zeroX = (this.width - xSize) / 2;
 		int zeroY = (this.height - ySize - 30) / 2;
-		if (this.team.equals("")) {
-			buttonList.add(new GuiButton(0, zeroX + 131, zeroY + 17, 57, 20,
-					"team"));
-		} else {
-			buttonList.add(new GuiButton(0, zeroX + 131, zeroY + 17, 57, 20,
-					"add"));
-		}
-
+		buttonList.add(new GuiButton(0, zeroX + 131, zeroY + 17, 57, 20,
+					"Name"));
+		buttonList.add(new GuiButton(1, zeroX + 131, zeroY + 35, 57, 20,
+					"Add"));
+		buttonList.add(new GuiButton(2, zeroX + 131, zeroY + 53, 57, 20,
+				"Delete"));
+		buttonList.add(new GuiButton(2, zeroX + 131, zeroY + 71, 57, 20,
+				"Establish"));
+		
+		
 		TextField_input = new GuiTextField(fontRendererObj, zeroX + 26, zeroY + 116, 160,
 				10);
 		TextField_input.setFocused(false);
 		TextField_input.setMaxStringLength(20);
-	}
-
-	@Override
-	public void updateScreen() {
-		// TODO Auto-generated method stub
-		super.updateScreen();
-		if (!this.members.equals(teNexus.getTeam_members())) {
-			this.members = (ArrayList<String>) teNexus.getTeam_members().clone();
-		}
-		if (!this.team.equals(teNexus.getTeam_name())) {
-			this.team = teNexus.getTeam_name();
-		}
 	}
 
 	@Override
@@ -176,21 +163,21 @@ public class GUINexus01 extends GuiContainer {
 		drawTexturedModalRect(zeroX, zeroY, 0, 0, xSize, ySize);
 
 		TextField_input.drawTextBox();
-		for (int i = 0; i < members.size(); i++) {
+		for (int i = 0; i < this.teNexus.getTeam_members().size(); i++) {
 			fontRendererObj.FONT_HEIGHT = 10;
-			fontRendererObj.drawString(members.get(i), zeroX + 27, zeroY + 16
+			fontRendererObj.drawString(this.teNexus.getTeam_members().get(i), zeroX + 27, zeroY + 16
 					+ 12 * i, 0);
 		}
 
-		if (!team.equals("")) {
-			fontRendererObj.drawString(this.team, zeroX + 25, zeroY + 5, 0);
+		if (!this.teNexus.getTeam_name().equals("")) {
+			fontRendererObj.drawString(this.teNexus.getTeam_name(), zeroX + 25, zeroY + 5, 0);
 		}
 
-		if (team.equals("")) {
+		if (this.teNexus.getTeam_name().equals("")) {
 			fontRendererObj.FONT_HEIGHT = 10;
 			fontRendererObj.drawString(
-					"Enter your team name and press \"team\" button",
-					zeroX + 19, zeroY + 215, ((1 << 8) - 1) << 16);
+					"Enter your team name and press \"Name\" button",
+					zeroX + 19, zeroY + 215, 255 << 16);
 		}
 
 	}
