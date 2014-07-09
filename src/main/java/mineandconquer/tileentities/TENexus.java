@@ -280,10 +280,6 @@ public class TENexus extends TileEntity implements IInventory,
 			}
 			this.shop_diamondValue+=1;
 			
-			SimpleNetMessageClient msg = new SimpleNetMessageClient(MSGTOCLIENT.SYNC_SHOP_DIAMOND.getValue(),
-					this.xCoord, this.yCoord, this.zCoord);
-			msg.setInt(this.shop_diamondValue);
-			MineAndConquer.simpleChannel.sendToAll(msg);
 		}
 		
 		//기능 2 : 아이템을 리필한다.

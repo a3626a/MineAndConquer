@@ -21,7 +21,7 @@ public class ContainerNexus02 extends Container {
 	final int shop_horse_value = 4;
 
 	private int lastShop_diamondValue;
-	
+
 	public ContainerNexus02(InventoryPlayer player, TENexus nexus) {
 		this.tile = nexus;
 		inventoryPlayer = player;
@@ -87,12 +87,11 @@ public class ContainerNexus02 extends Container {
 		// TODO Auto-generated method stub
 		super.addCraftingToCrafters(par1iCrafting);
 
-		if (tile != null) {
-			SimpleNetMessageClient msg = new SimpleNetMessageClient(TENexus.MSGTOCLIENT.SYNC_SHOP_DIAMOND.getValue(),
-					tile.xCoord, tile.yCoord, tile.zCoord);
-			msg.setInt(tile.getShop_diamondValue());
-			MineAndConquer.simpleChannel.sendToAll(msg);
-		}
+		SimpleNetMessageClient msg = new SimpleNetMessageClient(
+				TENexus.MSGTOCLIENT.SYNC_SHOP_DIAMOND.getValue(), tile.xCoord,
+				tile.yCoord, tile.zCoord);
+		msg.setInt(tile.getShop_diamondValue());
+		MineAndConquer.simpleChannel.sendToAll(msg);
 
 	}
 
@@ -100,6 +99,16 @@ public class ContainerNexus02 extends Container {
 	public void detectAndSendChanges() {
 		// TODO Auto-generated method stub
 		super.detectAndSendChanges();
+		
+		if (this.lastShop_diamondValue != this.tile.getShop_diamondValue()) {
+			SimpleNetMessageClient msg = new SimpleNetMessageClient(
+					TENexus.MSGTOCLIENT.SYNC_SHOP_DIAMOND.getValue(), tile.xCoord,
+					tile.yCoord, tile.zCoord);
+			msg.setInt(tile.getShop_diamondValue());
+			MineAndConquer.simpleChannel.sendToAll(msg);
+		}
+		
+		this.lastShop_diamondValue = this.tile.getShop_diamondValue();
 	}
 
 	public void bindPlayerInventory() {
