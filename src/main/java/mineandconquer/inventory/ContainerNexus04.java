@@ -14,6 +14,9 @@ public class ContainerNexus04 extends Container {
 
 	TENexus tile;
 	InventoryPlayer inventoryPlayer;
+
+	private int lastXp_Level;
+	private int lastXp_point;
 	
 	public ContainerNexus04(InventoryPlayer player, TENexus nexus) {
 		this.tile = nexus;
@@ -25,25 +28,44 @@ public class ContainerNexus04 extends Container {
 	public void addCraftingToCrafters(ICrafting par1iCrafting) {
 		// TODO Auto-generated method stub
 		super.addCraftingToCrafters(par1iCrafting);
-		if (tile != null) {
-			SimpleNetMessageClient msg = new SimpleNetMessageClient(TENexus.MSGTOCLIENT.SYNC_XP_LEVEL.getValue(),
-					tile.xCoord, tile.yCoord, tile.zCoord);
-			msg.setInt(tile.getXp_level());
-			MineAndConquer.simpleChannel.sendToAll(msg);
-			
-			SimpleNetMessageClient msg2 = new SimpleNetMessageClient(TENexus.MSGTOCLIENT.SYNC_XP_POINT.getValue(),
-					tile.xCoord, tile.yCoord, tile.zCoord);
-			msg2.setInt(tile.getXp_point());
-			MineAndConquer.simpleChannel.sendToAll(msg2);
-		}
+		SimpleNetMessageClient msg = new SimpleNetMessageClient(
+				TENexus.MSGTOCLIENT.SYNC_XP_LEVEL.getValue(), tile.xCoord,
+				tile.yCoord, tile.zCoord);
+		msg.setInt(tile.getXp_level());
+		MineAndConquer.simpleChannel.sendToAll(msg);
+
+		SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
+				TENexus.MSGTOCLIENT.SYNC_XP_POINT.getValue(), tile.xCoord,
+				tile.yCoord, tile.zCoord);
+		msg2.setInt(tile.getXp_point());
+		MineAndConquer.simpleChannel.sendToAll(msg2);
+
 	}
 
 	@Override
 	public void detectAndSendChanges() {
 		// TODO Auto-generated method stub
 		super.detectAndSendChanges();
+		if (this.lastXp_Level != this.tile.getXp_level()) {
+			SimpleNetMessageClient msg = new SimpleNetMessageClient(
+					TENexus.MSGTOCLIENT.SYNC_XP_LEVEL.getValue(), tile.xCoord,
+					tile.yCoord, tile.zCoord);
+			msg.setInt(tile.getXp_level());
+			MineAndConquer.simpleChannel.sendToAll(msg);
+		}
+		
+		if (this.lastXp_point != this.tile.getXp_point()) {
+			SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
+					TENexus.MSGTOCLIENT.SYNC_XP_POINT.getValue(), tile.xCoord,
+					tile.yCoord, tile.zCoord);
+			msg2.setInt(tile.getXp_point());
+			MineAndConquer.simpleChannel.sendToAll(msg2);
+		}
+		
+		this.lastXp_Level = this.tile.getXp_level();
+		this.lastXp_point = this.tile.getXp_point();
 	}
-	
+
 	public void bindPlayerInventory() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < 3; ++i) {
