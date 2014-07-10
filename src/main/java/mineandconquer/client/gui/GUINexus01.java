@@ -33,26 +33,23 @@ public class GUINexus01 extends GuiContainer {
 
 	@Override
 	protected void actionPerformed(GuiButton but) {
-		// TODO Auto-generated method stub
 		super.actionPerformed(but);
 		// 앞서 말했듯이, id값에 따라 버튼을 구분한다. 파라미터로 주어진 but.id를 하면 해당 버튼의 id를 알 수 있다.
 		switch (but.id) {
 		case 0:
-			if (!this.teNexus.isActive() && TextField_input.getText() != "") {
+			if (!this.teNexus.isActive() && !TextField_input.getText().isEmpty()) {
 				String team = TextField_input.getText();
-				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.SYNC_TEAM_NAME.getValue(),
+				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.SET_TEAM_NAME.getValue(),
 						this.teNexus.xCoord, this.teNexus.yCoord,
 						this.teNexus.zCoord);
 				msg.setString(team);
-				int zeroX = (this.width - xSize) / 2;
-				int zeroY = (this.height - ySize - 30) / 2;
 				MineAndConquer.simpleChannel.sendToServer(msg);
 			}
 		    break;
 		case 1:
-			if (!this.teNexus.isActive() && TextField_input.getText() != "") {
+			if (!this.teNexus.isActive() && !TextField_input.getText().isEmpty()) {
 				String member = TextField_input.getText();
-				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.SYNC_TEAM_MEMBERS.getValue(),
+				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.ADD_TEAM_MEMBERS.getValue(),
 						this.teNexus.xCoord, this.teNexus.yCoord,
 						this.teNexus.zCoord);
 				msg.setString(member);
@@ -60,8 +57,22 @@ public class GUINexus01 extends GuiContainer {
 			}
 			break;
 		case 2:
+			if (!this.teNexus.isActive() && !TextField_input.getText().isEmpty()) {
+				String member = TextField_input.getText();
+				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.DEL_TEAM_MEMBERS.getValue(),
+						this.teNexus.xCoord, this.teNexus.yCoord,
+						this.teNexus.zCoord);
+				msg.setString(member);
+				MineAndConquer.simpleChannel.sendToServer(msg);
+			}
 			break;
 		case 3:
+			if (!this.teNexus.isActive() && !TextField_input.getText().isEmpty()) {
+				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.EST_TEAM.getValue(),
+						this.teNexus.xCoord, this.teNexus.yCoord,
+						this.teNexus.zCoord);
+				MineAndConquer.simpleChannel.sendToServer(msg);
+			}
 			break;
 		}
 
@@ -69,7 +80,6 @@ public class GUINexus01 extends GuiContainer {
 
 	@Override
 	public void initGui() {
-		// TODO Auto-generated method stub
 		super.initGui();
 		int zeroX = (this.width - xSize) / 2;
 		int zeroY = (this.height - ySize - 30) / 2;
@@ -79,7 +89,7 @@ public class GUINexus01 extends GuiContainer {
 					"Add"));
 		buttonList.add(new GuiButton(2, zeroX + 131, zeroY + 53, 57, 20,
 				"Delete"));
-		buttonList.add(new GuiButton(2, zeroX + 131, zeroY + 71, 57, 20,
+		buttonList.add(new GuiButton(3, zeroX + 131, zeroY + 71, 57, 20,
 				"Establish"));
 		// 버튼을 추가한다. 각 파라미터는 앞에서 부터 '버튼 id', '버튼이 놓일 x좌표', '버튼이 놓일 y좌표', '버튼의 좌우크기', '버튼의 상하크기', '버튼에 씌여질 글자'를 전달한다.
 		// 이때 버튼 id는 버튼을 눌렸을 때, 어느 버튼이 눌렸는지 구분하기위한 지표이다.
@@ -93,7 +103,6 @@ public class GUINexus01 extends GuiContainer {
 
 	@Override
 	protected void keyTyped(char par1, int par2) {
-		// TODO Auto-generated method stub
 		// super.keyTyped(par1, par2);
 		if (TextField_input.isFocused()) {
 			TextField_input.textboxKeyTyped(par1, par2);
@@ -107,7 +116,6 @@ public class GUINexus01 extends GuiContainer {
 	 */
 	@Override
 	protected void mouseClicked(int x, int y, int state) {
-		// TODO Auto-generated method stub
 		super.mouseClicked(x, y, state);
 		int zeroX = (this.width - xSize) / 2;
 		int zeroY = (this.height - ySize - 30) / 2;
@@ -156,14 +164,12 @@ public class GUINexus01 extends GuiContainer {
 
 	@Override
 	public boolean doesGuiPauseGame() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float var1, int var2,
 			int var3) {
-		// TODO Auto-generated method stub
 		int zeroX = (this.width - xSize) / 2;
 		int zeroY = (this.height - ySize - 30) / 2;
 		this.mc.getTextureManager().bindTexture(backgroundimage);
@@ -176,11 +182,11 @@ public class GUINexus01 extends GuiContainer {
 					+ 12 * i, 0);
 		}
 
-		if (!this.teNexus.getTeam_name().equals("")) {
+		if (!this.teNexus.getTeam_name().isEmpty()) {
 			fontRendererObj.drawString(this.teNexus.getTeam_name(), zeroX + 25, zeroY + 5, 0);
 		}
 
-		if (this.teNexus.getTeam_name().equals("")) {
+		if (this.teNexus.getTeam_name().isEmpty()) {
 			fontRendererObj.FONT_HEIGHT = 10;
 			fontRendererObj.drawString(
 					"Enter your team name and press \"Name\" button",

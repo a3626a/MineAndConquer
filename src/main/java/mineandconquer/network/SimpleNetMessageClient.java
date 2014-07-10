@@ -45,6 +45,15 @@ public class SimpleNetMessageClient implements IMessage{
 		return data.getInt(16);
 	}
 	
+	public void setBoolean(boolean value) {
+		data.setBoolean(16, value);
+	}
+	
+	public boolean getBoolean() {
+		// TODO Auto-generated method stub
+		return data.getBoolean(16);
+	}
+	
 	public void setString(String value) {
 		char[] temp = ((String) value).toCharArray();
 		data.setInt(16, (Integer) temp.length);
@@ -74,4 +83,5 @@ public class SimpleNetMessageClient implements IMessage{
 	public int getZ() {
 		return data.getInt(12);
 	}
+
 }

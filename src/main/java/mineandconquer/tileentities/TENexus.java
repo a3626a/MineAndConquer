@@ -27,8 +27,10 @@ public class TENexus extends TileEntity implements IInventory,
 
 	public enum INVENTORY {shop_diamond_input, shop_cow_output, shop_sheep_output, shop_pig_output,shop_chicken_output ,shop_horse_output}
 	public enum MSGTOSERVER {
-		SYNC_TEAM_NAME(0),
-		SYNC_TEAM_MEMBERS(1),
+		SET_TEAM_NAME(0),
+		ADD_TEAM_MEMBERS(13),
+		DEL_TEAM_MEMBERS(14),
+		EST_TEAM(15),
 		OPENGUI_NEXUS01(2),
 		OPENGUI_NEXUS02(3),
 		OPENGUI_NEXUS03(4),
@@ -58,8 +60,10 @@ public class TENexus extends TileEntity implements IInventory,
 		}
 	};
 	public enum MSGTOCLIENT {
+		SYNC_IS_ACTIVE(5),
 		SYNC_TEAM_NAME(0),
-		SYNC_TEAM_MEMBERS(1),
+		SYNC_TEAM_MEMBERS_ADDED(1),
+		SYNC_TEAM_MEMBERS_DELETED(6),
 	    SYNC_SHOP_DIAMOND(2),
 		SYNC_XP_LEVEL(3),
 		SYNC_XP_POINT(4)
@@ -113,13 +117,11 @@ public class TENexus extends TileEntity implements IInventory,
 	
 	@Override
 	public int getSizeInventory() {
-		// TODO Auto-generated method stub
 		return INVENTORY_SIZE;
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int var1) {
-		// TODO Auto-generated method stub
 		return inventory[var1];
 	}
 
@@ -213,7 +215,6 @@ public class TENexus extends TileEntity implements IInventory,
 
 	@Override
 	public boolean isItemValidForSlot(int var1, ItemStack var2) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -262,7 +263,6 @@ public class TENexus extends TileEntity implements IInventory,
 	
 	@Override
 	public void updateEntity() {
-		// TODO Auto-generated method stub
 		if (!this.worldObj.isRemote) {
 			updateShop();
 		}
@@ -302,12 +302,12 @@ public class TENexus extends TileEntity implements IInventory,
 	
 	@Override
 	public void onMessage(int index, SimpleNetMessageServer data) {
-		// TODO Auto-generated method stub
 		
 		switch (MSGTOSERVER.get(index)) {
-		case SYNC_TEAM_NAME:
+		case SET_TEAM_NAME:
 			this.team_name = data.getString();
 			
+			/*
 			guardian_entity.setTeam_name(this.team_name);
 			
 			ChatComponentText msg3 = new ChatComponentText("The team " + "\"" + team_name + "\"" + " has been established!");
@@ -319,18 +319,28 @@ public class TENexus extends TileEntity implements IInventory,
 				}
 			}
 			ModEventHandler.onTeamMemberAdded(team_members.get(0), team_name);
+			*/
 			break;
-		case SYNC_TEAM_MEMBERS:
+		case ADD_TEAM_MEMBERS:
 			String member = data.getString();
-			for (Object i : MinecraftServer.getServer().worldServers[0].playerEntities) {
-				if (i instanceof EntityPlayer) {
-					if (((EntityPlayer)i).getCommandSenderName().equals(member)) {
-						team_members.add(member);
-						ModEventHandler.onTeamMemberAdded(member, team_name);
-						break;
+			if (!this.team_members.contains(member)) {
+				for (Object i : MinecraftServer.getServer().worldServers[0].playerEntities) {
+					if (i instanceof EntityPlayer) {
+						if (((EntityPlayer)i).getCommandSenderName().equals(member)) {
+							team_members.add(member);
+							//ModEventHandler.onTeamMemberAdded(member, team_name);
+							break;
+						}
 					}
 				}
 			}
+			break;
+		case DEL_TEAM_MEMBERS:
+			String delMember = data.getString();
+			this.team_members.remove(delMember);
+			System.out.println(this.team_members.toString());
+			break;
+		case EST_TEAM:
 			break;
 		case OPENGUI_NEXUS01:
 			String pname1 = data.getString();
@@ -453,15 +463,15 @@ public class TENexus extends TileEntity implements IInventory,
 
 	@Override
 	public void onMessage(int index, SimpleNetMessageClient data) {
-		// TODO Auto-generated method stub
 		switch (MSGTOCLIENT.get(index)) {
 		case SYNC_TEAM_NAME:
 			this.team_name = data.getString();
 			break;
-		case SYNC_TEAM_MEMBERS:
-			if (!this.team_members.contains(data.getString())) {
-				this.team_members.add(data.getString());
-			}
+		case SYNC_TEAM_MEMBERS_ADDED:
+			this.team_members.add(data.getString());
+			break;
+		case SYNC_TEAM_MEMBERS_DELETED:
+			this.team_members.remove(data.getString());
 			break;
 		case SYNC_SHOP_DIAMOND:
 			this.shop_diamondValue = data.getInt();
@@ -471,6 +481,9 @@ public class TENexus extends TileEntity implements IInventory,
 			break;
 		case SYNC_XP_POINT:
 			this.xp_point = data.getInt();
+			break;
+		case SYNC_IS_ACTIVE:
+			this.isActive = data.getBoolean();
 			break;
 		}
 	}
