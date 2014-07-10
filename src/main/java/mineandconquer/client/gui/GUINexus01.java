@@ -39,8 +39,7 @@ public class GUINexus01 extends GuiContainer {
 		switch (but.id) {
 		case 0:
 			if (!this.teNexus.isActive() && TextField_input.getText() != "") {
-				String team;
-				team = TextField_input.getText();
+				String team = TextField_input.getText();
 				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.SYNC_TEAM_NAME.getValue(),
 						this.teNexus.xCoord, this.teNexus.yCoord,
 						this.teNexus.zCoord);
@@ -48,9 +47,10 @@ public class GUINexus01 extends GuiContainer {
 				int zeroX = (this.width - xSize) / 2;
 				int zeroY = (this.height - ySize - 30) / 2;
 				MineAndConquer.simpleChannel.sendToServer(msg);
-				buttonList.set(0, new GuiButton(0, zeroX + 131, zeroY + 17, 57, 20,
-					"add"));
-			} else {
+			}
+		    break;
+		case 1:
+			if (!this.teNexus.isActive() && TextField_input.getText() != "") {
 				String member = TextField_input.getText();
 				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.SYNC_TEAM_MEMBERS.getValue(),
 						this.teNexus.xCoord, this.teNexus.yCoord,
@@ -58,6 +58,10 @@ public class GUINexus01 extends GuiContainer {
 				msg.setString(member);
 				MineAndConquer.simpleChannel.sendToServer(msg);
 			}
+			break;
+		case 2:
+			break;
+		case 3:
 			break;
 		}
 
