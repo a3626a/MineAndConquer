@@ -32,10 +32,11 @@ public class GUINexus01 extends GuiContainer {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton p_146284_1_) {
+	protected void actionPerformed(GuiButton but) {
 		// TODO Auto-generated method stub
-		super.actionPerformed(p_146284_1_);
-		switch (p_146284_1_.id) {
+		super.actionPerformed(but);
+		// 앞서 말했듯이, id값에 따라 버튼을 구분한다. 파라미터로 주어진 but.id를 하면 해당 버튼의 id를 알 수 있다.
+		switch (but.id) {
 		case 0:
 			if (!this.teNexus.isActive() && TextField_input.getText() != "") {
 				String team;
@@ -76,7 +77,9 @@ public class GUINexus01 extends GuiContainer {
 				"Delete"));
 		buttonList.add(new GuiButton(2, zeroX + 131, zeroY + 71, 57, 20,
 				"Establish"));
-		
+		// 버튼을 추가한다. 각 파라미터는 앞에서 부터 '버튼 id', '버튼이 놓일 x좌표', '버튼이 놓일 y좌표', '버튼의 좌우크기', '버튼의 상하크기', '버튼에 씌여질 글자'를 전달한다.
+		// 이때 버튼 id는 버튼을 눌렸을 때, 어느 버튼이 눌렸는지 구분하기위한 지표이다.
+		// actionPerformed 메소드에서 버튼이 눌렸을 때 무엇을 할지 결정한다.
 		
 		TextField_input = new GuiTextField(fontRendererObj, zeroX + 26, zeroY + 116, 160,
 				10);
