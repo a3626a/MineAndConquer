@@ -8,6 +8,7 @@ public class ModBlocks {
 	public static Block blockWallMaker;
 	public static Block blockNexus;
 	public static Block DoubleFurnace;
+	public static Block blockGrinder;
 	
 	public static void init()
 	{
@@ -15,6 +16,7 @@ public class ModBlocks {
 		blockWallMaker = new BlockWallMaker();
 		blockNexus = new BlockNexus();
 		DoubleFurnace = new BlockDoubleFurnace();
+		blockGrinder = new BlockGrinder();
 	}
 
 	public static String getName(String unlocalizedName)

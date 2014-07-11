@@ -7,6 +7,7 @@ public class Strings {
 	public static final String BlockWallMakerName = "wallMaker";
 	public static final String BlockNexusName = "nexus";
 	public static final String BlockDoubleFurnaceName = "doubleFurnace";
+	public static final String BlockGrinderName = "Griner";
 
 	public static final String ItemWallBuilderName = "wallBuilder";
 	
