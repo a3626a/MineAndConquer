@@ -18,12 +18,25 @@ public class TEGrinder extends TileEntity implements IInventory
      */
     private ItemStack[] inventory;
     private int INVENTORY_SIZE = 7;
+    public int grindTime;
+    
  
     //Initializes our inventory.
     public TEGrinder()
     {
         //Initializes our inventory (ItemStack array)
         inventory = new ItemStack[INVENTORY_SIZE];
+    }
+    
+    public boolean isGrinding(){
+    	return this.grindTime > 0;
+    }
+    
+    public void updateEntity(){
+    	if(this.grindTime>0){
+    		this.grindTime--;
+    	}
+    	
     }
  
     //Returns the size of the inventory (aka number of slots, see INVENTORY_SIZE)

@@ -3,6 +3,7 @@ package mineandconquer;
 import java.util.HashMap;
 
 import mineandconquer.blocks.ModBlocks;
+import mineandconquer.core.handler.CraftingHandler;
 import mineandconquer.core.handler.ForgeEventHandler;
 import mineandconquer.core.handler.GUIHandler;
 import mineandconquer.core.proxy.ClientProxy;
@@ -51,6 +52,7 @@ public class MineAndConquer {
 		teamOfPlayer = new HashMap();
 		ModBlocks.init();
 		ModItems.init();
+		CraftingHandler.init();
 		proxy.registerTileEntities();
 		proxy.registerEntities();
 		if (proxy instanceof ClientProxy) {

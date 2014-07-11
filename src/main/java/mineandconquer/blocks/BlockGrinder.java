@@ -103,8 +103,6 @@ public class BlockGrinder extends BlockContainer{
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
 		return side == 0? this.icons[0] : (side == 1? this.icons[1] : (side == (meta&3)+2? this.icons[2]:this.icons[3]));
-		//if(side<=5) return icons[side];
-		//else return icons[0];
 	}
 
 	
