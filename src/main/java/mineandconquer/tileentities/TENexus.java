@@ -25,31 +25,26 @@ import net.minecraft.world.WorldServer;
 public class TENexus extends TileEntity implements IInventory,
 		SimpleNetReceiver {
 
-	public enum INVENTORY {shop_diamond_input, shop_cow_output, shop_sheep_output, shop_pig_output,shop_chicken_output ,shop_horse_output}
+	public enum INVENTORY {
+		shop_diamond_input, shop_cow_output, shop_sheep_output, shop_pig_output, shop_chicken_output, shop_horse_output
+	}
+
 	public enum MSGTOSERVER {
-		SET_TEAM_NAME(0),
-		ADD_TEAM_MEMBERS(13),
-		DEL_TEAM_MEMBERS(14),
-		EST_TEAM(15),
-		OPENGUI_NEXUS01(2),
-		OPENGUI_NEXUS02(3),
-		OPENGUI_NEXUS03(4),
-		OPENGUI_NEXUS04(5),
-		MOVEXP_TONEXUS5(6),
-		MOVEXP_TONEXUS50(7),
-		MOVEXP_TONEXUSMAX(8),
-		MOVEXP_TOPLAYER5(9),
-		MOVEXP_TOPLAYER50(10),
-		MOVEXP_TOPLAYERMAX(11),
-		LEVELUP(12)
-		;
+		SET_TEAM_NAME(0), ADD_TEAM_MEMBERS(13), DEL_TEAM_MEMBERS(14), EST_TEAM(
+				15), OPENGUI_NEXUS01(2), OPENGUI_NEXUS02(3), OPENGUI_NEXUS03(4), OPENGUI_NEXUS04(
+				5), MOVEXP_TONEXUS5(6), MOVEXP_TONEXUS50(7), MOVEXP_TONEXUSMAX(
+				8), MOVEXP_TOPLAYER5(9), MOVEXP_TOPLAYER50(10), MOVEXP_TOPLAYERMAX(
+				11), LEVELUP(12);
 		private int value;
+
 		private MSGTOSERVER(int value) {
 			this.value = value;
 		}
+
 		public int getValue() {
 			return this.value;
 		}
+
 		public static MSGTOSERVER get(int value) {
 			for (MSGTOSERVER i : MSGTOSERVER.values()) {
 				if (i.value == value) {
@@ -59,21 +54,20 @@ public class TENexus extends TileEntity implements IInventory,
 			return null;
 		}
 	};
+
 	public enum MSGTOCLIENT {
-		SYNC_IS_ACTIVE(5),
-		SYNC_TEAM_NAME(0),
-		SYNC_TEAM_MEMBERS(1),
-	    SYNC_SHOP_DIAMOND(2),
-		SYNC_XP_LEVEL(3),
-		SYNC_XP_POINT(4)
-		;
+		SYNC_IS_ACTIVE(5), SYNC_TEAM_NAME(0), SYNC_TEAM_MEMBERS(1), SYNC_SHOP_DIAMOND(
+				2), SYNC_XP_LEVEL(3), SYNC_XP_POINT(4);
 		private int value;
+
 		private MSGTOCLIENT(int value) {
 			this.value = value;
 		}
+
 		public int getValue() {
 			return this.value;
 		}
+
 		public static MSGTOCLIENT get(int value) {
 			for (MSGTOCLIENT i : MSGTOCLIENT.values()) {
 				if (i.value == value) {
@@ -83,15 +77,13 @@ public class TENexus extends TileEntity implements IInventory,
 			return null;
 		}
 	};
-	
+
 	private ItemStack[] inventory;
-	private int INVENTORY_SIZE = 9 ;
-	
-	
+	private int INVENTORY_SIZE = 9;
+
 	private EntityNexusGuardian guardian_entity;
 
-    private boolean isActive;
-
+	private boolean isActive;
 
 	private String team_name;
 	private ArrayList<String> team_members;
@@ -100,7 +92,7 @@ public class TENexus extends TileEntity implements IInventory,
 	private int xp_point;
 	private int revival_numOfStone;
 	private PriorityQueue revival_bannedPlayers;
-	
+
 	public TENexus() {
 		inventory = new ItemStack[INVENTORY_SIZE];
 		isActive = false;
@@ -111,9 +103,7 @@ public class TENexus extends TileEntity implements IInventory,
 		xp_point = 0;
 		revival_numOfStone = getRevivalStoneCap();
 	}
-	
-	
-	
+
 	@Override
 	public int getSizeInventory() {
 		return INVENTORY_SIZE;
@@ -217,244 +207,216 @@ public class TENexus extends TileEntity implements IInventory,
 		return false;
 	}
 
-/**
- * 
- * @param var1 : 얼마를 더할 것인가
- * @return : 경험치 보관의 최소/최대 제한을 고려하여 실질적으로 들어간(나간) 경험치 량.
- */
+	/**
+	 * 
+	 * @param var1
+	 *            : 얼마를 더할 것인가
+	 * @return : 경험치 보관의 최소/최대 제한을 고려하여 실질적으로 들어간(나간) 경험치 량.
+	 */
 	public int addExperience(int var1) {
 		if (this.getExperienceCap() - this.xp_point < var1) {
 			var1 = this.getExperienceCap() - this.xp_point;
 		}
-		this.xp_point+=var1;
+		this.xp_point += var1;
 		return var1;
 	}
-	
+
 	/***
 	 * 
-	 * @param var1 : 얼마를 뺄 것인가
+	 * @param var1
+	 *            : 얼마를 뺄 것인가
 	 * @return : 최종적으로 뺀 경험치 량.
 	 */
 	public int extractExperience(int var1) {
 		if (var1 > this.xp_point) {
 			var1 = this.xp_point;
 		}
-		this.xp_point-=var1;
+		this.xp_point -= var1;
 		return var1;
 	}
-	
+
 	/***
 	 * 
 	 * @return : 최대 경험치 용량
 	 */
 	public int getExperienceCap() {
-		return this.xp_level*100;
+		return this.xp_level * 100;
 	}
-	
+
 	/***
 	 * 
 	 * @return : 부활석을 가지고 있을 수 있는 최대 개수
 	 */
 	public int getRevivalStoneCap() {
-		return 1+this.xp_level;
+		return 1 + this.xp_level;
 	}
-	
-	
+
 	@Override
 	public void updateEntity() {
 		if (!this.worldObj.isRemote) {
 			updateShop();
 		}
 	}
-	
+
 	/**
 	 * 넥서스의 상점 기능과 관련된 행위들을 처리한다.
 	 */
 	public void updateShop() {
-		//기능1 : 다이아몬드가 들어오면 인식하고 소모한다..=
-		if (this.inventory[INVENTORY.shop_diamond_input.ordinal()] != null && this.inventory[INVENTORY.shop_diamond_input.ordinal()].stackSize >= 1) {
+		// 기능1 : 다이아몬드가 들어오면 인식하고 소모한다..=
+		if (this.inventory[INVENTORY.shop_diamond_input.ordinal()] != null
+				&& this.inventory[INVENTORY.shop_diamond_input.ordinal()].stackSize >= 1) {
 			this.inventory[INVENTORY.shop_diamond_input.ordinal()].stackSize--;
 			if (this.inventory[INVENTORY.shop_diamond_input.ordinal()].stackSize == 0) {
 				this.inventory[INVENTORY.shop_diamond_input.ordinal()] = null;
 			}
-			this.shop_diamondValue+=1;
-			
+			this.shop_diamondValue += 1;
+
 		}
-		
-		//기능 2 : 아이템을 리필한다.
+
+		// 기능 2 : 아이템을 리필한다.
 		if (this.inventory[INVENTORY.shop_cow_output.ordinal()] == null) {
-			this.inventory[INVENTORY.shop_cow_output.ordinal()] = new ItemStack((Item)Item.itemRegistry.getObject("spawn_egg"), 1,92);
+			this.inventory[INVENTORY.shop_cow_output.ordinal()] = new ItemStack(
+					(Item) Item.itemRegistry.getObject("spawn_egg"), 1, 92);
 		}
 		if (this.inventory[INVENTORY.shop_sheep_output.ordinal()] == null) {
-			this.inventory[INVENTORY.shop_sheep_output.ordinal()] = new ItemStack((Item)Item.itemRegistry.getObject("spawn_egg"), 1,91);
+			this.inventory[INVENTORY.shop_sheep_output.ordinal()] = new ItemStack(
+					(Item) Item.itemRegistry.getObject("spawn_egg"), 1, 91);
 		}
 		if (this.inventory[INVENTORY.shop_pig_output.ordinal()] == null) {
-			this.inventory[INVENTORY.shop_pig_output.ordinal()] = new ItemStack((Item)Item.itemRegistry.getObject("spawn_egg"), 1,90);
+			this.inventory[INVENTORY.shop_pig_output.ordinal()] = new ItemStack(
+					(Item) Item.itemRegistry.getObject("spawn_egg"), 1, 90);
 		}
 		if (this.inventory[INVENTORY.shop_chicken_output.ordinal()] == null) {
-			this.inventory[INVENTORY.shop_chicken_output.ordinal()] = new ItemStack((Item)Item.itemRegistry.getObject("spawn_egg"), 1,93);
+			this.inventory[INVENTORY.shop_chicken_output.ordinal()] = new ItemStack(
+					(Item) Item.itemRegistry.getObject("spawn_egg"), 1, 93);
 		}
 		if (this.inventory[INVENTORY.shop_horse_output.ordinal()] == null) {
-			this.inventory[INVENTORY.shop_horse_output.ordinal()] = new ItemStack((Item)Item.itemRegistry.getObject("spawn_egg"), 1,100);
+			this.inventory[INVENTORY.shop_horse_output.ordinal()] = new ItemStack(
+					(Item) Item.itemRegistry.getObject("spawn_egg"), 1, 100);
 		}
 	}
-	
+
 	@Override
 	public void onMessage(int index, SimpleNetMessageServer data) {
-		
+
 		switch (MSGTOSERVER.get(index)) {
 		case SET_TEAM_NAME:
 			this.team_name = data.getString();
-			
+
 			/*
-			guardian_entity.setTeam_name(this.team_name);
-			
-			ChatComponentText msg3 = new ChatComponentText("The team " + "\"" + team_name + "\"" + " has been established!");
-			for (WorldServer i : MinecraftServer.getServer().worldServers) {
-				for (Object j : i.playerEntities) {
-					if (j instanceof EntityPlayer) {
-						((EntityPlayer)j).addChatMessage(msg3);
-					}
-				}
-			}
-			ModEventHandler.onTeamMemberAdded(team_members.get(0), team_name);
-			*/
+			 * guardian_entity.setTeam_name(this.team_name);
+			 * 
+			 * ChatComponentText msg3 = new ChatComponentText("The team " + "\""
+			 * + team_name + "\"" + " has been established!"); for (WorldServer
+			 * i : MinecraftServer.getServer().worldServers) { for (Object j :
+			 * i.playerEntities) { if (j instanceof EntityPlayer) {
+			 * ((EntityPlayer)j).addChatMessage(msg3); } } }
+			 * ModEventHandler.onTeamMemberAdded(team_members.get(0),
+			 * team_name);
+			 */
 			break;
 		case ADD_TEAM_MEMBERS:
 			String member = data.getString();
-			if (!this.team_members.contains(member)) {
-				for (Object i : MinecraftServer.getServer().worldServers[0].playerEntities) {
-					if (i instanceof EntityPlayer) {
-						if (((EntityPlayer)i).getCommandSenderName().equals(member)) {
-							team_members.add(member);
-							//ModEventHandler.onTeamMemberAdded(member, team_name);
-							break;
-						}
-					}
-				}
+			if (MinecraftServer.getServer().getConfigurationManager().playerEntityList
+					.contains(member)) {
+				team_members.add(member);
+				// ModEventHandler.onTeamMemberAdded(member,
+				// team_name);
 			}
+
 			break;
 		case DEL_TEAM_MEMBERS:
 			String delMember = data.getString();
 			this.team_members.remove(delMember);
-			System.out.println(this.team_members.toString());
 			break;
 		case EST_TEAM:
 			break;
 		case OPENGUI_NEXUS01:
 			String pname1 = data.getString();
-			
-			for (Object i : this.worldObj.playerEntities) {
-				if (((EntityPlayer)i).getCommandSenderName().equals(pname1)) {
-					((EntityPlayer)i).openGui(MineAndConquer.instance, Strings.GuiNexusID01, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-					break;
-				}
-			}
+
+			this.worldObj.getPlayerEntityByName(pname1).openGui(
+					MineAndConquer.instance, Strings.GuiNexusID01,
+					this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			break;
 		case OPENGUI_NEXUS02:
 			String pname2 = data.getString();
-			
-			for (Object i : this.worldObj.playerEntities) {
-				if (((EntityPlayer)i).getCommandSenderName().equals(pname2)) {
-					((EntityPlayer)i).openGui(MineAndConquer.instance, Strings.GuiNexusID02, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-					break;
-				}
-			}
+			this.worldObj.getPlayerEntityByName(pname2).openGui(
+					MineAndConquer.instance, Strings.GuiNexusID02,
+					this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+
 			break;
 		case OPENGUI_NEXUS03:
 			String pname3 = data.getString();
-			
-			for (Object i : this.worldObj.playerEntities) {
-				if (((EntityPlayer)i).getCommandSenderName().equals(pname3)) {
-					((EntityPlayer)i).openGui(MineAndConquer.instance, Strings.GuiNexusID03, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-					break;
-				}
-			}
+
+			this.worldObj.getPlayerEntityByName(pname3).openGui(
+					MineAndConquer.instance, Strings.GuiNexusID03,
+					this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+
 			break;
 		case OPENGUI_NEXUS04:
 			String pname4 = data.getString();
-			
-			for (Object i : this.worldObj.playerEntities) {
-				if (((EntityPlayer)i).getCommandSenderName().equals(pname4)) {
-					((EntityPlayer)i).openGui(MineAndConquer.instance, Strings.GuiNexusID04, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-					break;
-				}
-			}
+
+			this.worldObj.getPlayerEntityByName(pname4).openGui(
+					MineAndConquer.instance, Strings.GuiNexusID04,
+					this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+
 			break;
 		case MOVEXP_TONEXUS5:
 			String pname5 = data.getString();
 
-			for (Object i : this.worldObj.playerEntities) {
-				if (((EntityPlayer)i).getCommandSenderName().equals(pname5)) {
-					int xpTotal = ((EntityPlayer)i).experienceTotal;	
-					int xpAdded = this.addExperience(Math.min(5, xpTotal));
-					ToolXP.extractXP((EntityPlayer)i,xpAdded);
-					break;
-				}
-			}
+			int xpTotal = this.worldObj.getPlayerEntityByName(pname5).experienceTotal;
+			int xpAdded = this.addExperience(Math.min(5, xpTotal));
+			ToolXP.extractXP(this.worldObj.getPlayerEntityByName(pname5),
+					xpAdded);
+
 			break;
 		case MOVEXP_TONEXUS50:
 			String pname6 = data.getString();
 
-			for (Object i : this.worldObj.playerEntities) {
-				if (((EntityPlayer)i).getCommandSenderName().equals(pname6)) {
-					int xpTotal = ((EntityPlayer)i).experienceTotal;	
-					int xpAdded = this.addExperience(Math.min(50, xpTotal));
-					ToolXP.extractXP((EntityPlayer)i,xpAdded);
-					break;
-				}
-			}
+			int xpTotal2 = this.worldObj.getPlayerEntityByName(pname6).experienceTotal;
+			int xpAdded2 = this.addExperience(Math.min(50, xpTotal2));
+			ToolXP.extractXP(this.worldObj.getPlayerEntityByName(pname6),
+					xpAdded2);
+
 			break;
 		case MOVEXP_TONEXUSMAX:
 			String pname7 = data.getString();
 
-			for (Object i : this.worldObj.playerEntities) {
-				if (((EntityPlayer)i).getCommandSenderName().equals(pname7)) {
-					int xpTotal = ((EntityPlayer)i).experienceTotal;	
-					int xpAdded = this.addExperience(xpTotal);
-					ToolXP.extractXP((EntityPlayer)i,xpAdded);
-					break;
-				}
-			}
+			int xpTotal3 = this.worldObj.getPlayerEntityByName(pname7).experienceTotal;
+			int xpAdded3 = this.addExperience(xpTotal3);
+			ToolXP.extractXP(this.worldObj.getPlayerEntityByName(pname7),
+					xpAdded3);
+
 			break;
 		case MOVEXP_TOPLAYER5:
 			String pname8 = data.getString();
 
-			for (Object i : this.worldObj.playerEntities) {
-				if (((EntityPlayer)i).getCommandSenderName().equals(pname8)) {
-					int xpextracted = this.extractExperience(5);
-					((EntityPlayer)i).addExperience(xpextracted);
-					break;
-				}
-			}
+			int xpextracted = this.extractExperience(5);
+			this.worldObj.getPlayerEntityByName(pname8).addExperience(
+					xpextracted);
+
 			break;
 		case MOVEXP_TOPLAYER50:
 			String pname9 = data.getString();
 
-			for (Object i : this.worldObj.playerEntities) {
-				if (((EntityPlayer)i).getCommandSenderName().equals(pname9)) {
-					int xpextracted = this.extractExperience(50);
-					((EntityPlayer)i).addExperience(xpextracted);
-					break;
-				}
-			}
+			int xpextracted2 = this.extractExperience(50);
+			this.worldObj.getPlayerEntityByName(pname9).addExperience(
+					xpextracted2);
 			break;
+
 		case MOVEXP_TOPLAYERMAX:
 			String pname10 = data.getString();
 
-			for (Object i : this.worldObj.playerEntities) {
-				if (((EntityPlayer)i).getCommandSenderName().equals(pname10)) {
-					int xpTotal = this.xp_point;
-					int xpextracted = this.extractExperience(xpTotal);
-					((EntityPlayer)i).addExperience(xpextracted);
-					break;
-				}
-			}
+			int xpTotal4 = this.xp_point;
+			int xpextracted3 = this.extractExperience(xpTotal4);
+			this.worldObj.getPlayerEntityByName(pname10).addExperience(
+					xpextracted3);
+
 			break;
 		case LEVELUP:
 			if (this.xp_point == getExperienceCap()) {
-				this.xp_level+=1;
-				this.xp_point=0;
+				this.xp_level += 1;
+				this.xp_point = 0;
 			}
 			break;
 		}
@@ -487,9 +449,6 @@ public class TENexus extends TileEntity implements IInventory,
 		}
 	}
 
-	
-	
-	
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
 		/*
@@ -509,7 +468,7 @@ public class TENexus extends TileEntity implements IInventory,
 		this.xp_level = tag.getInteger("xp_level");
 		this.xp_point = tag.getInteger("xp_point");
 		this.revival_numOfStone = tag.getInteger("revival_numOfStone");
-		
+
 		NBTTagList nbttaglist = tag.getTagList("members", 10);
 		for (int i = 0; i < nbttaglist.tagCount(); i++) {
 			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
@@ -537,7 +496,7 @@ public class TENexus extends TileEntity implements IInventory,
 		tag.setInteger("xp_level", xp_level);
 		tag.setInteger("xp_point", xp_point);
 		tag.setInteger("revival_numOfStone", revival_numOfStone);
-		
+
 		NBTTagList nbttaglist = new NBTTagList();
 		for (String i : team_members) {
 			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
@@ -547,8 +506,6 @@ public class TENexus extends TileEntity implements IInventory,
 		tag.setTag("members", nbttaglist);
 	}
 
-	
-	
 	public String getTeam_name() {
 		return team_name;
 	}
@@ -568,7 +525,7 @@ public class TENexus extends TileEntity implements IInventory,
 	public void addTeam_members(String member) {
 		this.team_members.add(member);
 	}
-	
+
 	public int getShop_diamondValue() {
 		return shop_diamondValue;
 	}
@@ -592,7 +549,7 @@ public class TENexus extends TileEntity implements IInventory,
 	public void setXp_point(int xp_point) {
 		this.xp_point = xp_point;
 	}
-	
+
 	public EntityNexusGuardian getGuardian_entity() {
 		return guardian_entity;
 	}
@@ -600,7 +557,7 @@ public class TENexus extends TileEntity implements IInventory,
 	public void setGuardian_entity(EntityNexusGuardian guardian_entity) {
 		this.guardian_entity = guardian_entity;
 	}
-	
+
 	public int getRevival_numOfStone() {
 		return revival_numOfStone;
 	}
@@ -608,13 +565,13 @@ public class TENexus extends TileEntity implements IInventory,
 	public void setRevival_numOfStone(int revival_numOfStone) {
 		this.revival_numOfStone = revival_numOfStone;
 	}
-	
+
 	public boolean isActive() {
 		return isActive;
 	}
-	
+
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	
+
 }

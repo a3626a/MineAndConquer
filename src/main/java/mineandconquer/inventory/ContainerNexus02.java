@@ -9,6 +9,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 
 public class ContainerNexus02 extends Container {
 
@@ -91,7 +92,7 @@ public class ContainerNexus02 extends Container {
 				TENexus.MSGTOCLIENT.SYNC_SHOP_DIAMOND.getValue(), tile.xCoord,
 				tile.yCoord, tile.zCoord);
 		msg.setInt(tile.getShop_diamondValue());
-		MineAndConquer.simpleChannel.sendToAll(msg);
+		MineAndConquer.simpleChannel.sendTo(msg,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
 
 	}
 
@@ -105,7 +106,7 @@ public class ContainerNexus02 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_SHOP_DIAMOND.getValue(), tile.xCoord,
 					tile.yCoord, tile.zCoord);
 			msg.setInt(tile.getShop_diamondValue());
-			MineAndConquer.simpleChannel.sendToAll(msg);
+			MineAndConquer.simpleChannel.sendTo(msg,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
 		}
 		
 		this.lastShop_diamondValue = this.tile.getShop_diamondValue();

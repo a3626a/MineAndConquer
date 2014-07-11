@@ -9,6 +9,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 
 public class ContainerNexus04 extends Container {
 
@@ -32,13 +33,13 @@ public class ContainerNexus04 extends Container {
 				TENexus.MSGTOCLIENT.SYNC_XP_LEVEL.getValue(), tile.xCoord,
 				tile.yCoord, tile.zCoord);
 		msg.setInt(tile.getXp_level());
-		MineAndConquer.simpleChannel.sendToAll(msg);
+		MineAndConquer.simpleChannel.sendTo(msg,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
 
 		SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
 				TENexus.MSGTOCLIENT.SYNC_XP_POINT.getValue(), tile.xCoord,
 				tile.yCoord, tile.zCoord);
 		msg2.setInt(tile.getXp_point());
-		MineAndConquer.simpleChannel.sendToAll(msg2);
+		MineAndConquer.simpleChannel.sendTo(msg2,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
 
 	}
 
@@ -51,7 +52,7 @@ public class ContainerNexus04 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_XP_LEVEL.getValue(), tile.xCoord,
 					tile.yCoord, tile.zCoord);
 			msg.setInt(tile.getXp_level());
-			MineAndConquer.simpleChannel.sendToAll(msg);
+			MineAndConquer.simpleChannel.sendTo(msg,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
 		}
 		
 		if (this.lastXp_point != this.tile.getXp_point()) {
@@ -59,7 +60,7 @@ public class ContainerNexus04 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_XP_POINT.getValue(), tile.xCoord,
 					tile.yCoord, tile.zCoord);
 			msg2.setInt(tile.getXp_point());
-			MineAndConquer.simpleChannel.sendToAll(msg2);
+			MineAndConquer.simpleChannel.sendTo(msg2,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
 		}
 		
 		this.lastXp_Level = this.tile.getXp_level();

@@ -3,6 +3,7 @@ package mineandconquer.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mineandconquer.MineAndConquer;
@@ -14,6 +15,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 
 public class ContainerNexus01 extends Container {
 
@@ -41,13 +43,14 @@ public class ContainerNexus01 extends Container {
 				TENexus.MSGTOCLIENT.SYNC_TEAM_NAME.getValue(), tile.xCoord,
 				tile.yCoord, tile.zCoord);
 		msg.setString(tile.getTeam_name());
-		MineAndConquer.simpleChannel.sendToAll(msg);
+		MineAndConquer.simpleChannel.sendTo(msg, MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
 
+		
 		SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
 				TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
 				tile.xCoord, tile.yCoord, tile.zCoord);
 		msg2.setStringArray(this.tile.getTeam_members().toArray(new String[this.tile.getTeam_members().size()]));
-		MineAndConquer.simpleChannel.sendToAll(msg2);
+		MineAndConquer.simpleChannel.sendTo(msg2,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
 
 	}
 
@@ -61,7 +64,7 @@ public class ContainerNexus01 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
 					tile.xCoord, tile.yCoord, tile.zCoord);
 			msg2.setStringArray(this.tile.getTeam_members().toArray(new String[this.tile.getTeam_members().size()]));
-			MineAndConquer.simpleChannel.sendToAll(msg2);
+			MineAndConquer.simpleChannel.sendTo(msg2,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
 		}
 
 		if (!this.lastTeam_Name.equals(this.tile.getTeam_name())) {
@@ -69,7 +72,7 @@ public class ContainerNexus01 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_TEAM_NAME.getValue(), tile.xCoord,
 					tile.yCoord, tile.zCoord);
 			msg.setString(tile.getTeam_name());
-			MineAndConquer.simpleChannel.sendToAll(msg);
+			MineAndConquer.simpleChannel.sendTo(msg,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
 		}
 
 		this.lastTeam_Members = (ArrayList) this.tile.getTeam_members().clone();
