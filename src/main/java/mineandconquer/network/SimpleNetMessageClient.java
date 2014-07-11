@@ -9,10 +9,10 @@ public class SimpleNetMessageClient implements IMessage{
 	public ByteBuf data;
 
 	public SimpleNetMessageClient() {
-		data = Unpooled.buffer(256);
+		data = Unpooled.buffer();
 	}
 	public SimpleNetMessageClient(int index,int x, int y, int z) {
-		data = Unpooled.buffer(256);
+		data = Unpooled.buffer();
 		data.setInt(0, index);
 		data.setInt(4, x);
 		data.setInt(8, y);
