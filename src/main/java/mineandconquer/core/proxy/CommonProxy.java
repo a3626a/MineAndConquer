@@ -3,6 +3,7 @@ package mineandconquer.core.proxy;
 import mineandconquer.MineAndConquer;
 import mineandconquer.entities.EntityNexusGuardian;
 import mineandconquer.lib.Strings;
+import mineandconquer.tileentities.TEGrinder;
 import mineandconquer.tileentities.TENexus;
 import mineandconquer.tileentities.TEWallMaker;
 import mineandconquer.tileentities.TEDoubleFurnace;
@@ -15,7 +16,7 @@ public class CommonProxy {
 		GameRegistry.registerTileEntity(TEWallMaker.class, Strings.BlockWallMakerName);
 		GameRegistry.registerTileEntity(TENexus.class, Strings.BlockNexusName);
 		GameRegistry.registerTileEntity(TEDoubleFurnace.class, Strings.BlockDoubleFurnaceName);
-		
+		GameRegistry.registerTileEntity(TEGrinder.class, Strings.BlockGrinderName);
     }
 	
 	public void registerEntities() {

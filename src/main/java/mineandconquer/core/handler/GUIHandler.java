@@ -1,22 +1,24 @@
 package mineandconquer.core.handler;
 
 import mineandconquer.client.gui.GUIDoubleFurnace;
+import mineandconquer.client.gui.GUIGrinder;
 import mineandconquer.client.gui.GUINexus01;
 import mineandconquer.client.gui.GUINexus02;
 import mineandconquer.client.gui.GUINexus03;
 import mineandconquer.client.gui.GUINexus04;
 import mineandconquer.client.gui.GUIWallMaker;
-import mineandconquer.client.gui.GUIDoubleFurnace;
+import mineandconquer.inventory.ContainerDoubleFurnace;
+import mineandconquer.inventory.ContainerGrinder;
 import mineandconquer.inventory.ContainerNexus01;
 import mineandconquer.inventory.ContainerNexus02;
 import mineandconquer.inventory.ContainerNexus03;
 import mineandconquer.inventory.ContainerNexus04;
 import mineandconquer.inventory.ContainerWallMaker;
 import mineandconquer.lib.Strings;
+import mineandconquer.tileentities.TEDoubleFurnace;
+import mineandconquer.tileentities.TEGrinder;
 import mineandconquer.tileentities.TENexus;
 import mineandconquer.tileentities.TEWallMaker;
-import mineandconquer.inventory.ContainerDoubleFurnace;
-import mineandconquer.tileentities.TEDoubleFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -54,6 +56,10 @@ public class GUIHandler implements IGuiHandler {
 			TEDoubleFurnace gc = (TEDoubleFurnace) world.getTileEntity(x, y, z);
             return new ContainerDoubleFurnace(player.inventory, gc);
 		}
+		if(ID == Strings.GuiGrinderID) {
+			TEGrinder tegrinder = (TEGrinder) world.getTileEntity(x, y, z);
+			return new ContainerGrinder(player.inventory, tegrinder);
+		}
         
 		return null;
 	}
@@ -86,6 +92,10 @@ public class GUIHandler implements IGuiHandler {
 		if(ID == Strings.GuiDoubleFurnaceID) {
 			TEDoubleFurnace gc = (TEDoubleFurnace) world.getTileEntity(x, y, z);
             return new GUIDoubleFurnace(player.inventory, gc);
+		}
+		if(ID == Strings.GuiGrinderID){
+			TEGrinder tegrinder = (TEGrinder) world.getTileEntity(x, y, z);
+			return new GUIGrinder(player.inventory, tegrinder);
 		}
 		return null;
 	}
