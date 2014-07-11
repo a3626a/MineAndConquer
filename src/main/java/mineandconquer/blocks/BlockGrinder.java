@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockGrinder extends BlockContainer{
 	
 	@SideOnly(Side.CLIENT)
-	public IIcon[] icons;
+	public IIcon[] icons = new IIcon[6];
 	
 	public BlockGrinder(){
 		super(Material.rock);
@@ -33,7 +33,7 @@ public class BlockGrinder extends BlockContainer{
 	
 	@Override
 	public boolean onBlockActivated(World world, int x,int y, int z, EntityPlayer entityPlayer,int side, float posx, float posy,float posz) {
-		//entityPlayer.openGui(Modtut.instance, 1, world, x, y, z);
+		entityPlayer.openGui(MineAndConquer.instance, Strings.GuiGrinderID, world, x, y, z);
 		return true;
 	}
 	
@@ -81,7 +81,6 @@ public class BlockGrinder extends BlockContainer{
 	
 	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) {
-		// TODO Auto-generated method stub
 		return new TEGrinder();
 	}
 }
