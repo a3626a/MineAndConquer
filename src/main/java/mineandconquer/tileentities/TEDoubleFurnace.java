@@ -442,7 +442,7 @@ public class TEDoubleFurnace extends TileEntity implements ISidedInventory
     public static boolean isItemFuel(ItemStack p_145954_0_)
     {
         /**
-         * Returns the number of ticks that the supplied fuel item will keep the furnace burning, or 0 if the item isn't
+         * Returns the number of ticks that the supplied fuel iktem will keep the furnace burning, or 0 if the item isn't
          * fuel
          */
         return getItemBurnTime(p_145954_0_) > 0;
