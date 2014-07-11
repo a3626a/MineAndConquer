@@ -4,4 +4,5 @@ tile.mineandconquer:nexus.name=Nexus
 item.mineandconquer:wallBuilder.name=Wall Builder
 entity.nexusGuardian.name=Nexus Guardian
 tile.mineandconquer:doubleFurnace.name=Double Furnace
+tile.mineandconquer:Grinder.name=Mixing Grinder
 itemGroup.mineandconquer=MineAndConquer Items
