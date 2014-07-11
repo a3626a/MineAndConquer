@@ -26,9 +26,9 @@ public class ContainerNexus01 extends Container {
 	public ContainerNexus01(InventoryPlayer player, TENexus nexus) {
 		this.tile = nexus;
 		this.inventoryPlayer = player;
-		
+
 		this.lastTeam_Name = new String();
-		this.lastTeam_Members = (ArrayList)this.tile.getTeam_members().clone();
+		this.lastTeam_Members = (ArrayList) this.tile.getTeam_members().clone();
 		bindPlayerInventory();
 	}
 
@@ -42,42 +42,28 @@ public class ContainerNexus01 extends Container {
 				tile.yCoord, tile.zCoord);
 		msg.setString(tile.getTeam_name());
 		MineAndConquer.simpleChannel.sendToAll(msg);
-		
-		for (String i : tile.getTeam_members()) {
-			SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
-					TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS_ADDED.getValue(),
-					tile.xCoord, tile.yCoord, tile.zCoord);
-			msg2.setString(i);
-			MineAndConquer.simpleChannel.sendToAll(msg2);
-		}
-		
+
+		SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
+				TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
+				tile.xCoord, tile.yCoord, tile.zCoord);
+		msg2.setStringArray(this.tile.getTeam_members().toArray(new String[this.tile.getTeam_members().size()]));
+		MineAndConquer.simpleChannel.sendToAll(msg2);
+
 	}
 
 	@Override
 	public void detectAndSendChanges() {
 		// TODO Auto-generated method stub
 		super.detectAndSendChanges();
-		
-		if (this.lastTeam_Members.size() < this.tile.getTeam_members().size()) {
-			for (String i : tile.getTeam_members()) {
-				SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
-						TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS_ADDED.getValue(),
-						tile.xCoord, tile.yCoord, tile.zCoord);
-				msg2.setString(i);
-				MineAndConquer.simpleChannel.sendToAll(msg2);
-			}
+
+		if (!this.lastTeam_Members.equals(this.tile.getTeam_members())) {
+			SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
+					TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
+					tile.xCoord, tile.yCoord, tile.zCoord);
+			msg2.setStringArray(this.tile.getTeam_members().toArray(new String[this.tile.getTeam_members().size()]));
+			MineAndConquer.simpleChannel.sendToAll(msg2);
 		}
-		
-		if (this.lastTeam_Members.size() > this.tile.getTeam_members().size()) {
-			for (String i : tile.getTeam_members()) {
-				SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
-						TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS_DELETED.getValue(),
-						tile.xCoord, tile.yCoord, tile.zCoord);
-				msg2.setString(i);
-				MineAndConquer.simpleChannel.sendToAll(msg2);
-			}
-		}
-		
+
 		if (!this.lastTeam_Name.equals(this.tile.getTeam_name())) {
 			SimpleNetMessageClient msg = new SimpleNetMessageClient(
 					TENexus.MSGTOCLIENT.SYNC_TEAM_NAME.getValue(), tile.xCoord,
@@ -85,8 +71,8 @@ public class ContainerNexus01 extends Container {
 			msg.setString(tile.getTeam_name());
 			MineAndConquer.simpleChannel.sendToAll(msg);
 		}
-		
-		this.lastTeam_Members = (ArrayList)this.tile.getTeam_members().clone();
+
+		this.lastTeam_Members = (ArrayList) this.tile.getTeam_members().clone();
 		this.lastTeam_Name = this.tile.getTeam_name().substring(0);
 	}
 

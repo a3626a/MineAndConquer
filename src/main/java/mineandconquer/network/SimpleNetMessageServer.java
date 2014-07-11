@@ -170,7 +170,7 @@ public class SimpleNetMessageServer implements IMessage {
 		return new String(ret);
 	}
 	
-	public String[] getStringnArray(){
+	public String[] getStringArray(){
 		int lengthString = this.getInt(16);
 		String[] retString = new String[lengthString];
 		

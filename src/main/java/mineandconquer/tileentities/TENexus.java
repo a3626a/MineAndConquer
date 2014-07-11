@@ -62,8 +62,7 @@ public class TENexus extends TileEntity implements IInventory,
 	public enum MSGTOCLIENT {
 		SYNC_IS_ACTIVE(5),
 		SYNC_TEAM_NAME(0),
-		SYNC_TEAM_MEMBERS_ADDED(1),
-		SYNC_TEAM_MEMBERS_DELETED(6),
+		SYNC_TEAM_MEMBERS(1),
 	    SYNC_SHOP_DIAMOND(2),
 		SYNC_XP_LEVEL(3),
 		SYNC_XP_POINT(4)
@@ -467,11 +466,11 @@ public class TENexus extends TileEntity implements IInventory,
 		case SYNC_TEAM_NAME:
 			this.team_name = data.getString();
 			break;
-		case SYNC_TEAM_MEMBERS_ADDED:
-			this.team_members.add(data.getString());
-			break;
-		case SYNC_TEAM_MEMBERS_DELETED:
-			this.team_members.remove(data.getString());
+		case SYNC_TEAM_MEMBERS:
+			this.team_members.clear();
+			for (String i : data.getStringArray()) {
+				this.team_members.add(i);
+			}
 			break;
 		case SYNC_SHOP_DIAMOND:
 			this.shop_diamondValue = data.getInt();
