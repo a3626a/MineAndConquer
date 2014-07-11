@@ -3,6 +3,7 @@ package mineandconquer.blocks;
 import mineandconquer.MineAndConquer;
 import mineandconquer.lib.References;
 import mineandconquer.lib.Strings;
+import mineandconquer.tileentities.TEGrinder;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;

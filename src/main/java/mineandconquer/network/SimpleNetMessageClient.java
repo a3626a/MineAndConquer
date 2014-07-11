@@ -38,11 +38,28 @@ public class SimpleNetMessageClient implements IMessage{
 			i++;
 		}
 	}
-	public void setInt(int value) {
+	public int setInt(int value) {
 		data.setInt(16, value);
+		return 20;
 	}
+	
+	public int setInt(int index, int value) {
+		if (index < 16) {
+			return -1;
+		}
+		data.setInt(index, value);
+		return index+4;
+	}
+	
 	public int getInt() {
 		return data.getInt(16);
+	}
+	
+	public int getInt(int index) throws Exception {
+		if (index < 16) {
+			throw new Exception("Can't get integer from index under 16");
+		}
+		return data.getInt(index);
 	}
 	
 	public void setBoolean(boolean value) {

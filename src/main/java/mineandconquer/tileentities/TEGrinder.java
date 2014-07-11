@@ -1,5 +1,7 @@
 package mineandconquer.tileentities;
 
-public class TEGrinder {
+import net.minecraft.tileentity.TileEntity;
+
+public class TEGrinder{
 
 }
