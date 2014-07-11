@@ -7,7 +7,7 @@ public class Strings {
 	public static final String BlockWallMakerName = "wallMaker";
 	public static final String BlockNexusName = "nexus";
 	public static final String BlockDoubleFurnaceName = "doubleFurnace";
-	public static final String BlockGrinderName = "Griner";
+	public static final String BlockGrinderName = "Grinder";
 
 	public static final String ItemWallBuilderName = "wallBuilder";
 	
@@ -22,4 +22,5 @@ public class Strings {
 	public static final int GuiNexusID03 = 3;
 	public static final int GuiNexusID04 = 4;
 	public static final int GuiDoubleFurnaceID = 5;
+	public static final int GuiGrinderID = 6;
 }
