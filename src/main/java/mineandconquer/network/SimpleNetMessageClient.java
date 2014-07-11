@@ -51,15 +51,30 @@ public class SimpleNetMessageClient implements IMessage{
 		return index+4;
 	}
 	
+	public int setIntArray(int[] array) {
+		this.setInt(16, array.length);
+		int lastPointer = 20;
+		for (int i : array) {
+			lastPointer = this.setInt(lastPointer, i);
+		}
+		return lastPointer;
+	}
+	
 	public int getInt() {
 		return data.getInt(16);
 	}
 	
-	public int getInt(int index) throws Exception {
-		if (index < 16) {
-			throw new Exception("Can't get integer from index under 16");
-		}
+	public int getInt(int index){
 		return data.getInt(index);
+	}
+	
+	public int[] getIntArray(){
+		int length = this.getInt(16);
+		int[] ret = new int[length];
+		for (int i = 0 ; i < length; i++) {
+			ret[i] = this.getInt(20+4*i);
+		}
+		return ret;
 	}
 	
 	public int setBoolean(boolean value) {
@@ -75,17 +90,31 @@ public class SimpleNetMessageClient implements IMessage{
 		return index+1;
 	}
 	
+	public int setBooleanArray(boolean[] array) {
+		this.setInt(16, array.length);
+		int lastPointer = 20;
+		for (boolean i : array) {
+			lastPointer = this.setBoolean(lastPointer, i);
+		}
+		return lastPointer;
+	}
+	
 	public boolean getBoolean() {
 		// TODO Auto-generated method stub
 		return data.getBoolean(16);
 	}
-	public boolean getBoolean(int index) throws Exception {
-		if (index < 16) {
-			throw new Exception("Can't get boolean from index under 16");
-		}
+	public boolean getBoolean(int index){
 		return data.getBoolean(index);
 	}
 	
+	public boolean[] getBooleanArray(){
+		int length = this.getInt(16);
+		boolean[] ret = new boolean[length];
+		for (int i = 0 ; i < length; i++) {
+			ret[i] = this.getBoolean(20+i);
+		}
+		return ret;
+	}
 	
 	public int setString(String value) {
 		char[] temp = ((String) value).toCharArray();
@@ -110,6 +139,15 @@ public class SimpleNetMessageClient implements IMessage{
 		return index+4+2*temp.length;
 	}
 	
+	public int setStringArray(String[] array) {
+		this.setInt(16, array.length);
+		int lastPointer = 20;
+		for (String i : array) {
+			lastPointer = this.setString(lastPointer, i);
+		}
+		return lastPointer;
+	}
+	
 	public String getString() {
 		int length = data.getInt(16);
 		char[] ret = new char[length];
@@ -119,18 +157,33 @@ public class SimpleNetMessageClient implements IMessage{
 		return new String(ret);
 	}
 	
-	public String getString(int index) throws Exception {
-		
-		if (index <16) {
-			throw new Exception("Can't get string from index under 16");
-		}
-		
+	public String getString(int index){
 		int length = data.getInt(index);
 		char[] ret = new char[length];
 		for (int i = 0; i < length; i++) {
 			ret[i] = data.getChar(index+4 + 2 * i);
 		}
 		return new String(ret);
+	}
+	
+	public String[] getStringnArray(){
+		int lengthString = this.getInt(16);
+		String[] retString = new String[lengthString];
+		
+		int index = 20;
+		
+		for (int i = 0 ; i < lengthString; i++) {
+			
+			int length = data.getInt(index);
+			char[] ret = new char[length];
+			for (int j = 0; j < length; j++) {
+				ret[j] = data.getChar(index+4 + 2 * j);
+			}
+			
+			retString[i] = new String(ret);
+			index = index+4 + 2 * length;
+		}
+		return retString;
 	}
 	
 	public int getIndex() {
