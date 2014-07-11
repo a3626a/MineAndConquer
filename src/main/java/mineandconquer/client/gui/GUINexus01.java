@@ -152,7 +152,6 @@ public class GUINexus01 extends GuiContainer {
 					this.teNexus.zCoord);
 			msg.setString(this.player.player.getCommandSenderName());
 			MineAndConquer.simpleChannel.sendToServer(msg);
-
 			(this.player.player).openGui(MineAndConquer.instance,
 					Strings.GuiNexusID04, teNexus.getWorldObj(),
 					teNexus.xCoord, teNexus.yCoord, teNexus.zCoord);
