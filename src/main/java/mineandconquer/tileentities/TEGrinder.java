@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
 
@@ -170,6 +171,11 @@ public class TEGrinder extends TileEntity implements IInventory
     {
         //TODO
         return true;
+    }
+    
+    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
+    {
+        return new TEGrinder();
     }
     
     @Override

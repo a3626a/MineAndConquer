@@ -22,6 +22,7 @@ public class BlockGrinder extends BlockContainer{
 	
 	@SideOnly(Side.CLIENT)
 	public IIcon[] icons = new IIcon[6];
+	public IIcon grinding;
 	
 	public BlockGrinder(){
 		super(Material.rock);
@@ -86,6 +87,7 @@ public class BlockGrinder extends BlockContainer{
 			}
 			icons[i] = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(super.getUnlocalizedName() + name));
 		}
+		grinding = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(super.getUnlocalizedName()+"_front_on"));
     }
 	
 	/**
