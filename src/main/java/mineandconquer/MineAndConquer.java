@@ -69,7 +69,5 @@ public class MineAndConquer {
 	@Mod.EventHandler
 	public static void postInit(FMLPostInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
-		
-		System.out.println("FOR TEST: " + Block.blockRegistry.getKeys());
 	}	
 }

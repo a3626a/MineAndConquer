@@ -4,6 +4,7 @@ import mineandconquer.MineAndConquer;
 import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.tileentities.TENexus;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
@@ -92,8 +93,13 @@ public class ContainerNexus02 extends Container {
 				TENexus.MSGTOCLIENT.SYNC_SHOP_DIAMOND.getValue(), tile.xCoord,
 				tile.yCoord, tile.zCoord);
 		msg.setInt(tile.getShop_diamondValue());
-		MineAndConquer.simpleChannel.sendTo(msg,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
-
+		for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
+			if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
+				MineAndConquer.simpleChannel.sendTo(msg, (EntityPlayerMP)i);
+			}
+		}
+		
+		
 	}
 
 	@Override
@@ -106,7 +112,11 @@ public class ContainerNexus02 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_SHOP_DIAMOND.getValue(), tile.xCoord,
 					tile.yCoord, tile.zCoord);
 			msg.setInt(tile.getShop_diamondValue());
-			MineAndConquer.simpleChannel.sendTo(msg,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
+			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
+				if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
+					MineAndConquer.simpleChannel.sendTo(msg, (EntityPlayerMP)i);
+				}
+			}
 		}
 		
 		this.lastShop_diamondValue = this.tile.getShop_diamondValue();

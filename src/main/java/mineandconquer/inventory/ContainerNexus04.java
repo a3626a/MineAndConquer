@@ -4,6 +4,7 @@ import mineandconquer.MineAndConquer;
 import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.tileentities.TENexus;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
@@ -33,14 +34,20 @@ public class ContainerNexus04 extends Container {
 				TENexus.MSGTOCLIENT.SYNC_XP_LEVEL.getValue(), tile.xCoord,
 				tile.yCoord, tile.zCoord);
 		msg.setInt(tile.getXp_level());
-		MineAndConquer.simpleChannel.sendTo(msg,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
-
+		for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
+			if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
+				MineAndConquer.simpleChannel.sendTo(msg, (EntityPlayerMP)i);
+			}
+		}
 		SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
 				TENexus.MSGTOCLIENT.SYNC_XP_POINT.getValue(), tile.xCoord,
 				tile.yCoord, tile.zCoord);
 		msg2.setInt(tile.getXp_point());
-		MineAndConquer.simpleChannel.sendTo(msg2,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
-
+		for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
+			if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
+				MineAndConquer.simpleChannel.sendTo(msg2, (EntityPlayerMP)i);
+			}
+		}
 	}
 
 	@Override
@@ -52,7 +59,11 @@ public class ContainerNexus04 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_XP_LEVEL.getValue(), tile.xCoord,
 					tile.yCoord, tile.zCoord);
 			msg.setInt(tile.getXp_level());
-			MineAndConquer.simpleChannel.sendTo(msg,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
+			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
+				if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
+					MineAndConquer.simpleChannel.sendTo(msg, (EntityPlayerMP)i);
+				}
+			}
 		}
 		
 		if (this.lastXp_point != this.tile.getXp_point()) {
@@ -60,7 +71,11 @@ public class ContainerNexus04 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_XP_POINT.getValue(), tile.xCoord,
 					tile.yCoord, tile.zCoord);
 			msg2.setInt(tile.getXp_point());
-			MineAndConquer.simpleChannel.sendTo(msg2,MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(this.inventoryPlayer.player.getCommandSenderName()));
+			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
+				if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
+					MineAndConquer.simpleChannel.sendTo(msg2, (EntityPlayerMP)i);
+				}
+			}
 		}
 		
 		this.lastXp_Level = this.tile.getXp_level();
