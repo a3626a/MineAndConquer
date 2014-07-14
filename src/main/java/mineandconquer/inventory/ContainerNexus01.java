@@ -21,13 +21,15 @@ public class ContainerNexus01 extends Container {
 
 	private String lastTeam_Name;
 	private ArrayList<String> lastTeam_Members;
-
+	private boolean lastIsActive;
+	
 	public ContainerNexus01(InventoryPlayer player, TENexus nexus) {
 		this.tile = nexus;
 		this.inventoryPlayer = player;
 
 		this.lastTeam_Name = new String();
 		this.lastTeam_Members = (ArrayList) this.tile.getTeam_members().clone();
+		this.lastIsActive =false;
 		bindPlayerInventory();
 	}
 
@@ -56,6 +58,17 @@ public class ContainerNexus01 extends Container {
 		for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
 			if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
 				MineAndConquer.simpleChannel.sendTo(msg2, (EntityPlayerMP)i);
+			}
+		}
+		
+		SimpleNetMessageClient msg3 = new SimpleNetMessageClient(
+				TENexus.MSGTOCLIENT.SYNC_IS_ACTIVE.getValue(),
+				tile.xCoord, tile.yCoord, tile.zCoord);
+		msg3.setBoolean(this.tile.isActive());
+		
+		for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
+			if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
+				MineAndConquer.simpleChannel.sendTo(msg3, (EntityPlayerMP)i);
 			}
 		}
 		
@@ -91,6 +104,19 @@ public class ContainerNexus01 extends Container {
 			}
 		}
 
+		if (this.lastIsActive != this.tile.isActive()) {
+			SimpleNetMessageClient msg3 = new SimpleNetMessageClient(
+					TENexus.MSGTOCLIENT.SYNC_IS_ACTIVE.getValue(),
+					tile.xCoord, tile.yCoord, tile.zCoord);
+			msg3.setBoolean(this.tile.isActive());
+			
+			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
+				if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
+					MineAndConquer.simpleChannel.sendTo(msg3, (EntityPlayerMP)i);
+				}
+			}
+		}
+		
 		this.lastTeam_Members = (ArrayList) this.tile.getTeam_members().clone();
 		this.lastTeam_Name = this.tile.getTeam_name().substring(0);
 	}
