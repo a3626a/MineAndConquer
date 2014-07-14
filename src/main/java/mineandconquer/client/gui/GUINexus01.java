@@ -12,6 +12,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 
 public class GUINexus01 extends GuiContainer {
@@ -37,6 +38,11 @@ public class GUINexus01 extends GuiContainer {
 		// 앞서 말했듯이, id값에 따라 버튼을 구분한다. 파라미터로 주어진 but.id를 하면 해당 버튼의 id를 알 수 있다.
 		switch (but.id) {
 		case 0:
+			if (!this.teNexus.getTeam_members().get(0).equals(this.player.player.getCommandSenderName())) {
+				ChatComponentText chat = new ChatComponentText("Only commander can change your team");
+				player.player.addChatMessage(chat);
+				break;
+			}
 			if (!this.teNexus.isActive() && !TextField_input.getText().isEmpty()) {
 				String team = TextField_input.getText();
 				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.SET_TEAM_NAME.getValue(),
@@ -47,6 +53,11 @@ public class GUINexus01 extends GuiContainer {
 			}
 		    break;
 		case 1:
+			if (!this.teNexus.getTeam_members().get(0).equals(this.player.player.getCommandSenderName())) {
+				ChatComponentText chat = new ChatComponentText("Only commander can change your team");
+				player.player.addChatMessage(chat);
+				break;
+			}
 			if (!this.teNexus.isActive() && !TextField_input.getText().isEmpty()) {
 				String member = TextField_input.getText();
 				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.ADD_TEAM_MEMBERS.getValue(),
@@ -57,6 +68,11 @@ public class GUINexus01 extends GuiContainer {
 			}
 			break;
 		case 2:
+			if (!this.teNexus.getTeam_members().get(0).equals(this.player.player.getCommandSenderName())) {
+				ChatComponentText chat = new ChatComponentText("Only commander can change your team");
+				player.player.addChatMessage(chat);
+				break;
+			}
 			if (!this.teNexus.isActive() && !TextField_input.getText().isEmpty()) {
 				String member = TextField_input.getText();
 				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.DEL_TEAM_MEMBERS.getValue(),
@@ -67,7 +83,12 @@ public class GUINexus01 extends GuiContainer {
 			}
 			break;
 		case 3:
-			if (!this.teNexus.isActive() && !TextField_input.getText().isEmpty()) {
+			if (!this.teNexus.getTeam_members().get(0).equals(this.player.player.getCommandSenderName())) {
+				ChatComponentText chat = new ChatComponentText("Only commander can change your team");
+				player.player.addChatMessage(chat);
+				break;
+			}
+			if (!this.teNexus.isActive()) {
 				SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.EST_TEAM.getValue(),
 						this.teNexus.xCoord, this.teNexus.yCoord,
 						this.teNexus.zCoord);
@@ -119,7 +140,7 @@ public class GUINexus01 extends GuiContainer {
 		super.mouseClicked(x, y, state);
 		int zeroX = (this.width - xSize) / 2;
 		int zeroY = (this.height - ySize - 30) / 2;
-		if (x >= zeroX && x <= zeroX + 17 && y >= zeroY + 24 && y <= zeroY + 45) {
+		if (this.teNexus.isActive() && x >= zeroX && x <= zeroX + 17 && y >= zeroY + 24 && y <= zeroY + 45) {
 
 			SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.OPENGUI_NEXUS02.getValue(),
 					this.teNexus.xCoord, this.teNexus.yCoord,
@@ -132,7 +153,7 @@ public class GUINexus01 extends GuiContainer {
 					teNexus.xCoord, teNexus.yCoord, teNexus.zCoord);
 
 		}
-		if (x >= zeroX && x <= zeroX + 17 && y >= zeroY + 48 && y <= zeroY + 69) {
+		if (this.teNexus.isActive() && x >= zeroX && x <= zeroX + 17 && y >= zeroY + 48 && y <= zeroY + 69) {
 
 			SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.OPENGUI_NEXUS03.getValue(),
 					this.teNexus.xCoord, this.teNexus.yCoord,
@@ -145,7 +166,7 @@ public class GUINexus01 extends GuiContainer {
 					teNexus.xCoord, teNexus.yCoord, teNexus.zCoord);
 
 		}
-		if (x >= zeroX && x <= zeroX + 17 && y >= zeroY + 72 && y <= zeroY + 93) {
+		if (this.teNexus.isActive() && x >= zeroX && x <= zeroX + 17 && y >= zeroY + 72 && y <= zeroY + 93) {
 
 			SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.OPENGUI_NEXUS04.getValue(),
 					this.teNexus.xCoord, this.teNexus.yCoord,

@@ -302,34 +302,67 @@ public class TENexus extends TileEntity implements IInventory,
 		switch (MSGTOSERVER.get(index)) {
 		case SET_TEAM_NAME:
 			this.team_name = data.getString();
-
-			/*
-			 * guardian_entity.setTeam_name(this.team_name);
-			 * 
-			 * ChatComponentText msg3 = new ChatComponentText("The team " + "\""
-			 * + team_name + "\"" + " has been established!"); for (WorldServer
-			 * i : MinecraftServer.getServer().worldServers) { for (Object j :
-			 * i.playerEntities) { if (j instanceof EntityPlayer) {
-			 * ((EntityPlayer)j).addChatMessage(msg3); } } }
-			 * ModEventHandler.onTeamMemberAdded(team_members.get(0),
-			 * team_name);
-			 */
 			break;
 		case ADD_TEAM_MEMBERS:
 			String member = data.getString();
+			
+			if (team_members.contains(member)) {
+				ChatComponentText chat = new ChatComponentText(member+" has already been in your team");
+				this.worldObj.getPlayerEntityByName(this.team_members.get(0)).addChatMessage(chat);
+				break;
+			}
+			
 			if (MinecraftServer.getServer().getConfigurationManager().playerEntityList
 					.contains(member)) {
 				team_members.add(member);
 				// ModEventHandler.onTeamMemberAdded(member,
 				// team_name);
+			} else {
+				ChatComponentText chat = new ChatComponentText("can't find " + member);
+				this.worldObj.getPlayerEntityByName(this.team_members.get(0)).addChatMessage(chat);
 			}
 
 			break;
 		case DEL_TEAM_MEMBERS:
 			String delMember = data.getString();
-			this.team_members.remove(delMember);
+			if (!this.team_members.remove(delMember)) {
+				ChatComponentText chat = new ChatComponentText(delMember + " is not in your team");
+				this.worldObj.getPlayerEntityByName(this.team_members.get(0)).addChatMessage(chat);
+			}
 			break;
 		case EST_TEAM:
+			 
+			if (this.team_name.isEmpty()) {
+				ChatComponentText chat = new ChatComponentText("Please set your team name first");
+				this.worldObj.getPlayerEntityByName(this.team_members.get(0)).addChatMessage(chat);
+				break;
+			}
+			
+			if (MineAndConquer.teamOfPlayer.containsValue(this.getTeam_name())) {
+				ChatComponentText chat = new ChatComponentText("The team " + this.team_name + " already exists in this world");
+				this.worldObj.getPlayerEntityByName(this.team_members.get(0)).addChatMessage(chat);
+				break;
+			}
+			
+			for (String i : this.team_members) {
+				if (MineAndConquer.teamOfPlayer.containsKey(i)) {
+					ChatComponentText chat = new ChatComponentText(i + " has another team");
+					this.worldObj.getPlayerEntityByName(this.team_members.get(0)).addChatMessage(chat);
+					break;
+				}
+			}
+			
+			guardian_entity.setTeam_name(this.team_name);
+			for (String i : this.team_members) {
+				MineAndConquer.teamOfPlayer.put(i, this.team_name);		
+			}
+			ChatComponentText chat = new ChatComponentText("The team " + "\""
+					 + this.team_name + "\"" + " has been established!");
+			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
+				((EntityPlayer)i).addChatMessage(chat);
+			}
+			this.isActive = true;
+
 			break;
 		case OPENGUI_NEXUS01:
 			String pname1 = data.getString();
