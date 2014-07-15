@@ -9,6 +9,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 
 public class GrinderRecipes {
+	private static HashMap<HashSet<Integer>, Integer> recipes = new HashMap<HashSet<Integer>, Integer>();
 	public static final GrinderRecipes grindingBase = new GrinderRecipes();
 	public static final int cobblestoneID = ItemID(Item.getItemFromBlock(Blocks.cobblestone));
 	public static final int gravelID = ItemID(Item.getItemFromBlock(Blocks.gravel));
