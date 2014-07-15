@@ -10,22 +10,16 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelNexusGuardian extends ModelBase {
-	private ModelRenderer batHead;
-	/** The body box of the bat model. */
-	private ModelRenderer batBody;
-	/** The inner right wing box of the bat model. */
-	private ModelRenderer batRightWing;
-	/** The inner left wing box of the bat model. */
-	private ModelRenderer batLeftWing;
-	/** The outer right wing box of the bat model. */
-	private ModelRenderer batOuterRightWing;
-	/** The outer left wing box of the bat model. */
-	private ModelRenderer batOuterLeftWing;
-	private static final String __OBFID = "CL_00000830";
+	private ModelRenderer guardBody;
+	/** The body box of the guardian model. */
+		private static final String __OBFID = "CL_00000830";
 
 	public ModelNexusGuardian() {
-		this.textureWidth = 64;
-		this.textureHeight = 64;
+		this.textureWidth = 256;
+		this.textureHeight = 256;
+		this.guardBody = new ModelRenderer(this,0,0);
+		this.guardBody.addBox(-8.0F, -8.0F, -8.0F, 16, 16, 16);
+		/*
 		this.batHead = new ModelRenderer(this, 0, 0);
 		this.batHead.addBox(-3.0F, -3.0F, -3.0F, 6, 6, 6);
 		ModelRenderer modelrenderer = new ModelRenderer(this, 24, 0);
@@ -55,15 +49,7 @@ public class ModelNexusGuardian extends ModelBase {
 		this.batBody.addChild(this.batLeftWing);
 		this.batRightWing.addChild(this.batOuterRightWing);
 		this.batLeftWing.addChild(this.batOuterLeftWing);
-	}
-
-	/**
-	 * not actually sure this is size, is not used as of now, but the model
-	 * would be recreated if the value changed and it seems a good match for a
-	 * bats size
-	 */
-	public int getBatSize() {
-		return 36;
+		*/
 	}
 
 	/**
@@ -72,23 +58,7 @@ public class ModelNexusGuardian extends ModelBase {
 	public void render(Entity par1Entity, float par2, float par3, float par4,
 			float par5, float par6, float par7) {
 		
-		this.batHead.rotateAngleX = par6 / (180F / (float) Math.PI);
-		this.batHead.rotateAngleY = (float) Math.PI - par5
-				/ (180F / (float) Math.PI);
-		this.batHead.rotateAngleZ = (float) Math.PI;
-		this.batHead.setRotationPoint(0.0F, -2.0F, 0.0F);
-		this.batRightWing.setRotationPoint(-3.0F, 0.0F, 3.0F);
-		this.batLeftWing.setRotationPoint(3.0F, 0.0F, 3.0F);
-		this.batBody.rotateAngleX = (float) Math.PI;
-		this.batRightWing.rotateAngleX = -0.15707964F;
-		this.batRightWing.rotateAngleY = -((float) Math.PI * 2F / 5F);
-		this.batOuterRightWing.rotateAngleY = -1.7278761F;
-		this.batLeftWing.rotateAngleX = this.batRightWing.rotateAngleX;
-		this.batLeftWing.rotateAngleY = -this.batRightWing.rotateAngleY;
-		this.batOuterLeftWing.rotateAngleY = -this.batOuterRightWing.rotateAngleY;
-
-		this.batHead.render(par7);
-		this.batBody.render(par7);
+		this.guardBody.render(par7);
 		
 	}
 }
