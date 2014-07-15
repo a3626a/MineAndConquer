@@ -2,6 +2,7 @@ package mineandconquer.inventory;
 
 import mineandconquer.blocks.ModBlocks;
 import mineandconquer.items.ModItems;
+import mineandconquer.lib.GrinderRecipes;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -18,7 +19,10 @@ public class SlotGrinder extends Slot{
 	//only place item(only accept)
 	@Override
 	public boolean isItemValid(ItemStack par1IS){
-		return par1IS.getItem() == Item.getItemFromBlock(Blocks.cobblestone);
+		for(int i:GrinderRecipes.grindingBase.acceptID){
+			if(i==Item.getIdFromItem(par1IS.getItem())) return true;
+		}
+		return false;
 	}
 }
 

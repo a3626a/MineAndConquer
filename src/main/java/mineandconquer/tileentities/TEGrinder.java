@@ -1,8 +1,11 @@
 package mineandconquer.tileentities;
 
 
+import java.util.HashSet;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -38,6 +41,15 @@ public class TEGrinder extends TileEntity implements IInventory
     		this.grindTime--;
     	}
     	
+    }
+    
+    public void canGrind(){
+    	HashSet<Integer> set = new HashSet<Integer>();
+    	for(ItemStack i:inventory){
+    		if(i!=null){
+    			set.add(Item.getIdFromItem(i.getItem()));
+    		}
+    	}
     }
  
     //Returns the size of the inventory (aka number of slots, see INVENTORY_SIZE)

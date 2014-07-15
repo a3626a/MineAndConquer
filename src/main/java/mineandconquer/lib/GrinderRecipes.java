@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 
 public class GrinderRecipes {
 	private static HashMap<HashSet<Integer>, Integer> recipes = new HashMap<HashSet<Integer>, Integer>();
+	private static HashSet<HashSet<Integer>> recipeslist = new HashSet<HashSet<Integer>>();
 	public static final GrinderRecipes grindingBase = new GrinderRecipes();
 	public static final int cobblestoneID = ItemID(Item.getItemFromBlock(Blocks.cobblestone));
 	public static final int gravelID = ItemID(Item.getItemFromBlock(Blocks.gravel));
@@ -18,8 +19,17 @@ public class GrinderRecipes {
 	public static final int obsidianID = ItemID(Item.getItemFromBlock(Blocks.obsidian));
 	public static final int diamondID = ItemID(Items.diamond);
 	public static final int ironID = ItemID(Items.iron_ingot);
+	public static int[] acceptID = {cobblestoneID,gravelID,sandID,ironoreID,obsidianID,diamondID,ironID};
 	public static GrinderRecipes grinding(){
 		return grindingBase;
+	}
+	
+	private GrinderRecipes(){
+		HashSet<Integer> set1 = new HashSet<Integer>();
+		set1.add(cobblestoneID);
+		set1.add(gravelID);
+		recipeslist.add(set1);
+		recipes.put(set1, sandID);
 	}
 	
 	private static int ItemID(Item item){
@@ -27,11 +37,8 @@ public class GrinderRecipes {
 	}
 	
 	public Item getGrindResult(HashSet<Integer> set){
-		HashSet<Integer> set1 = new HashSet<Integer>();
-		set1.add(cobblestoneID);
-		set1.add(gravelID);
-		if(set.equals(set1)){
-			return Item.getItemFromBlock(Blocks.sand);
+		if(recipeslist.contains(set)){
+			return Item.getItemById(recipes.get(set));
 		}
 		return Items.diamond;
 	}
