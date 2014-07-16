@@ -314,6 +314,7 @@ public class TENexus extends TileEntity implements IInventory,
 			
 			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
 				if (((EntityPlayerMP)i).getCommandSenderName().equals(player)) {
+					//MinecraftServer.getServer().getConfigurationManager().allowUserToConnect(p_148542_1_, p_148542_2_)
 				}
 			}
 			this.revival_numOfStone--;
