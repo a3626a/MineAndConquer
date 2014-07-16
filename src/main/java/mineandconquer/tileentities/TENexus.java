@@ -22,6 +22,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 
+import com.mojang.authlib.GameProfile;
+
 public class TENexus extends TileEntity implements IInventory,
 		SimpleNetReceiver {
 
@@ -92,7 +94,8 @@ public class TENexus extends TileEntity implements IInventory,
 	private int xp_point;
 	private int revival_numOfStone;
 	private PriorityQueue<String> revival_bannedPlayers;
-
+	private int revival_time;
+	
 	public TENexus() {
 		inventory = new ItemStack[INVENTORY_SIZE];
 		isActive = false;
@@ -251,10 +254,19 @@ public class TENexus extends TileEntity implements IInventory,
 		return 1 + this.xp_level;
 	}
 
+	/***
+	 * 
+	 * @return : 부활석이 재생되는데 걸릴 시간
+	 */
+	public int getRevivalPeriod() {
+		return 3600 + 600*this.xp_level;
+	}
+	
 	@Override
 	public void updateEntity() {
 		if (!this.worldObj.isRemote) {
 			updateShop();
+			updateRevival();
 		}
 	}
 
@@ -296,6 +308,24 @@ public class TENexus extends TileEntity implements IInventory,
 		}
 	}
 
+	public void updateRevival() {
+		if (this.revival_numOfStone > 0 && !this.revival_bannedPlayers.isEmpty()) {
+			String player = this.revival_bannedPlayers.poll();
+			
+			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
+				if (((EntityPlayerMP)i).getCommandSenderName().equals(player)) {
+				}
+			}
+			this.revival_numOfStone--;
+		}
+		
+		if (this.revival_time==0 && this.revival_numOfStone < getRevivalStoneCap()) {
+			this.revival_numOfStone++;
+			this.revival_time = getRevivalPeriod();
+		}		
+		this.revival_time--;
+	}
+	
 	@Override
 	public void onMessage(int index, SimpleNetMessageServer data) {
 
