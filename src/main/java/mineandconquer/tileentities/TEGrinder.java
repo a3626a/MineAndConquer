@@ -3,6 +3,7 @@ package mineandconquer.tileentities;
 
 import java.util.HashSet;
 
+import mineandconquer.lib.GrinderRecipes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -43,13 +44,14 @@ public class TEGrinder extends TileEntity implements IInventory
     	
     }
     
-    public void canGrind(){
+    public boolean canGrind(){
     	HashSet<Integer> set = new HashSet<Integer>();
     	for(ItemStack i:inventory){
     		if(i!=null){
     			set.add(Item.getIdFromItem(i.getItem()));
     		}
     	}
+    	return GrinderRecipes.grindingBase.recipeslist.contains(set);
     }
  
     //Returns the size of the inventory (aka number of slots, see INVENTORY_SIZE)
