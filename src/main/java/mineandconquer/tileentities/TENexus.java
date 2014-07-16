@@ -12,6 +12,7 @@ import mineandconquer.network.SimpleNetReceiver;
 import mineandconquer.tools.Coordinate;
 import mineandconquer.tools.ToolXP;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -33,7 +34,7 @@ public class TENexus extends TileEntity implements IInventory,
 				15), OPENGUI_NEXUS01(2), OPENGUI_NEXUS02(3), OPENGUI_NEXUS03(4), OPENGUI_NEXUS04(
 				5), MOVEXP_TONEXUS5(6), MOVEXP_TONEXUS50(7), MOVEXP_TONEXUSMAX(
 				8), MOVEXP_TOPLAYER5(9), MOVEXP_TOPLAYER50(10), MOVEXP_TOPLAYERMAX(
-				11), LEVELUP(12);
+				11), LEVELUP(12), DEATH(16);
 		private int value;
 
 		private MSGTOSERVER(int value) {
@@ -90,7 +91,7 @@ public class TENexus extends TileEntity implements IInventory,
 	private int xp_level;
 	private int xp_point;
 	private int revival_numOfStone;
-	private PriorityQueue revival_bannedPlayers;
+	private PriorityQueue<String> revival_bannedPlayers;
 
 	public TENexus() {
 		inventory = new ItemStack[INVENTORY_SIZE];
@@ -304,66 +305,82 @@ public class TENexus extends TileEntity implements IInventory,
 			break;
 		case ADD_TEAM_MEMBERS:
 			String member = data.getString();
-			
+
 			if (team_members.contains(member)) {
-				ChatComponentText chat = new ChatComponentText(member+" has already been in your team");
-				this.worldObj.getPlayerEntityByName(this.team_members.get(0)).addChatMessage(chat);
+				ChatComponentText chat = new ChatComponentText(member
+						+ " has already been in your team");
+				this.worldObj.getPlayerEntityByName(this.team_members.get(0))
+						.addChatMessage(chat);
 				break;
 			}
-			
+
 			if (MinecraftServer.getServer().getConfigurationManager().playerEntityList
 					.contains(member)) {
 				team_members.add(member);
 				// ModEventHandler.onTeamMemberAdded(member,
 				// team_name);
 			} else {
-				ChatComponentText chat = new ChatComponentText("can't find " + member);
-				this.worldObj.getPlayerEntityByName(this.team_members.get(0)).addChatMessage(chat);
+				ChatComponentText chat = new ChatComponentText("can't find "
+						+ member);
+				this.worldObj.getPlayerEntityByName(this.team_members.get(0))
+						.addChatMessage(chat);
 			}
 
 			break;
 		case DEL_TEAM_MEMBERS:
 			String delMember = data.getString();
 			if (!this.team_members.remove(delMember)) {
-				ChatComponentText chat = new ChatComponentText(delMember + " is not in your team");
-				this.worldObj.getPlayerEntityByName(this.team_members.get(0)).addChatMessage(chat);
+				ChatComponentText chat = new ChatComponentText(delMember
+						+ " is not in your team");
+				this.worldObj.getPlayerEntityByName(this.team_members.get(0))
+						.addChatMessage(chat);
 			}
 			break;
 		case EST_TEAM:
-			 
 			if (this.team_name.isEmpty()) {
-				ChatComponentText chat = new ChatComponentText("Please set your team name first");
-				this.worldObj.getPlayerEntityByName(this.team_members.get(0)).addChatMessage(chat);
+				ChatComponentText chat = new ChatComponentText(
+						"Please set your team name first");
+				this.worldObj.getPlayerEntityByName(this.team_members.get(0))
+						.addChatMessage(chat);
 				break;
 			}
-			
+
 			if (MineAndConquer.teamOfPlayer.containsValue(this.getTeam_name())) {
-				ChatComponentText chat = new ChatComponentText("The team " + this.team_name + " already exists in this world");
-				this.worldObj.getPlayerEntityByName(this.team_members.get(0)).addChatMessage(chat);
+				ChatComponentText chat = new ChatComponentText("The team "
+						+ this.team_name + " already exists in this world");
+				this.worldObj.getPlayerEntityByName(this.team_members.get(0))
+						.addChatMessage(chat);
 				break;
 			}
-			
+
+			boolean flagForBreak = false;
 			for (String i : this.team_members) {
 				if (MineAndConquer.teamOfPlayer.containsKey(i)) {
-					ChatComponentText chat = new ChatComponentText(i + " has another team");
-					this.worldObj.getPlayerEntityByName(this.team_members.get(0)).addChatMessage(chat);
-					break;
+					ChatComponentText chat = new ChatComponentText(i
+							+ " has another team");
+					this.worldObj.getPlayerEntityByName(
+							this.team_members.get(0)).addChatMessage(chat);
+					flagForBreak = true;
 				}
 			}
-			
+			if (flagForBreak)
+				break;
+
 			guardian_entity.setTeam_name(this.team_name);
 			for (String i : this.team_members) {
-				MineAndConquer.teamOfPlayer.put(i, this.team_name);		
+				MineAndConquer.teamOfPlayer.put(i, this.team_name);
 			}
 			ChatComponentText chat = new ChatComponentText("The team " + "\""
-					 + this.team_name + "\"" + " has been established!");
-			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-				((EntityPlayer)i).addChatMessage(chat);
+					+ this.team_name + "\"" + " has been established!");
+			for (Object i : MinecraftServer.getServer()
+					.getConfigurationManager().playerEntityList) {
+				((EntityPlayer) i).addChatMessage(chat);
 			}
+			MineAndConquer.coorOfTeam.put(this.team_name, new Coordinate(
+					this.xCoord, this.yCoord, this.zCoord));
+			revival_bannedPlayers = new PriorityQueue<String>(
+					this.team_members.size());
 			this.isActive = true;
-
-			MineAndConquer.coorOfTeam.put(this.team_name, new Coordinate(this.xCoord, this.yCoord, this.zCoord));
-			
 			break;
 		case OPENGUI_NEXUS01:
 			String pname1 = data.getString();
@@ -453,6 +470,27 @@ public class TENexus extends TileEntity implements IInventory,
 				this.xp_point = 0;
 			}
 			break;
+		case DEATH:
+			if (!this.isActive)
+				break;
+
+			if (this.revival_numOfStone > 0) {
+				this.revival_numOfStone--;
+				break;
+			} else {
+				this.revival_bannedPlayers.add(data.getString());
+				for (Object i : MinecraftServer.getServer()
+						.getConfigurationManager().playerEntityList) {
+					if (((EntityPlayerMP) i).getCommandSenderName().equals(
+							data.getString())) {
+						((EntityPlayerMP) i).playerNetServerHandler
+								.kickPlayerFromServer("Wait for revival!");
+						break;
+					}
+				}
+			}
+
+			break;
 		}
 	}
 
@@ -503,10 +541,26 @@ public class TENexus extends TileEntity implements IInventory,
 		this.xp_point = tag.getInteger("xp_point");
 		this.revival_numOfStone = tag.getInteger("revival_numOfStone");
 
-		NBTTagList nbttaglist = tag.getTagList("members", 10);
-		for (int i = 0; i < nbttaglist.tagCount(); i++) {
-			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
+		NBTTagList nbttaglist1 = tag.getTagList("members", 10);
+		for (int i = 0; i < nbttaglist1.tagCount(); i++) {
+			NBTTagCompound nbttagcompound1 = nbttaglist1.getCompoundTagAt(i);
 			team_members.add(nbttagcompound1.getString("member"));
+		}
+
+		if (this.isActive) {
+			NBTTagList nbttaglist = tag.getTagList("bannedPlayers", 10);
+			if (nbttaglist != null) {
+				for (int i = 0; i < nbttaglist.tagCount(); i++) {
+					NBTTagCompound nbttagcompound1 = nbttaglist
+							.getCompoundTagAt(i);
+					this.revival_bannedPlayers = new PriorityQueue<String>(
+							this.team_members.size());
+					this.revival_bannedPlayers.add(nbttagcompound1
+							.getString("bannedPlayer"));
+				}
+			} else {
+				this.revival_bannedPlayers = new PriorityQueue<String>(this.team_members.size());
+			}
 		}
 	}
 
@@ -531,13 +585,26 @@ public class TENexus extends TileEntity implements IInventory,
 		tag.setInteger("xp_point", xp_point);
 		tag.setInteger("revival_numOfStone", revival_numOfStone);
 
-		NBTTagList nbttaglist = new NBTTagList();
+		NBTTagList nbttaglist1 = new NBTTagList();
 		for (String i : team_members) {
 			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 			nbttagcompound1.setString("member", i);
-			nbttaglist.appendTag(nbttagcompound1);
+			nbttaglist1.appendTag(nbttagcompound1);
 		}
-		tag.setTag("members", nbttaglist);
+		tag.setTag("members", nbttaglist1);
+
+		NBTTagList nbttaglist2 = new NBTTagList();
+
+		if (this.isActive) {
+			if (!this.revival_bannedPlayers.isEmpty()) {
+				for (String i : this.revival_bannedPlayers) {
+					NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+					nbttagcompound1.setString("bannedPlayer", i);
+					nbttaglist2.appendTag(nbttagcompound1);
+				}
+				tag.setTag("bannedPlayers", nbttaglist2);
+			}
+		}
 	}
 
 	public String getTeam_name() {

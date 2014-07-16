@@ -49,6 +49,7 @@ public class MineAndConquer {
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
 		teamOfPlayer = new HashMap();
+		coorOfTeam = new HashMap();
 		ModBlocks.init();
 		ModItems.init();
 		CraftingHandler.init();
