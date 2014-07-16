@@ -15,7 +15,7 @@ import mineandconquer.network.SimpleNetHandlerClient;
 import mineandconquer.network.SimpleNetHandlerServer;
 import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.network.SimpleNetMessageServer;
-import net.minecraft.block.Block;
+import mineandconquer.tools.Coordinate;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
@@ -38,8 +38,7 @@ public class MineAndConquer {
 	public static SimpleNetworkWrapper simpleChannel;
 	
 	public static HashMap<String, String> teamOfPlayer;
-
-	
+	public static HashMap<String, Coordinate> coorOfTeam;
 	
 	@Mod.Instance
 	public static MineAndConquer instance;

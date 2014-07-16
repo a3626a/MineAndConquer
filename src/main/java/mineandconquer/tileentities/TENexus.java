@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 import mineandconquer.MineAndConquer;
-import mineandconquer.core.handler.ModEventHandler;
 import mineandconquer.entities.EntityNexusGuardian;
 import mineandconquer.lib.Strings;
 import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.network.SimpleNetMessageServer;
 import mineandconquer.network.SimpleNetReceiver;
+import mineandconquer.tools.Coordinate;
 import mineandconquer.tools.ToolXP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -20,7 +20,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.WorldServer;
 
 public class TENexus extends TileEntity implements IInventory,
 		SimpleNetReceiver {
@@ -363,6 +362,8 @@ public class TENexus extends TileEntity implements IInventory,
 			}
 			this.isActive = true;
 
+			MineAndConquer.coorOfTeam.put(this.team_name, new Coordinate(this.xCoord, this.yCoord, this.zCoord));
+			
 			break;
 		case OPENGUI_NEXUS01:
 			String pname1 = data.getString();
