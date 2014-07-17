@@ -3,6 +3,8 @@ package mineandconquer.tileentities;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+import com.mojang.authlib.GameProfile;
+
 import mineandconquer.MineAndConquer;
 import mineandconquer.entities.EntityNexusGuardian;
 import mineandconquer.lib.Strings;
@@ -21,8 +23,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
-
-import com.mojang.authlib.GameProfile;
 
 public class TENexus extends TileEntity implements IInventory,
 		SimpleNetReceiver {
@@ -95,7 +95,7 @@ public class TENexus extends TileEntity implements IInventory,
 	private int revival_numOfStone;
 	private PriorityQueue<String> revival_bannedPlayers;
 	private int revival_time;
-	
+
 	public TENexus() {
 		inventory = new ItemStack[INVENTORY_SIZE];
 		isActive = false;
@@ -259,9 +259,9 @@ public class TENexus extends TileEntity implements IInventory,
 	 * @return : 부활석이 재생되는데 걸릴 시간
 	 */
 	public int getRevivalPeriod() {
-		return 3600 + 600*this.xp_level;
+		return 3600 + 600 * this.xp_level;
 	}
-	
+
 	@Override
 	public void updateEntity() {
 		if (!this.worldObj.isRemote && this.isActive) {
@@ -309,24 +309,29 @@ public class TENexus extends TileEntity implements IInventory,
 	}
 
 	public void updateRevival() {
-		if (this.revival_numOfStone > 0 && !this.revival_bannedPlayers.isEmpty()) {
+		if (this.revival_numOfStone > 0
+				&& !this.revival_bannedPlayers.isEmpty()) {
 			String player = this.revival_bannedPlayers.poll();
+
+			MinecraftServer minecraftserver = MinecraftServer.getServer();
+			GameProfile gameprofile = minecraftserver.getConfigurationManager()
+					.func_152608_h().func_152703_a(player);
+			if (gameprofile != null) {
+			minecraftserver.getConfigurationManager().func_152608_h()
+					.func_152684_c(gameprofile);
 			
-			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-				if (((EntityPlayerMP)i).getCommandSenderName().equals(player)) {
-					//MinecraftServer.getServer().getConfigurationManager().allowUserToConnect(p_148542_1_, p_148542_2_)
-				}
-			}
 			this.revival_numOfStone--;
+			}
 		}
-		
-		if (this.revival_time==0 && this.revival_numOfStone < getRevivalStoneCap()) {
+
+		if (this.revival_time == 0
+				&& this.revival_numOfStone < getRevivalStoneCap()) {
 			this.revival_numOfStone++;
 			this.revival_time = getRevivalPeriod();
-		}		
+		}
 		this.revival_time--;
 	}
-	
+
 	@Override
 	public void onMessage(int index, SimpleNetMessageServer data) {
 
@@ -586,11 +591,12 @@ public class TENexus extends TileEntity implements IInventory,
 							.getCompoundTagAt(i);
 					this.revival_bannedPlayers = new PriorityQueue<String>(
 							this.team_members.size());
-					this.revival_bannedPlayers.add(nbttagcompound1
+					this.revival_bannedPlayers.offer(nbttagcompound1
 							.getString("bannedPlayer"));
 				}
 			} else {
-				this.revival_bannedPlayers = new PriorityQueue<String>(this.team_members.size());
+				this.revival_bannedPlayers = new PriorityQueue<String>(
+						this.team_members.size());
 			}
 		}
 	}
@@ -608,7 +614,7 @@ public class TENexus extends TileEntity implements IInventory,
 		 * p_145841_1_.setTag("Items", nbttaglist);
 		 */
 		tag.setBoolean("isActive", this.isActive);
-		if (!team_name.equals("")) {
+		if (!team_name.isEmpty()) {
 			tag.setString("team", team_name);
 		}
 		tag.setInteger("shop_diamondValue", shop_diamondValue);
