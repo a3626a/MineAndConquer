@@ -264,7 +264,7 @@ public class TENexus extends TileEntity implements IInventory,
 	
 	@Override
 	public void updateEntity() {
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isRemote && this.isActive) {
 			updateShop();
 			updateRevival();
 		}
