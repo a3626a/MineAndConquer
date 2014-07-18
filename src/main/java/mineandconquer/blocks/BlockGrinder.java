@@ -87,7 +87,7 @@ public class BlockGrinder extends BlockContainer{
 			}
 			icons[i] = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(super.getUnlocalizedName() + name));
 		}
-		grinding = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(super.getUnlocalizedName()+"_front_on"));
+		//grinding = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(super.getUnlocalizedName()+"_front_on"));
     }
 	
 	/**
