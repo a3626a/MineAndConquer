@@ -22,6 +22,7 @@ public class BlockGrinder extends BlockContainer{
 	
 	@SideOnly(Side.CLIENT)
 	public IIcon[] icons = new IIcon[6];
+	@SideOnly(Side.CLIENT)
 	public IIcon grinding;
 	
 	public BlockGrinder(){
