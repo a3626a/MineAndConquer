@@ -3,7 +3,6 @@ package mineandconquer.blocks;
 import mineandconquer.MineAndConquer;
 import mineandconquer.lib.References;
 import mineandconquer.lib.Strings;
-import mineandconquer.tileentities.TEDoubleFurnace;
 import mineandconquer.tileentities.TEGrinder;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -18,10 +17,13 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+
+
 public class BlockGrinder extends BlockContainer{
 	
 	@SideOnly(Side.CLIENT)
-	public IIcon[] icons = new IIcon[6];
+	public IIcon[] icons;
+	
 	@SideOnly(Side.CLIENT)
 	public IIcon grinding;
 	
@@ -71,6 +73,7 @@ public class BlockGrinder extends BlockContainer{
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister)
     {
+		icons = new IIcon[6];
 		for(int i=0;i<icons.length;i++){
 			String name;
 			switch(i){
@@ -88,7 +91,7 @@ public class BlockGrinder extends BlockContainer{
 			}
 			icons[i] = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(super.getUnlocalizedName() + name));
 		}
-		//grinding = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(super.getUnlocalizedName()+"_front_on"));
+		grinding = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(super.getUnlocalizedName()+"_front_on"));
     }
 	
 	/**
