@@ -36,7 +36,7 @@ public class TENexus extends TileEntity implements IInventory,
 				15), OPENGUI_NEXUS01(2), OPENGUI_NEXUS02(3), OPENGUI_NEXUS03(4), OPENGUI_NEXUS04(
 				5), MOVEXP_TONEXUS5(6), MOVEXP_TONEXUS50(7), MOVEXP_TONEXUSMAX(
 				8), MOVEXP_TOPLAYER5(9), MOVEXP_TOPLAYER50(10), MOVEXP_TOPLAYERMAX(
-				11), LEVELUP(12), DEATH(16);
+				11), LEVELUP(12), DEATH(16), OPENGUI_NEXUS05(17);
 		private int value;
 
 		private MSGTOSERVER(int value) {
@@ -59,7 +59,7 @@ public class TENexus extends TileEntity implements IInventory,
 
 	public enum MSGTOCLIENT {
 		SYNC_IS_ACTIVE(5), SYNC_TEAM_NAME(0), SYNC_TEAM_MEMBERS(1), SYNC_SHOP_DIAMOND(
-				2), SYNC_XP_LEVEL(3), SYNC_XP_POINT(4);
+				2), SYNC_XP_LEVEL(3), SYNC_XP_POINT(4), SYNC_REVIVAL_TIME(6), SYNC_REVIVAL_STONE(7);
 		private int value;
 
 		private MSGTOCLIENT(int value) {
@@ -105,6 +105,7 @@ public class TENexus extends TileEntity implements IInventory,
 		xp_level = 1;
 		xp_point = 0;
 		revival_numOfStone = getRevivalStoneCap();
+		revival_time = getRevivalPeriod();
 	}
 
 	@Override
@@ -329,7 +330,9 @@ public class TENexus extends TileEntity implements IInventory,
 			this.revival_numOfStone++;
 			this.revival_time = getRevivalPeriod();
 		}
-		this.revival_time--;
+		if (this.revival_numOfStone < getRevivalStoneCap()) {
+			this.revival_time--;
+		}
 	}
 
 	@Override
@@ -448,6 +451,14 @@ public class TENexus extends TileEntity implements IInventory,
 					this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 
 			break;
+		case OPENGUI_NEXUS05:
+			String pname11 = data.getString();
+
+			this.worldObj.getPlayerEntityByName(pname11).openGui(
+					MineAndConquer.instance, Strings.GuiNexusID05,
+					this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+
+			break;
 		case MOVEXP_TONEXUS5:
 			String pname5 = data.getString();
 
@@ -554,6 +565,12 @@ public class TENexus extends TileEntity implements IInventory,
 		case SYNC_IS_ACTIVE:
 			this.isActive = data.getBoolean();
 			break;
+		case SYNC_REVIVAL_STONE:
+			this.revival_numOfStone = data.getInt();
+			break;
+		case SYNC_REVIVAL_TIME:
+			this.revival_time = data.getInt();
+			break;
 		}
 	}
 
@@ -576,7 +593,8 @@ public class TENexus extends TileEntity implements IInventory,
 		this.xp_level = tag.getInteger("xp_level");
 		this.xp_point = tag.getInteger("xp_point");
 		this.revival_numOfStone = tag.getInteger("revival_numOfStone");
-
+		this.revival_time = tag.getInteger("revival_time");
+		
 		NBTTagList nbttaglist1 = tag.getTagList("members", 10);
 		for (int i = 0; i < nbttaglist1.tagCount(); i++) {
 			NBTTagCompound nbttagcompound1 = nbttaglist1.getCompoundTagAt(i);
@@ -630,7 +648,8 @@ public class TENexus extends TileEntity implements IInventory,
 		tag.setInteger("xp_level", xp_level);
 		tag.setInteger("xp_point", xp_point);
 		tag.setInteger("revival_numOfStone", revival_numOfStone);
-
+		tag.setInteger("revival_time", revival_time);
+		
 		NBTTagList nbttaglist1 = new NBTTagList();
 		for (String i : team_members) {
 			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
@@ -713,6 +732,14 @@ public class TENexus extends TileEntity implements IInventory,
 		this.revival_numOfStone = revival_numOfStone;
 	}
 
+	public int getRevival_time() {
+		return revival_time;
+	}
+
+	public void setRevival_time(int revival_time) {
+		this.revival_time = revival_time;
+	}	
+	
 	public boolean isActive() {
 		return isActive;
 	}

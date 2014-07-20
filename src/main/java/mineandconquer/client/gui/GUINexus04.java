@@ -176,6 +176,17 @@ public class GUINexus04 extends GuiContainer {
 			}
 			
 		}
+		if (x >= zeroX && x <= zeroX + 17 && y >= zeroY + 96 && y <= zeroY + 117) {
+
+			SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.OPENGUI_NEXUS05.getValue(),
+					this.teNexus.xCoord, this.teNexus.yCoord,
+					this.teNexus.zCoord);
+			msg.setString(this.player.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendToServer(msg);
+			(this.player.player).openGui(MineAndConquer.instance,
+					Strings.GuiNexusID05, teNexus.getWorldObj(),
+					teNexus.xCoord, teNexus.yCoord, teNexus.zCoord);
+		}
 		
 	}
 
