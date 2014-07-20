@@ -37,6 +37,7 @@ public class MineAndConquer {
 	}
 	public static SimpleNetworkWrapper simpleChannel;
 	
+	
 	public static HashMap<String, String> teamOfPlayer;
 	public static HashMap<String, Coordinate> coorOfTeam;
 	
