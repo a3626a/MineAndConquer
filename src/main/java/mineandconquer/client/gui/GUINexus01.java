@@ -176,17 +176,7 @@ public class GUINexus01 extends GuiContainer {
 			(this.player.player).openGui(MineAndConquer.instance,
 					Strings.GuiNexusID04, teNexus.getWorldObj(),
 					teNexus.xCoord, teNexus.yCoord, teNexus.zCoord);
-		}
-		if (this.teNexus.isActive() && x >= zeroX && x <= zeroX + 17 && y >= zeroY + 96 && y <= zeroY + 117) {
 
-			SimpleNetMessageServer msg = new SimpleNetMessageServer(TENexus.MSGTOSERVER.OPENGUI_NEXUS05.getValue(),
-					this.teNexus.xCoord, this.teNexus.yCoord,
-					this.teNexus.zCoord);
-			msg.setString(this.player.player.getCommandSenderName());
-			MineAndConquer.simpleChannel.sendToServer(msg);
-			(this.player.player).openGui(MineAndConquer.instance,
-					Strings.GuiNexusID05, teNexus.getWorldObj(),
-					teNexus.xCoord, teNexus.yCoord, teNexus.zCoord);
 		}
 		TextField_input.mouseClicked(x, y, state);
 

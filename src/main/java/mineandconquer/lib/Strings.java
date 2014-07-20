@@ -23,5 +23,4 @@ public class Strings {
 	public static final int GuiNexusID04 = 4;
 	public static final int GuiDoubleFurnaceID = 5;
 	public static final int GuiGrinderID = 6;
-	public static final int GuiNexusID05 = 7;
 }
