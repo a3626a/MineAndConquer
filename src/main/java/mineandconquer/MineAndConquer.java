@@ -46,6 +46,7 @@ public class MineAndConquer {
 	@SidedProxy(clientSide = References.CLIENTPROXYLOCATION, serverSide = References.COMMONPROXYLOCATION)
 	public static CommonProxy proxy;
 	
+	
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
 		teamOfPlayer = new HashMap();
@@ -70,4 +71,5 @@ public class MineAndConquer {
 	public static void postInit(FMLPostInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
 	}	
+
 }

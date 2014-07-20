@@ -317,10 +317,10 @@ public class TENexus extends TileEntity implements IInventory,
 			GameProfile gameprofile = minecraftserver.getConfigurationManager()
 					.func_152608_h().func_152703_a(player);
 			if (gameprofile != null) {
-			minecraftserver.getConfigurationManager().func_152608_h()
-					.func_152684_c(gameprofile);
-			
-			this.revival_numOfStone--;
+				minecraftserver.getConfigurationManager().func_152608_h()
+						.func_152684_c(gameprofile);
+
+				this.revival_numOfStone--;
 			}
 		}
 
@@ -586,17 +586,26 @@ public class TENexus extends TileEntity implements IInventory,
 		if (this.isActive) {
 			NBTTagList nbttaglist = tag.getTagList("bannedPlayers", 10);
 			if (nbttaglist != null) {
+				this.revival_bannedPlayers = new PriorityQueue<String>(
+						this.team_members.size());
 				for (int i = 0; i < nbttaglist.tagCount(); i++) {
 					NBTTagCompound nbttagcompound1 = nbttaglist
 							.getCompoundTagAt(i);
-					this.revival_bannedPlayers = new PriorityQueue<String>(
-							this.team_members.size());
 					this.revival_bannedPlayers.offer(nbttagcompound1
 							.getString("bannedPlayer"));
 				}
 			} else {
 				this.revival_bannedPlayers = new PriorityQueue<String>(
 						this.team_members.size());
+			}
+			for (String i : this.team_members) {
+				if (!MineAndConquer.teamOfPlayer.containsKey(i)) {
+					MineAndConquer.teamOfPlayer.put(i, this.team_name);
+				}
+			}
+			if (!MineAndConquer.coorOfTeam.containsKey(this.team_name)) {
+				MineAndConquer.coorOfTeam.put(this.team_name, new Coordinate(
+						this.xCoord, this.yCoord, this.zCoord));
 			}
 		}
 	}
