@@ -7,9 +7,16 @@ import mineandconquer.tools.Coordinate;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.world.WorldEvent.Unload;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class ForgeEventHandler {
+	
+	@SubscribeEvent
+	public void EventWorldLoad(Unload event) {
+		MineAndConquer.coorOfTeam.clear();
+		MineAndConquer.teamOfPlayer.clear();
+	}
 	
 	@SubscribeEvent
 	public void EventRespawn(LivingDeathEvent event) {
