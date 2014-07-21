@@ -10,15 +10,22 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelNexusGuardian extends ModelBase {
-	private ModelRenderer guardBody;
+	private ModelRenderer guardBodyBottom;
+	private ModelRenderer guardBodyTop;
+	private ModelRenderer guardHead;
+	
 	/** The body box of the guardian model. */
 		private static final String __OBFID = "CL_00000830";
 
 	public ModelNexusGuardian() {
 		this.textureWidth = 256;
 		this.textureHeight = 256;
-		this.guardBody = new ModelRenderer(this,0,0);
-		this.guardBody.addBox(-8.0F, -8.0F, -8.0F, 16, 16, 16);
+		this.guardBodyBottom = new ModelRenderer(this,0,0);
+		this.guardBodyBottom.addBox(-8.0F, +8F, -8.0F, 16, 16, 16);
+		this.guardBodyTop = new ModelRenderer(this,0,32);
+		this.guardBodyTop.addBox(-6.0F, -8F, -6.0F, 12, 16, 12);
+		this.guardHead = new ModelRenderer(this,0,60);
+		this.guardHead.addBox(-5.0F, -16F, -5.0F, 10, 8, 10);
 		/*
 		this.batHead = new ModelRenderer(this, 0, 0);
 		this.batHead.addBox(-3.0F, -3.0F, -3.0F, 6, 6, 6);
@@ -58,7 +65,8 @@ public class ModelNexusGuardian extends ModelBase {
 	public void render(Entity par1Entity, float par2, float par3, float par4,
 			float par5, float par6, float par7) {
 		
-		this.guardBody.render(par7);
-		
+		this.guardBodyBottom.render(par7);
+		this.guardBodyTop.render(par7);
+		this.guardHead.render(par7);
 	}
 }

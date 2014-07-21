@@ -24,6 +24,7 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 
 	public EntityNexusGuardian(World par1World) {
 		super(par1World);
+		this.setSize(1, 2.5F);
 		this.tasks.addTask(6, new EntityAIWatchClosest(this,
 				EntityPlayer.class, 8.0F));
 		this.tasks.addTask(6, new EntityAILookIdle(this));
@@ -135,7 +136,7 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 	@Override
 	public void onDeath(DamageSource p_70645_1_) {
 		// TODO Auto-generated method stub
-		((TENexus)this.worldObj.getTileEntity((int)this.posX, (int)this.posY, (int)this.posZ)).destroy();
+		((TENexus)this.worldObj.getTileEntity((int)this.posX, (int)this.posY-1, (int)this.posZ)).destroy();
 		super.onDeath(p_70645_1_);
 	}
 }

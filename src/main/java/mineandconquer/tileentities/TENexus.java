@@ -84,7 +84,6 @@ public class TENexus extends TileEntity implements IInventory,
 	private int INVENTORY_SIZE = 9;
 
 	private EntityNexusGuardian guardian_entity;
-
 	private boolean isActive;
 
 	private String team_name;
@@ -617,6 +616,7 @@ public class TENexus extends TileEntity implements IInventory,
 		this.xp_point = tag.getInteger("xp_point");
 		this.revival_numOfStone = tag.getInteger("revival_numOfStone");
 		this.revival_time = tag.getInteger("revival_time");
+		this.guardian_entity = (EntityNexusGuardian) this.worldObj.getEntityByID(tag.getInteger("guardian_id"));
 		
 		NBTTagList nbttaglist1 = tag.getTagList("members", 10);
 		for (int i = 0; i < nbttaglist1.tagCount(); i++) {
@@ -649,6 +649,8 @@ public class TENexus extends TileEntity implements IInventory,
 						this.xCoord, this.yCoord, this.zCoord));
 			}
 		}
+		
+		
 	}
 
 	public void writeToNBT(NBTTagCompound tag) {
@@ -672,7 +674,7 @@ public class TENexus extends TileEntity implements IInventory,
 		tag.setInteger("xp_point", xp_point);
 		tag.setInteger("revival_numOfStone", revival_numOfStone);
 		tag.setInteger("revival_time", revival_time);
-		
+		tag.setInteger("guardian_id", this.guardian_entity.getEntityId());
 		NBTTagList nbttaglist1 = new NBTTagList();
 		for (String i : team_members) {
 			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
@@ -746,7 +748,7 @@ public class TENexus extends TileEntity implements IInventory,
 	public void setGuardian_entity(EntityNexusGuardian guardian_entity) {
 		this.guardian_entity = guardian_entity;
 	}
-
+	
 	public int getRevival_numOfStone() {
 		return revival_numOfStone;
 	}

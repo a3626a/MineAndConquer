@@ -51,7 +51,7 @@ public class BlockNexus extends BlockContainer {
 
 		if (!world.isRemote) {
 			EntityNexusGuardian entity = new EntityNexusGuardian(world);
-			entity.setLocationAndAngles(x+0.5, y, z+0.5, 0.0F, 0.0F);
+			entity.setLocationAndAngles(x+0.5, y+1, z+0.5, 0.0F, 0.0F);
 			world.spawnEntityInWorld(entity);
 			
 			((TENexus) world.getTileEntity(x, y, z)).setGuardian_entity(entity);
