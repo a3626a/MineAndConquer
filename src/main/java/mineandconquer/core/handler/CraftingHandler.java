@@ -18,6 +18,7 @@ public class CraftingHandler {
 	public static void registerRecipes(){
 		CraftingManager.getInstance().addRecipe(new ItemStack(ModBlocks.DoubleFurnace, 1), "#b#","sas","sss", '#',Blocks.furnace, 's', Blocks.cobblestone, 'a', Blocks.chest, 'b', Blocks.iron_block);
 		//FurnaceRecipes.smelting().func_151396_a(ModItems.testItem, new ItemStack(ModItems.dirtItem,4), 4f);
+		CraftingManager.getInstance().addRecipe(new ItemStack(ModBlocks.blockWallMaker,1), "###","#$#","@@@", '#',Blocks.cobblestone, '$',Blocks.chest,'@',Items.iron_ingot);
 		CraftingManager.getInstance().addRecipe(new ItemStack(ModBlocks.blockGrinder, 1), "###","aba","###", '#',Blocks.obsidian, 'a', Items.diamond, 'b', Blocks.chest);
 	}
 }
