@@ -23,6 +23,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChunkCoordinates;
 
 public class TENexus extends TileEntity implements IInventory,
 		SimpleNetReceiver {
@@ -435,6 +436,9 @@ public class TENexus extends TileEntity implements IInventory,
 			for (Object i : MinecraftServer.getServer()
 					.getConfigurationManager().playerEntityList) {
 				((EntityPlayer) i).addChatMessage(chat);
+				if (this.team_members.contains(((EntityPlayer) i).getCommandSenderName())) {
+					((EntityPlayer) i).setSpawnChunk(new ChunkCoordinates(this.xCoord,this.yCoord,this.zCoord), true);
+				}
 			}
 			MineAndConquer.coorOfTeam.put(this.team_name, new Coordinate(
 					this.xCoord, this.yCoord, this.zCoord));
