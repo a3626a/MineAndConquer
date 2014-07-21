@@ -335,6 +335,28 @@ public class TENexus extends TileEntity implements IInventory,
 		}
 	}
 
+	public void destroy() {
+		// TODO Auto-generated method stub
+		if (!this.worldObj.isRemote)
+		{
+			this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord).breakBlock(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord), this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord));
+			this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
+			if (this.isActive) {
+				for (String i : this.team_members) {
+					MineAndConquer.teamOfPlayer.remove(i);
+				}
+				MineAndConquer.coorOfTeam.remove(this.team_name);
+				ChatComponentText chat = new ChatComponentText("The team " + "\""
+						+ this.team_name + "\"" + " has been destroyed!");
+				for (Object i : MinecraftServer.getServer()
+						.getConfigurationManager().playerEntityList) {
+					((EntityPlayer) i).addChatMessage(chat);
+				}
+			}
+		}
+		
+	}
+	
 	@Override
 	public void onMessage(int index, SimpleNetMessageServer data) {
 
@@ -515,6 +537,7 @@ public class TENexus extends TileEntity implements IInventory,
 			if (this.xp_point == getExperienceCap()) {
 				this.xp_level += 1;
 				this.xp_point = 0;
+				this.guardian_entity.levelup();
 			}
 			break;
 		case DEATH:
@@ -747,5 +770,7 @@ public class TENexus extends TileEntity implements IInventory,
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
+
+	
 
 }

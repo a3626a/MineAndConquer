@@ -1,6 +1,7 @@
 package mineandconquer.entities;
 
 import mineandconquer.entities.AI.EntityAINearestAttackableEnemyTarget;
+import mineandconquer.tileentities.TENexus;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -14,6 +15,9 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
@@ -53,9 +57,9 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 		// TODO Auto-generated method stub
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
-				.setBaseValue(200);
+				.setBaseValue(150);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
-				.setBaseValue(5);
+				.setBaseValue(4);
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed)
 				.setBaseValue(0);
 	}
@@ -69,29 +73,7 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 				par1EntityLivingBase,
 				1.6F,
 				(float) (14 - this.worldObj.difficultySetting.getDifficultyId() * 4));
-		int i = EnchantmentHelper.getEnchantmentLevel(
-				Enchantment.power.effectId, this.getHeldItem());
-		int j = EnchantmentHelper.getEnchantmentLevel(
-				Enchantment.punch.effectId, this.getHeldItem());
-		entityarrow.setDamage((double) (par2 * 2.0F)
-				+ this.rand.nextGaussian()
-				* 0.25D
-				+ (double) ((float) this.worldObj.difficultySetting
-						.getDifficultyId() * 0.11F));
-
-		if (i > 0) {
-			entityarrow.setDamage(entityarrow.getDamage() + (double) i * 0.5D
-					+ 0.5D);
-		}
-
-		if (j > 0) {
-			entityarrow.setKnockbackStrength(j);
-		}
-
-		if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId,
-				this.getHeldItem()) > 0) {
-			entityarrow.setFire(100);
-		}
+		entityarrow.setDamage(this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getBaseValue());
 
 		this.playSound("random.bow", 1.0F,
 				1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
@@ -133,5 +115,27 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 			return null;
 		}
 		return team_name;
+	}
+
+	public void levelup() {
+		// TODO Auto-generated method stub
+		this.heal(50);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
+				.setBaseValue(
+						this.getEntityAttribute(
+								SharedMonsterAttributes.maxHealth)
+								.getBaseValue() + 50);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage)
+				.setBaseValue(
+						this.getEntityAttribute(
+								SharedMonsterAttributes.attackDamage)
+								.getBaseValue() + 1);
+	}
+	
+	@Override
+	public void onDeath(DamageSource p_70645_1_) {
+		// TODO Auto-generated method stub
+		((TENexus)this.worldObj.getTileEntity((int)this.posX, (int)this.posY, (int)this.posZ)).destroy();
+		super.onDeath(p_70645_1_);
 	}
 }
