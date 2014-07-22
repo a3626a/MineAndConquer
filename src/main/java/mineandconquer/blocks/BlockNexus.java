@@ -1,11 +1,9 @@
 package mineandconquer.blocks;
 
 import mineandconquer.MineAndConquer;
-import mineandconquer.core.handler.ModEventHandler;
 import mineandconquer.entities.EntityNexusGuardian;
 import mineandconquer.lib.References;
 import mineandconquer.lib.Strings;
-import mineandconquer.network.SimpleNetMessageClient;
 import mineandconquer.tileentities.TENexus;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -14,18 +12,19 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockNexus extends BlockContainer {
 
+	@SideOnly(Side.CLIENT)
+	private IIcon blockIcon;
+	@SideOnly(Side.CLIENT)
+	private IIcon blockIcon_top;
+	
 	protected BlockNexus() {
 		super(Material.rock);
 		this.setBlockName(References.RESOURCESPREFIX + Strings.BlockNexusName);
@@ -41,9 +40,16 @@ public class BlockNexus extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		// TODO Auto-generated method stub
-		this.blockIcon = iconRegister.registerIcon(this.getUnlocalizedName());
+		this.blockIcon = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(super.getUnlocalizedName())+"_side");
+		this.blockIcon_top = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(super.getUnlocalizedName())+"_top");
 	}
 
+	@Override
+	public IIcon getIcon(int side, int meta) {
+		// TODO Auto-generated method stub
+		return side < 2 ? blockIcon_top: blockIcon;
+	}
+	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z,
 			EntityLivingBase player, ItemStack p_149689_6_) {

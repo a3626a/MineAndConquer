@@ -31,6 +31,8 @@ public class TEWallMaker extends TileEntity implements IInventory,
 	private ItemStack[] inventory;
 	private int INVENTORY_SIZE = 14;
 
+	private boolean lastIsBurning;
+	
 	// 0~11 : input
 	// 12 : fuel
 	// 13 : output
@@ -332,6 +334,13 @@ public class TEWallMaker extends TileEntity implements IInventory,
 		// Fundamental time ticking
 
 		if (!this.worldObj.isRemote) {
+			
+			if (lastIsBurning != this.isBurning()) {
+				int l = this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+				this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, (l&3) + (this.isBurning()?4:0), 2);
+			}
+			lastIsBurning = this.isBurning();
+			
 			if (this.furnaceBurnTime == 0 && this.canSmelt()) {
 				this.currentItemBurnTime = this.furnaceBurnTime = getItemBurnTime(this.inventory[12]);
 
@@ -341,8 +350,7 @@ public class TEWallMaker extends TileEntity implements IInventory,
 						--this.inventory[12].stackSize;
 
 						if (this.inventory[12].stackSize == 0) {
-							this.inventory[12] = inventory[13].getItem()
-									.getContainerItem(inventory[12]);
+							this.inventory[12] = null;
 						}
 					}
 				}
@@ -381,7 +389,6 @@ public class TEWallMaker extends TileEntity implements IInventory,
 				this.furnaceCookTime = 0;
 			}
 		}
-
 	}
 
 	/**

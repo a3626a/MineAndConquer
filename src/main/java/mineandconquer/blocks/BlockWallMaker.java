@@ -5,12 +5,14 @@ import java.util.Random;
 import mineandconquer.MineAndConquer;
 import mineandconquer.lib.References;
 import mineandconquer.lib.Strings;
+import mineandconquer.tileentities.TEDoubleFurnace;
 import mineandconquer.tileentities.TEWallMaker;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -18,6 +20,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -27,6 +31,12 @@ public class BlockWallMaker extends BlockContainer {
 
 	private final Random field_149933_a = new Random();
 
+	@SideOnly(Side.CLIENT)
+    private IIcon wallMaker_side;
+    @SideOnly(Side.CLIENT)
+    private IIcon wallMaker_frontOff;
+    @SideOnly(Side.CLIENT)
+    private IIcon wallMaker_frontOn;
 	
 	public BlockWallMaker() {
 		super(Material.rock);
@@ -96,9 +106,20 @@ public class BlockWallMaker extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		// TODO Auto-generated method stub
-		this.blockIcon = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(this.getUnlocalizedName()));
+		this.wallMaker_side = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(this.getUnlocalizedName())+"_side");
+		this.wallMaker_frontOn = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(this.getUnlocalizedName())+"_frontOn");
+		this.wallMaker_frontOff = iconRegister.registerIcon(ModBlocks.getUnwrappedUnlocalizedName(this.getUnlocalizedName())+"_frontOff");
 	}
 
+	@Override
+	public IIcon getIcon(int side, int meta) {
+		// TODO Auto-generated method stub
+		if((meta & 4) == 4){
+    		return (side != ((meta & 3)+2)?  this.wallMaker_side: this.wallMaker_frontOn);
+    	}
+    	return (side != ((meta & 3)+2)? this.wallMaker_side : this.wallMaker_frontOff);
+	}
+	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int p_149727_6_, float p_149727_7_,
@@ -120,4 +141,29 @@ public class BlockWallMaker extends BlockContainer {
 		// TODO Auto-generated method stub
 		return new TEWallMaker();
 	}
+	
+    public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
+    {
+        int l = MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+
+        if (l == 0)
+        {
+            p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 0, 2);
+        }
+
+        if (l == 1)
+        {
+            p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 3, 2);
+        }
+
+        if (l == 2)
+        {
+            p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 1, 2);
+        }
+
+        if (l == 3)
+        {
+            p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, 2, 2);
+        }
+    }
 }
