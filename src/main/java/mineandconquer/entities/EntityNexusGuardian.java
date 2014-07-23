@@ -21,10 +21,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
-
 	public EntityNexusGuardian(World par1World) {
 		super(par1World);
 		this.setSize(1, 2.5F);
+		this.func_110163_bv();
 		this.tasks.addTask(6, new EntityAIWatchClosest(this,
 				EntityPlayer.class, 8.0F));
 		this.tasks.addTask(6, new EntityAILookIdle(this));
@@ -138,5 +138,11 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 		// TODO Auto-generated method stub
 		((TENexus)this.worldObj.getTileEntity((int)this.posX, (int)this.posY-1, (int)this.posZ)).destroy();
 		super.onDeath(p_70645_1_);
+	}
+	
+	@Override
+	protected void despawnEntity() {
+		// TODO Auto-generated method stub
+		super.despawnEntity();
 	}
 }
