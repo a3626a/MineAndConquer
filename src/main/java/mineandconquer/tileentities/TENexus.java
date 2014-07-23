@@ -374,9 +374,15 @@ public class TENexus extends TileEntity implements IInventory,
 						.addChatMessage(chat);
 				break;
 			}
-
-			if (MinecraftServer.getServer().getConfigurationManager().playerEntityList
-					.contains(member)) {
+			
+			boolean flag = false;
+			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
+				if (((EntityPlayerMP)i).getCommandSenderName().equals(member)) {
+					flag = true;
+					break;
+				}
+			}
+			if (flag) {
 				team_members.add(member);
 				// ModEventHandler.onTeamMemberAdded(member,
 				// team_name);
