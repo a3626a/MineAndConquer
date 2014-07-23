@@ -455,7 +455,7 @@ public class TENexus extends TileEntity implements IInventory,
 					.getConfigurationManager().playerEntityList) {
 				((EntityPlayer) i).addChatMessage(chat);
 				if (this.team_members.contains(((EntityPlayer) i).getCommandSenderName())) {
-					((EntityPlayer) i).setSpawnChunk(new ChunkCoordinates(this.xCoord,this.yCoord,this.zCoord), true);
+					((EntityPlayer) i).setSpawnChunk(new ChunkCoordinates(this.xCoord,this.yCoord,this.zCoord), false);
 				}
 			}
 			MineAndConquer.coorOfTeam.put(this.team_name, new Coordinate(
