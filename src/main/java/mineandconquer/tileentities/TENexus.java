@@ -384,6 +384,12 @@ public class TENexus extends TileEntity implements IInventory,
 			}
 			if (flag) {
 				team_members.add(member);
+				SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
+						TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
+						this.xCoord, this.yCoord, this.zCoord);
+				msg2.setStringArray(this.getTeam_members().toArray(new String[this.getTeam_members().size()]));
+				
+				MineAndConquer.simpleChannel.sendToAll(msg2);
 				// ModEventHandler.onTeamMemberAdded(member,
 				// team_name);
 			} else {
@@ -392,7 +398,6 @@ public class TENexus extends TileEntity implements IInventory,
 				this.worldObj.getPlayerEntityByName(this.team_members.get(0))
 						.addChatMessage(chat);
 			}
-
 			break;
 		case DEL_TEAM_MEMBERS:
 			String delMember = data.getString();
@@ -401,6 +406,13 @@ public class TENexus extends TileEntity implements IInventory,
 						+ " is not in your team");
 				this.worldObj.getPlayerEntityByName(this.team_members.get(0))
 						.addChatMessage(chat);
+			} else {
+				SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
+						TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
+						this.xCoord, this.yCoord, this.zCoord);
+				msg2.setStringArray(this.getTeam_members().toArray(new String[this.getTeam_members().size()]));
+				
+				MineAndConquer.simpleChannel.sendToAll(msg2);
 			}
 			break;
 		case EST_TEAM:
