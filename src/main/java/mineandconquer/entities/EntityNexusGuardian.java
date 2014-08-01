@@ -74,7 +74,8 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 				par1EntityLivingBase,
 				1.6F,
 				(float) (14 - this.worldObj.difficultySetting.getDifficultyId() * 4));
-		entityarrow.setDamage(this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getBaseValue());
+		entityarrow.setDamage(this.getEntityAttribute(
+				SharedMonsterAttributes.attackDamage).getBaseValue());
 
 		this.playSound("random.bow", 1.0F,
 				1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
@@ -83,14 +84,12 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 
 	@Override
 	protected boolean isAIEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void knockBack(Entity par1Entity, float par2, double par3,
 			double par5) {
-		// TODO Auto-generated method stub
 		return;
 	}
 
@@ -98,11 +97,16 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 
 	@Override
 	public void addVelocity(double par1, double par3, double par5) {
-		// TODO Auto-generated method stub
 		return;
 	}
 
 	// 속도를 더하는 것을 막음으로써 위치 변화를 막는다
+
+	public void setCoordinate(int x, int y, int z) {
+		this.dataWatcher.addObject(14, x);
+		this.dataWatcher.addObject(15, y);
+		this.dataWatcher.addObject(16, z);
+	}
 
 	public void setTeam_name(String team) {
 		this.dataWatcher.addObject(12, team);
@@ -119,7 +123,6 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 	}
 
 	public void levelup() {
-		// TODO Auto-generated method stub
 		this.heal(50);
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth)
 				.setBaseValue(
@@ -132,17 +135,39 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 								SharedMonsterAttributes.attackDamage)
 								.getBaseValue() + 1);
 	}
-	
+
 	@Override
 	public void onDeath(DamageSource p_70645_1_) {
-		// TODO Auto-generated method stub
-		((TENexus)this.worldObj.getTileEntity((int)this.posX, (int)this.posY-1, (int)this.posZ)).destroy();
+		((TENexus) this.worldObj.getTileEntity(
+				this.dataWatcher.getWatchableObjectInt(14),
+				this.dataWatcher.getWatchableObjectInt(15),
+				this.dataWatcher.getWatchableObjectInt(16))).destroy();
 		super.onDeath(p_70645_1_);
+	}
+
+	@Override
+	public void onUpdate() {
+		if (!this.worldObj.isRemote) {
+			if (this.chunkCoordX != this.dataWatcher.getWatchableObjectInt(14)) {
+				this.newPosX = this.dataWatcher.getWatchableObjectInt(14);
+			}
+			if (this.chunkCoordY != this.dataWatcher.getWatchableObjectInt(15)) {
+				this.newPosY = this.dataWatcher.getWatchableObjectInt(15);
+			}
+			if (this.chunkCoordZ != this.dataWatcher.getWatchableObjectInt(16)) {
+				this.newPosZ = this.dataWatcher.getWatchableObjectInt(16);
+			}
+		}
+	}
+
+	private TENexus getTileEntity() {
+		return (TENexus)this.worldObj.getTileEntity(this.dataWatcher.getWatchableObjectInt(14), this.dataWatcher.getWatchableObjectInt(15), this.dataWatcher.getWatchableObjectInt(16));
 	}
 	
 	@Override
-	protected void despawnEntity() {
+	public void onChunkLoad() {
 		// TODO Auto-generated method stub
-		super.despawnEntity();
+		super.onChunkLoad();
+		this.getTileEntity().setGuardian_entity(this);
 	}
 }

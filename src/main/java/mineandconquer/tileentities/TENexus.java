@@ -37,7 +37,7 @@ public class TENexus extends TileEntity implements IInventory,
 				15), OPENGUI_NEXUS01(2), OPENGUI_NEXUS02(3), OPENGUI_NEXUS03(4), OPENGUI_NEXUS04(
 				5), MOVEXP_TONEXUS5(6), MOVEXP_TONEXUS50(7), MOVEXP_TONEXUSMAX(
 				8), MOVEXP_TOPLAYER5(9), MOVEXP_TOPLAYER50(10), MOVEXP_TOPLAYERMAX(
-				11), LEVELUP(12), DEATH(16), OPENGUI_NEXUS05(17);
+				11), LEVELUP(12), OPENGUI_NEXUS05(17);
 		private int value;
 
 		private MSGTOSERVER(int value) {
@@ -60,7 +60,8 @@ public class TENexus extends TileEntity implements IInventory,
 
 	public enum MSGTOCLIENT {
 		SYNC_IS_ACTIVE(5), SYNC_TEAM_NAME(0), SYNC_TEAM_MEMBERS(1), SYNC_SHOP_DIAMOND(
-				2), SYNC_XP_LEVEL(3), SYNC_XP_POINT(4), SYNC_REVIVAL_TIME(6), SYNC_REVIVAL_STONE(7);
+				2), SYNC_XP_LEVEL(3), SYNC_XP_POINT(4), SYNC_REVIVAL_TIME(6), SYNC_REVIVAL_STONE(
+				7);
 		private int value;
 
 		private MSGTOCLIENT(int value) {
@@ -337,26 +338,55 @@ public class TENexus extends TileEntity implements IInventory,
 
 	public void destroy() {
 		// TODO Auto-generated method stub
-		if (!this.worldObj.isRemote)
-		{
-			this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord).breakBlock(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord), this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord));
+		if (!this.worldObj.isRemote) {
+			this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord)
+					.breakBlock(
+							this.worldObj,
+							this.xCoord,
+							this.yCoord,
+							this.zCoord,
+							this.worldObj.getBlock(this.xCoord, this.yCoord,
+									this.zCoord),
+							this.worldObj.getBlockMetadata(this.xCoord,
+									this.yCoord, this.zCoord));
 			this.worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
 			if (this.isActive) {
 				for (String i : this.team_members) {
 					MineAndConquer.teamOfPlayer.remove(i);
 				}
 				MineAndConquer.coorOfTeam.remove(this.team_name);
-				ChatComponentText chat = new ChatComponentText("The team " + "\""
-						+ this.team_name + "\"" + " has been destroyed!");
+				ChatComponentText chat = new ChatComponentText("The team "
+						+ "\"" + this.team_name + "\"" + " has been destroyed!");
 				for (Object i : MinecraftServer.getServer()
 						.getConfigurationManager().playerEntityList) {
 					((EntityPlayer) i).addChatMessage(chat);
 				}
 			}
 		}
-		
+
 	}
-	
+
+	public void onDeath(String player) {
+		if (!this.isActive)
+			return;
+
+		if (this.revival_numOfStone > 0) {
+			this.revival_numOfStone--;
+			return;
+		} else {
+			this.revival_bannedPlayers.add(player);
+			for (Object i : MinecraftServer.getServer()
+					.getConfigurationManager().playerEntityList) {
+				if (((EntityPlayerMP) i).getCommandSenderName().equals(player)) {
+					((EntityPlayerMP) i).playerNetServerHandler
+							.kickPlayerFromServer("Wait for revival!");
+					break;
+				}
+			}
+		}
+		return;
+	}
+
 	@Override
 	public void onMessage(int index, SimpleNetMessageServer data) {
 
@@ -374,10 +404,11 @@ public class TENexus extends TileEntity implements IInventory,
 						.addChatMessage(chat);
 				break;
 			}
-			
+
 			boolean flag = false;
-			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-				if (((EntityPlayerMP)i).getCommandSenderName().equals(member)) {
+			for (Object i : MinecraftServer.getServer()
+					.getConfigurationManager().playerEntityList) {
+				if (((EntityPlayerMP) i).getCommandSenderName().equals(member)) {
 					flag = true;
 					break;
 				}
@@ -387,8 +418,9 @@ public class TENexus extends TileEntity implements IInventory,
 				SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
 						TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
 						this.xCoord, this.yCoord, this.zCoord);
-				msg2.setStringArray(this.getTeam_members().toArray(new String[this.getTeam_members().size()]));
-				
+				msg2.setStringArray(this.getTeam_members().toArray(
+						new String[this.getTeam_members().size()]));
+
 				MineAndConquer.simpleChannel.sendToAll(msg2);
 				// ModEventHandler.onTeamMemberAdded(member,
 				// team_name);
@@ -410,8 +442,9 @@ public class TENexus extends TileEntity implements IInventory,
 				SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
 						TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
 						this.xCoord, this.yCoord, this.zCoord);
-				msg2.setStringArray(this.getTeam_members().toArray(new String[this.getTeam_members().size()]));
-				
+				msg2.setStringArray(this.getTeam_members().toArray(
+						new String[this.getTeam_members().size()]));
+
 				MineAndConquer.simpleChannel.sendToAll(msg2);
 			}
 			break;
@@ -454,8 +487,10 @@ public class TENexus extends TileEntity implements IInventory,
 			for (Object i : MinecraftServer.getServer()
 					.getConfigurationManager().playerEntityList) {
 				((EntityPlayer) i).addChatMessage(chat);
-				if (this.team_members.contains(((EntityPlayer) i).getCommandSenderName())) {
-					((EntityPlayer) i).setSpawnChunk(new ChunkCoordinates(this.xCoord,this.yCoord,this.zCoord), false);
+				if (this.team_members.contains(((EntityPlayer) i)
+						.getCommandSenderName())) {
+					((EntityPlayer) i).setSpawnChunk(new ChunkCoordinates(
+							this.xCoord, this.yCoord, this.zCoord), false);
 				}
 			}
 			MineAndConquer.coorOfTeam.put(this.team_name, new Coordinate(
@@ -561,27 +596,6 @@ public class TENexus extends TileEntity implements IInventory,
 				this.guardian_entity.levelup();
 			}
 			break;
-		case DEATH:
-			if (!this.isActive)
-				break;
-
-			if (this.revival_numOfStone > 0) {
-				this.revival_numOfStone--;
-				break;
-			} else {
-				this.revival_bannedPlayers.add(data.getString());
-				for (Object i : MinecraftServer.getServer()
-						.getConfigurationManager().playerEntityList) {
-					if (((EntityPlayerMP) i).getCommandSenderName().equals(
-							data.getString())) {
-						((EntityPlayerMP) i).playerNetServerHandler
-								.kickPlayerFromServer("Wait for revival!");
-						break;
-					}
-				}
-			}
-
-			break;
 		}
 	}
 
@@ -638,8 +652,8 @@ public class TENexus extends TileEntity implements IInventory,
 		this.xp_point = tag.getInteger("xp_point");
 		this.revival_numOfStone = tag.getInteger("revival_numOfStone");
 		this.revival_time = tag.getInteger("revival_time");
-		this.guardian_entity = (EntityNexusGuardian) this.worldObj.getEntityByID(tag.getInteger("guardian_id"));
-		
+		//this.guardian_entity = (EntityNexusGuardian) this.worldObj.getEntityByID(tag.getInteger("guardian_id"));
+
 		NBTTagList nbttaglist1 = tag.getTagList("members", 10);
 		for (int i = 0; i < nbttaglist1.tagCount(); i++) {
 			NBTTagCompound nbttagcompound1 = nbttaglist1.getCompoundTagAt(i);
@@ -671,8 +685,7 @@ public class TENexus extends TileEntity implements IInventory,
 						this.xCoord, this.yCoord, this.zCoord));
 			}
 		}
-		
-		
+
 	}
 
 	public void writeToNBT(NBTTagCompound tag) {
@@ -696,7 +709,7 @@ public class TENexus extends TileEntity implements IInventory,
 		tag.setInteger("xp_point", xp_point);
 		tag.setInteger("revival_numOfStone", revival_numOfStone);
 		tag.setInteger("revival_time", revival_time);
-		tag.setInteger("guardian_id", this.guardian_entity.getEntityId());
+		//tag.setInteger("guardian_id", this.guardian_entity.getEntityId());
 		NBTTagList nbttaglist1 = new NBTTagList();
 		for (String i : team_members) {
 			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
@@ -770,7 +783,7 @@ public class TENexus extends TileEntity implements IInventory,
 	public void setGuardian_entity(EntityNexusGuardian guardian_entity) {
 		this.guardian_entity = guardian_entity;
 	}
-	
+
 	public int getRevival_numOfStone() {
 		return revival_numOfStone;
 	}
@@ -785,8 +798,8 @@ public class TENexus extends TileEntity implements IInventory,
 
 	public void setRevival_time(int revival_time) {
 		this.revival_time = revival_time;
-	}	
-	
+	}
+
 	public boolean isActive() {
 		return isActive;
 	}
@@ -794,7 +807,5 @@ public class TENexus extends TileEntity implements IInventory,
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-
-	
 
 }

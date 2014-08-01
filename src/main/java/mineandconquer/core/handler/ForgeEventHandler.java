@@ -22,15 +22,11 @@ public class ForgeEventHandler {
 	public void EventRespawn(LivingDeathEvent event) {
 		if (event.entity instanceof EntityPlayer) {
 			String player = ((EntityPlayer)(event.entity)).getCommandSenderName();
-			
 			if (MineAndConquer.teamOfPlayer.containsKey(player)) {
 				String team = MineAndConquer.teamOfPlayer.get(player);
 				Coordinate coor = MineAndConquer.coorOfTeam.get(team);
-  				SimpleNetMessageServer msg = new SimpleNetMessageServer(
-						TENexus.MSGTOSERVER.DEATH.getValue(), coor.getX(),
-						coor.getY(), coor.getZ());
-				msg.setString(player);
-				MineAndConquer.simpleChannel.sendToServer(msg);
+  				TENexus te = (TENexus)event.entity.worldObj.getTileEntity(coor.getX(), coor.getY(), coor.getZ());
+  				te.onDeath(player);
 			}
 		}
 	}
