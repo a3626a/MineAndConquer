@@ -1,6 +1,7 @@
 package mineandconquer.tileentities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.PriorityQueue;
 
 import com.mojang.authlib.GameProfile;
@@ -21,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.UserListBansEntry;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChunkCoordinates;
@@ -375,8 +377,11 @@ public class TENexus extends TileEntity implements IInventory,
 			return;
 		} else {
 			this.revival_bannedPlayers.add(player);
-			
-			EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().func_152612_a(player);
+			MinecraftServer minecraftserver = MinecraftServer.getServer();
+            GameProfile gameprofile = minecraftserver.func_152358_ax().func_152655_a(player);
+			UserListBansEntry userlistbansentry = new UserListBansEntry(gameprofile, (Date)null, null, (Date)null, "Wait for Revival");
+            minecraftserver.getConfigurationManager().func_152608_h().func_152687_a(userlistbansentry);
+			EntityPlayerMP entityplayermp = minecraftserver.getConfigurationManager().func_152612_a(player);
 			entityplayermp.playerNetServerHandler.kickPlayerFromServer("Wait for revival!");
 		}
 		return;
@@ -400,15 +405,8 @@ public class TENexus extends TileEntity implements IInventory,
 				break;
 			}
 
-			boolean flag = false;
-			for (Object i : MinecraftServer.getServer()
-					.getConfigurationManager().playerEntityList) {
-				if (((EntityPlayerMP) i).getCommandSenderName().equals(member)) {
-					flag = true;
-					break;
-				}
-			}
-			if (flag) {
+			
+			if (MinecraftServer.getServer().getConfigurationManager().func_152612_a(member)!=null) {
 				team_members.add(member);
 				SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
 						TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
