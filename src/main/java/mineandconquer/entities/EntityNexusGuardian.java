@@ -15,6 +15,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
@@ -151,8 +152,8 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 			if (this.chunkCoordX != this.dataWatcher.getWatchableObjectInt(14)) {
 				this.newPosX = this.dataWatcher.getWatchableObjectInt(14);
 			}
-			if (this.chunkCoordY != this.dataWatcher.getWatchableObjectInt(15)) {
-				this.newPosY = this.dataWatcher.getWatchableObjectInt(15);
+			if (this.chunkCoordY != this.dataWatcher.getWatchableObjectInt(15)+1) {
+				this.newPosY = this.dataWatcher.getWatchableObjectInt(15)+1;
 			}
 			if (this.chunkCoordZ != this.dataWatcher.getWatchableObjectInt(16)) {
 				this.newPosZ = this.dataWatcher.getWatchableObjectInt(16);
@@ -169,5 +170,24 @@ public class EntityNexusGuardian extends EntityMob implements IRangedAttackMob {
 		// TODO Auto-generated method stub
 		super.onChunkLoad();
 		this.getTileEntity().setGuardian_entity(this);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound tag) {
+		// TODO Auto-generated method stub
+		super.readFromNBT(tag);
+		this.dataWatcher.addObject(14, tag.getInteger("x"));
+		this.dataWatcher.addObject(15, tag.getInteger("y"));
+		this.dataWatcher.addObject(16, tag.getInteger("z"));
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound tag) {
+		// TODO Auto-generated method stub
+		super.writeToNBT(tag);
+		tag.setInteger("x", this.dataWatcher.getWatchableObjectInt(14));
+		tag.setInteger("y", this.dataWatcher.getWatchableObjectInt(15));
+		tag.setInteger("z", this.dataWatcher.getWatchableObjectInt(16));
+		
 	}
 }

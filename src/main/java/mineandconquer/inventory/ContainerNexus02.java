@@ -93,11 +93,8 @@ public class ContainerNexus02 extends Container {
 				TENexus.MSGTOCLIENT.SYNC_SHOP_DIAMOND.getValue(), tile.xCoord,
 				tile.yCoord, tile.zCoord);
 		msg.setInt(tile.getShop_diamondValue());
-		for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-			if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-				MineAndConquer.simpleChannel.sendTo(msg, (EntityPlayerMP)i);
-			}
-		}
+		EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+		MineAndConquer.simpleChannel.sendTo(msg, entityplayermp);
 		
 		
 	}
@@ -112,11 +109,8 @@ public class ContainerNexus02 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_SHOP_DIAMOND.getValue(), tile.xCoord,
 					tile.yCoord, tile.zCoord);
 			msg.setInt(tile.getShop_diamondValue());
-			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-				if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-					MineAndConquer.simpleChannel.sendTo(msg, (EntityPlayerMP)i);
-				}
-			}
+			EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendTo(msg, entityplayermp);
 		}
 		
 		this.lastShop_diamondValue = this.tile.getShop_diamondValue();

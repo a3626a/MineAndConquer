@@ -31,35 +31,26 @@ public class ContainerNexus05 extends Container {
 	public void addCraftingToCrafters(ICrafting par1iCrafting) {
 		// TODO Auto-generated method stub
 		super.addCraftingToCrafters(par1iCrafting);
-		SimpleNetMessageClient msg = new SimpleNetMessageClient(
+		SimpleNetMessageClient msg1 = new SimpleNetMessageClient(
 				TENexus.MSGTOCLIENT.SYNC_REVIVAL_TIME.getValue(), tile.xCoord,
 				tile.yCoord, tile.zCoord);
-		msg.setInt(tile.getRevival_time());
-		for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-			if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-				MineAndConquer.simpleChannel.sendTo(msg, (EntityPlayerMP)i);
-			}
-		}
+		msg1.setInt(tile.getRevival_time());
+		EntityPlayerMP entityplayermp1 = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+		MineAndConquer.simpleChannel.sendTo(msg1, entityplayermp1);
 		
 		SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
 				TENexus.MSGTOCLIENT.SYNC_REVIVAL_STONE.getValue(), tile.xCoord,
 				tile.yCoord, tile.zCoord);
 		msg2.setInt(tile.getRevival_numOfStone());
-		for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-			if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-				MineAndConquer.simpleChannel.sendTo(msg2, (EntityPlayerMP)i);
-			}
-		}
+		EntityPlayerMP entityplayermp2 = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+		MineAndConquer.simpleChannel.sendTo(msg2, entityplayermp2);
 		
 		SimpleNetMessageClient msg3 = new SimpleNetMessageClient(
 				TENexus.MSGTOCLIENT.SYNC_XP_LEVEL.getValue(), tile.xCoord,
 				tile.yCoord, tile.zCoord);
 		msg3.setInt(tile.getXp_level());
-		for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-			if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-				MineAndConquer.simpleChannel.sendTo(msg3, (EntityPlayerMP)i);
-			}
-		}
+		EntityPlayerMP entityplayermp3 = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+		MineAndConquer.simpleChannel.sendTo(msg3, entityplayermp3);
 	}
 
 	@Override
@@ -71,11 +62,8 @@ public class ContainerNexus05 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_XP_LEVEL.getValue(), tile.xCoord,
 					tile.yCoord, tile.zCoord);
 			msg3.setInt(tile.getXp_level());
-			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-				if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-					MineAndConquer.simpleChannel.sendTo(msg3, (EntityPlayerMP)i);
-				}
-			}
+			EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendTo(msg3, entityplayermp);
 		}
 		
 		if (this.lastRevival_stone != this.tile.getRevival_numOfStone()) {
@@ -83,11 +71,8 @@ public class ContainerNexus05 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_REVIVAL_STONE.getValue(), tile.xCoord,
 					tile.yCoord, tile.zCoord);
 			msg2.setInt(tile.getRevival_numOfStone());
-			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-				if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-					MineAndConquer.simpleChannel.sendTo(msg2, (EntityPlayerMP)i);
-				}
-			}
+			EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendTo(msg2, entityplayermp);
 		}
 		
 		if (this.lastRevival_time != this.tile.getRevival_time()) {
@@ -95,11 +80,8 @@ public class ContainerNexus05 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_REVIVAL_TIME.getValue(), tile.xCoord,
 					tile.yCoord, tile.zCoord);
 			msg.setInt(tile.getRevival_time());
-			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-				if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-					MineAndConquer.simpleChannel.sendTo(msg, (EntityPlayerMP)i);
-				}
-			}
+			EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendTo(msg, entityplayermp);
 		}
 		
 		this.lastXP_level = tile.getXp_level();

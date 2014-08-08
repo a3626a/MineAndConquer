@@ -43,34 +43,24 @@ public class ContainerNexus01 extends Container {
 				tile.yCoord, tile.zCoord);
 		msg.setString(tile.getTeam_name());
 		
-		for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-			if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-				MineAndConquer.simpleChannel.sendTo(msg, (EntityPlayerMP)i);
-			}
-		}
-		
+		EntityPlayerMP entityplayermp1 = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+		MineAndConquer.simpleChannel.sendTo(msg, entityplayermp1);
 		
 		SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
 				TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
 				tile.xCoord, tile.yCoord, tile.zCoord);
 		msg2.setStringArray(this.tile.getTeam_members().toArray(new String[this.tile.getTeam_members().size()]));
 		
-		for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-			if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-				MineAndConquer.simpleChannel.sendTo(msg2, (EntityPlayerMP)i);
-			}
-		}
+		EntityPlayerMP entityplayermp2 = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+		MineAndConquer.simpleChannel.sendTo(msg2, entityplayermp2);
 		
 		SimpleNetMessageClient msg3 = new SimpleNetMessageClient(
 				TENexus.MSGTOCLIENT.SYNC_IS_ACTIVE.getValue(),
 				tile.xCoord, tile.yCoord, tile.zCoord);
 		msg3.setBoolean(this.tile.isActive());
 		
-		for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-			if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-				MineAndConquer.simpleChannel.sendTo(msg3, (EntityPlayerMP)i);
-			}
-		}
+		EntityPlayerMP entityplayermp3 = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+		MineAndConquer.simpleChannel.sendTo(msg3, entityplayermp3);
 		
 	}
 
@@ -84,11 +74,8 @@ public class ContainerNexus01 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
 					tile.xCoord, tile.yCoord, tile.zCoord);
 			msg2.setStringArray(this.tile.getTeam_members().toArray(new String[this.tile.getTeam_members().size()]));
-			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-				if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-					MineAndConquer.simpleChannel.sendTo(msg2, (EntityPlayerMP)i);
-				}
-			}
+			EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendTo(msg2, entityplayermp);
 		
 		}
 
@@ -97,11 +84,8 @@ public class ContainerNexus01 extends Container {
 					TENexus.MSGTOCLIENT.SYNC_TEAM_NAME.getValue(), tile.xCoord,
 					tile.yCoord, tile.zCoord);
 			msg.setString(tile.getTeam_name());
-			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-				if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-					MineAndConquer.simpleChannel.sendTo(msg, (EntityPlayerMP)i);
-				}
-			}
+			EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendTo(msg, entityplayermp);
 		}
 
 		if (this.lastIsActive != this.tile.isActive()) {
@@ -110,11 +94,8 @@ public class ContainerNexus01 extends Container {
 					tile.xCoord, tile.yCoord, tile.zCoord);
 			msg3.setBoolean(this.tile.isActive());
 			
-			for (Object i : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
-				if (((EntityPlayerMP)i).getCommandSenderName().equals(this.inventoryPlayer.player.getCommandSenderName())) {
-					MineAndConquer.simpleChannel.sendTo(msg3, (EntityPlayerMP)i);
-				}
-			}
+			EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().func_152612_a(this.inventoryPlayer.player.getCommandSenderName());
+			MineAndConquer.simpleChannel.sendTo(msg3, entityplayermp);
 		}
 		
 		this.lastTeam_Members = (ArrayList) this.tile.getTeam_members().clone();

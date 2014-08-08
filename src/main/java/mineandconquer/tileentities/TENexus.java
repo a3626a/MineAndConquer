@@ -375,14 +375,9 @@ public class TENexus extends TileEntity implements IInventory,
 			return;
 		} else {
 			this.revival_bannedPlayers.add(player);
-			for (Object i : MinecraftServer.getServer()
-					.getConfigurationManager().playerEntityList) {
-				if (((EntityPlayerMP) i).getCommandSenderName().equals(player)) {
-					((EntityPlayerMP) i).playerNetServerHandler
-							.kickPlayerFromServer("Wait for revival!");
-					break;
-				}
-			}
+			
+			EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().func_152612_a(player);
+			entityplayermp.playerNetServerHandler.kickPlayerFromServer("Wait for revival!");
 		}
 		return;
 	}
@@ -652,7 +647,6 @@ public class TENexus extends TileEntity implements IInventory,
 		this.xp_point = tag.getInteger("xp_point");
 		this.revival_numOfStone = tag.getInteger("revival_numOfStone");
 		this.revival_time = tag.getInteger("revival_time");
-		//this.guardian_entity = (EntityNexusGuardian) this.worldObj.getEntityByID(tag.getInteger("guardian_id"));
 
 		NBTTagList nbttaglist1 = tag.getTagList("members", 10);
 		for (int i = 0; i < nbttaglist1.tagCount(); i++) {
@@ -709,7 +703,6 @@ public class TENexus extends TileEntity implements IInventory,
 		tag.setInteger("xp_point", xp_point);
 		tag.setInteger("revival_numOfStone", revival_numOfStone);
 		tag.setInteger("revival_time", revival_time);
-		//tag.setInteger("guardian_id", this.guardian_entity.getEntityId());
 		NBTTagList nbttaglist1 = new NBTTagList();
 		for (String i : team_members) {
 			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
