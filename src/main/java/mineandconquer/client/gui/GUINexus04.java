@@ -39,18 +39,18 @@ public class GUINexus04 extends GuiContainer {
 
 		super.initGui();
 		this.buttonList.add(new GuiButton(0, zeroX + 47, zeroY + 77, 40, 20,
-				"°È5"));
+				"to5"));
 		this.buttonList.add(new GuiButton(1, zeroX + 87, zeroY + 77, 40, 20,
-				"°È50"));
+				"to50"));
 		this.buttonList.add(new GuiButton(2, zeroX + 127, zeroY + 77, 40, 20,
-				"°ÈMAX"));
+				"toMAX"));
 		// Deposit
 		this.buttonList.add(new GuiButton(3, zeroX + 47, zeroY + 96, 40, 20,
-				"°Ë5"));
+				"from5"));
 		this.buttonList.add(new GuiButton(4, zeroX + 87, zeroY + 96, 40, 20,
-				"°Ë50"));
+				"from50"));
 		this.buttonList.add(new GuiButton(5, zeroX + 127, zeroY + 96, 40, 20,
-				"°ËMAX"));
+				"fromMAX"));
 		// Withdraw
 
 	}

@@ -3,15 +3,15 @@ package mineandconquer.lib;
 public class Strings {
 
 
-	public static final String TestBlockName = "testBlock";
-	public static final String BlockWallMakerName = "wallMaker";
+	public static final String TestBlockName = "testblock";
+	public static final String BlockWallMakerName = "wallmaker";
 	public static final String BlockNexusName = "nexus";
-	public static final String BlockDoubleFurnaceName = "doubleFurnace";
-	public static final String BlockGrinderName = "Grinder";
+	public static final String BlockDoubleFurnaceName = "doublefurnace";
+	public static final String BlockGrinderName = "grinder";
 
-	public static final String ItemWallBuilderName = "wallBuilder";
+	public static final String ItemWallBuilderName = "wallbuilder";
 	
-	public static final String entityNexusGuardianName = "nexusGuardian";
+	public static final String entityNexusGuardianName = "nexusguardian";
 	public static final int entityNexusGuardianID = 0;
 	
 	
