@@ -363,6 +363,18 @@ public class TENexus extends TileEntity implements IInventory,
 						.getConfigurationManager().playerEntityList) {
 					((EntityPlayer) i).addChatMessage(chat);
 				}
+				while (!this.revival_bannedPlayers.isEmpty()) {
+					String player = this.revival_bannedPlayers.poll();
+					MinecraftServer minecraftserver = MinecraftServer
+							.getServer();
+					GameProfile gameprofile = minecraftserver
+							.getConfigurationManager().func_152608_h()
+							.func_152703_a(player);
+					if (gameprofile != null) {
+						minecraftserver.getConfigurationManager()
+								.func_152608_h().func_152684_c(gameprofile);
+					}
+				}
 			}
 		}
 
@@ -378,11 +390,17 @@ public class TENexus extends TileEntity implements IInventory,
 		} else {
 			this.revival_bannedPlayers.add(player);
 			MinecraftServer minecraftserver = MinecraftServer.getServer();
-            GameProfile gameprofile = minecraftserver.func_152358_ax().func_152655_a(player);
-			UserListBansEntry userlistbansentry = new UserListBansEntry(gameprofile, (Date)null, null, (Date)null, "Wait for Revival");
-            minecraftserver.getConfigurationManager().func_152608_h().func_152687_a(userlistbansentry);
-			EntityPlayerMP entityplayermp = minecraftserver.getConfigurationManager().func_152612_a(player);
-			entityplayermp.playerNetServerHandler.kickPlayerFromServer("Wait for revival!");
+			GameProfile gameprofile = minecraftserver.func_152358_ax()
+					.func_152655_a(player);
+			UserListBansEntry userlistbansentry = new UserListBansEntry(
+					gameprofile, (Date) null, null, (Date) null,
+					"Wait for Revival");
+			minecraftserver.getConfigurationManager().func_152608_h()
+					.func_152687_a(userlistbansentry);
+			EntityPlayerMP entityplayermp = minecraftserver
+					.getConfigurationManager().func_152612_a(player);
+			entityplayermp.playerNetServerHandler
+					.kickPlayerFromServer("Wait for revival!");
 		}
 		return;
 	}
@@ -405,8 +423,8 @@ public class TENexus extends TileEntity implements IInventory,
 				break;
 			}
 
-			
-			if (MinecraftServer.getServer().getConfigurationManager().func_152612_a(member)!=null) {
+			if (MinecraftServer.getServer().getConfigurationManager()
+					.func_152612_a(member) != null) {
 				team_members.add(member);
 				SimpleNetMessageClient msg2 = new SimpleNetMessageClient(
 						TENexus.MSGTOCLIENT.SYNC_TEAM_MEMBERS.getValue(),
@@ -483,7 +501,7 @@ public class TENexus extends TileEntity implements IInventory,
 				if (this.team_members.contains(((EntityPlayer) i)
 						.getCommandSenderName())) {
 					((EntityPlayer) i).setSpawnChunk(new ChunkCoordinates(
-							this.xCoord, this.yCoord, this.zCoord), false);
+							this.xCoord+(int)(Math.random()*3)*(int)( ((int)(Math.random()*2)-0.5)*2 ), this.yCoord, this.zCoord+(int)(Math.random()*3)*(int)( ((int)(Math.random()*2)-0.5)*2 )), true);
 				}
 			}
 			MineAndConquer.coorOfTeam.put(this.team_name, new Coordinate(
